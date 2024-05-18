@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { checkAcount, logincheck } from "../../redux/AccountSlice.js";
-import { StateLogin } from "../../redux/selector";
+import { checkAcountName, logincheck,checkAcountPass } from "../../redux/AccountSlice.js";
+import { StateLogin,UserLogin } from "../../redux/selector";
 const Login = () => {
   const state = useSelector(StateLogin);
+  const user = useSelector(UserLogin);
   //{!state&& alert("Login already")}
   const dispatch = useDispatch();
   const [username, setUsername] = useState("");
@@ -57,11 +58,12 @@ const Login = () => {
           <button
             onClick={() => {
               dispatch(
-                checkAcount({
+                checkAcountName({
                   username: username,
-                  password: password,
                 })
               );
+              //  user?dispatch() :
+             
             }}
             className="bg-orange-400 text-white border-0"
           >
