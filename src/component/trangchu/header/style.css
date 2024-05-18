@@ -1,0 +1,20 @@
+.head {
+  position: relative;
+}
+.head::after {
+  z-index: -1;
+  background-image: url("https://i.pinimg.com/564x/14/b4/9d/14b49d921e04976c6f099507d57c14de.jpg");
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  -o-object-fit: cover;
+     object-fit: cover;
+  filter: blur(50px);
+  display: block;
+  position: absolute;
+  top: -20%;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  content: "";
+}/*# sourceMappingURL=style.css.map */
