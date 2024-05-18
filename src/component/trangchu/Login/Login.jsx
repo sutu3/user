@@ -1,10 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { checkAcountName, logincheck,checkAcountPass } from "../../redux/AccountSlice.js";
-import { StateLogin,UserLogin } from "../../redux/selector";
+import {
+  checkAcountName,
+  logincheck,
+  checkAcountPass,
+} from "../../redux/AccountSlice.js";
+import { CheckLogin, UserLogin,StateLogin } from "../../redux/selector";
 const Login = () => {
-  const state = useSelector(StateLogin);
+  const check = useSelector(CheckLogin);
   const user = useSelector(UserLogin);
+  const state= useSelector(StateLogin);
   //{!state&& alert("Login already")}
   const dispatch = useDispatch();
   const [username, setUsername] = useState("");
@@ -20,8 +25,8 @@ const Login = () => {
         style={{ display: display ? "block" : "none" }}
       >
         <h1 className="text-center mb-16">Đăng Nhập</h1>
-        <div className="mb-5 h-10 flex justify-center items-center justify-between relative">
-          <input
+        <div className="mb-5 h-10 flex justify-center items-center relative">
+          <input style={!check.username?{border: "1px solid red"}:{border: "1px solid black"}}
             value={username}
             onChange={(e) => {
               setUsername(e.target.value);
@@ -31,6 +36,14 @@ const Login = () => {
             type="text"
             placeholder="Enter Your Name Acount"
           />
+          {/*
+          state: check coi đã gửi thông tin lên serve chu
+          */}
+          {(!check.username &&state) && (
+            <span className="bg-white text-sm absolute top-[70%] left-4 rounded-lg text-red-500">
+              Không Tìm Thấy tên tài khoản
+            </span>
+          )}
           <div
             className="absolute left-[90%] bg-no-repeat bg-center bg-cover w-5 h-5"
             style={{ backgroundImage: "url(src/assets/Image/Username.png)" }}
@@ -48,6 +61,11 @@ const Login = () => {
             type="text"
             placeholder="Enter Your Pass Acount"
           />
+          {(!check.username&&!check.password) && (
+            <span className="bg-white text-sm absolute top-[70%] left-4 rounded-lg text-red-500">
+              Nhập sai mật khẩu
+            </span>
+          )}
           <div
             className="absolute left-[90%] bg-no-repeat bg-center bg-cover w-5 h-5"
             style={{ backgroundImage: "url(src/assets/Image/Pass.png)" }}
@@ -62,8 +80,9 @@ const Login = () => {
                   username: username,
                 })
               );
-              //  user?dispatch() :
-             
+              {
+                 (check.username)&& dispatch(checkAcountPass(password));
+              }
             }}
             className="bg-orange-400 text-white border-0"
           >

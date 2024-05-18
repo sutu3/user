@@ -5,20 +5,29 @@ const AcountSLice = createSlice({
   initialState: {
     user: [],
     infor: {},
-    state: true,
+    state: false,
+    check:{
+      username: false,
+      password: false,
+    }
   },
   reducers: {
     changestate: (state, action) => {
-      state.state = action.payload;
+      state.check.password = action.payload;
     },
   },
   extraReducers: (builder) => {
     builder
       .addCase(checkAcountName.fulfilled, (state, action) => {
+        (Array.isArray(action.payload) && action.payload.length === 0)?
+        state.check.username=false:(
+        state.user = action.payload,
+        state.check.username=true)
           state.user=action.payload
+          state.state=true;
       })
       .addCase(logincheck.fulfilled, (state, action) => {
-        state.state = action.payload;
+        state.state=action.payload
       });
   },
 });
@@ -33,15 +42,27 @@ export const checkAcountName = createAsyncThunk(
       },
     });
     const data = await res.json();
+    console.log(data)
     return data;
   }
 );
 //check mật khẩu
 export const checkAcountPass = (password) => {
   return function Check(dispatch, getState) {
-    getState().acount.user.map((el)=>{
-      el.accountpassword===password?dispatch(AcountSLice.action.changestate(true)):dispatch(AcountSLice.action.changestate(false))
-    })
+    const { user } = getState().acount;
+    
+    if (!Array.isArray(user) || user.length === 0) {
+      dispatch(AcountSLice.actions.changestate(false));
+    } else {
+      const isPasswordCorrect = user.some(el => el.accountpassword === password);
+      
+      if (isPasswordCorrect) {
+        dispatch(AcountSLice.actions.changestate(true));
+      } else {
+        dispatch(AcountSLice.actions.changestate(false));
+      }
+    }
+    console.log(user)
   };
 };
 export const logincheck = createAsyncThunk(
