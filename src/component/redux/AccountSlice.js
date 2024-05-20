@@ -15,6 +15,9 @@ const AcountSLice = createSlice({
     changestate: (state, action) => {
       state.check.password = action.payload;
     },
+    adduser:(state,action)=>{
+      state.infor=action.payload;
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -55,9 +58,9 @@ export const checkAcountPass = (password) => {
       dispatch(AcountSLice.actions.changestate(false));
     } else {
       const isPasswordCorrect = user.some(el => el.accountpassword === password);
-      
       if (isPasswordCorrect) {
         dispatch(AcountSLice.actions.changestate(true));
+        dispatch(AcountSLice.actions.adduser(user.filter(el => el.accountpassword === password)))
       } else {
         dispatch(AcountSLice.actions.changestate(false));
       }

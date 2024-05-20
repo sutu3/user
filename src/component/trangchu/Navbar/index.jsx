@@ -1,10 +1,10 @@
 //import React from 'react'
 import { Link } from "react-router-dom";
-import {StateLogin} from '../../redux/selector'
+import {StateLogin,CheckLogin} from '../../redux/selector'
 import {useSelector} from 'react-redux'
 const Index = () => {
-  const state=useSelector(StateLogin)
-  console.log(state)
+  const check=useSelector(CheckLogin)
+  console.log(check)
   return (
     <div
       className="w-full backdrop-blur-md sticky rounded-lg flex flex-row justify-between"
@@ -52,7 +52,7 @@ const Index = () => {
           >
             Sản Phẩm
           </li>
-          {!state?
+          {(check.username==true&&check.pass==true)?
           <li 
             key={"3"}
             className="h-full flex items-center justify-center p-1 
@@ -67,8 +67,8 @@ const Index = () => {
             
             font-bold rounded-sm hover:bg-slate-400 hover:animate-pulse "
           >
-            <Link to="/DangNhap" className="w-full h-full">
-            <div style={{ backgroundImage: "url(src/assets/Image/Username.png)" }}
+            <Link to="/account/infor" className="w-full h-full">
+            <div style={{ backgroundImage: "url(/src/assets/Image/Username.png)" }}
             className="bg-cover bg-center m-auto w-7 h-7"
             ></div></Link>
           </li>

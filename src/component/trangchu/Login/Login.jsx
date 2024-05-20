@@ -5,11 +5,14 @@ import {
   logincheck,
   checkAcountPass,
 } from "../../redux/AccountSlice.js";
-import { CheckLogin, UserLogin,StateLogin } from "../../redux/selector";
+import { CheckLogin, UserLogin, StateLogin, User } from "../../redux/selector";
+import { Link,useNavigate  } from "react-router-dom";
 const Login = () => {
+  const navigate = useNavigate();
   const check = useSelector(CheckLogin);
   const user = useSelector(UserLogin);
-  const state= useSelector(StateLogin);
+  const state = useSelector(StateLogin);
+  const Infor = useSelector(User);
   //{!state&& alert("Login already")}
   const dispatch = useDispatch();
   const [username, setUsername] = useState("");
@@ -26,7 +29,12 @@ const Login = () => {
       >
         <h1 className="text-center mb-16">Đăng Nhập</h1>
         <div className="mb-5 h-10 flex justify-center items-center relative">
-          <input style={!check.username?{border: "1px solid red"}:{border: "1px solid black"}}
+          <input
+            style={
+              !check.username && state
+                ? { border: "1px solid red" }
+                : { border: "1px solid black" }
+            }
             value={username}
             onChange={(e) => {
               setUsername(e.target.value);
@@ -39,7 +47,7 @@ const Login = () => {
           {/*
           state: check coi đã gửi thông tin lên serve chu
           */}
-          {(!check.username &&state) && (
+          {!check.username && state && (
             <span className="bg-white text-sm absolute top-[70%] left-4 rounded-lg text-red-500">
               Không Tìm Thấy tên tài khoản
             </span>
@@ -52,6 +60,11 @@ const Login = () => {
 
         <div className="h-10 flex justify-center items-center justify-between relative">
           <input
+            style={
+              check.username && !check.password
+                ? { border: "1px solid red" }
+                : { border: "1px solid black" }
+            }
             value={password}
             onChange={(e) => {
               setPassword(e.target.value);
@@ -61,7 +74,7 @@ const Login = () => {
             type="text"
             placeholder="Enter Your Pass Acount"
           />
-          {(!check.username&&!check.password) && (
+          {check.username && !check.password && (
             <span className="bg-white text-sm absolute top-[70%] left-4 rounded-lg text-red-500">
               Nhập sai mật khẩu
             </span>
@@ -81,8 +94,10 @@ const Login = () => {
                 })
               );
               {
-                 (check.username)&& dispatch(checkAcountPass(password));
+                check.username && dispatch(checkAcountPass(password));
               }
+              console.log(check.username + " " + check.password);
+              {(check.username && check.password)&&navigate('/')}
             }}
             className="bg-orange-400 text-white border-0"
           >
@@ -197,6 +212,7 @@ const Login = () => {
           </button>
         </div>
       </div>
+      <div className="bg-blue-400 w-1/2 m-auto h-96"> Đăng nhập xong </div>
     </div>
   );
 };
