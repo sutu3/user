@@ -56,7 +56,7 @@ const handleKeyUp = (e, prevRef) => {
   };
 
   return (
-    <div>
+    <div >
       <div className="flex gap-4 m-5">
         {arr.map((el, index) => (
           <div key={index} className="relative">

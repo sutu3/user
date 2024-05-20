@@ -9,7 +9,8 @@ const AcountSLice = createSlice({
     check:{
       username: false,
       password: false,
-    }
+    },
+    updateinfor:false,
   },
   reducers: {
     changestate: (state, action) => {
@@ -17,6 +18,9 @@ const AcountSLice = createSlice({
     },
     adduser:(state,action)=>{
       state.infor=action.payload;
+    },
+    updateInforL:(state,action)=>{
+      state.updateinfor=action.payload;
     }
   },
   extraReducers: (builder) => {
