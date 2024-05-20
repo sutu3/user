@@ -104,30 +104,42 @@ const Infor = () => {
           Cập Nhập
         </button>
       </div>
-      <div >
+      <div>
         {InforUser && (
-          <div  style={{
-      perspective:'20px'
-    }}
+          <div
+            style={{
+              perspective: "20px",
+            }}
             onClick={() => {
               dispatch(AccountSlice.actions.updateInforL(false));
             }}
             className=" backdrop-hue-rotate-90 bg-black/70 z-40 absolute  
             -top-[250px] w-screen h-[820px]  -left-[500px] "
           >
-          
-            <div style={{
-              transformStyle:'preserve-3d'
-            }}
+            <div
+              style={{
+                transformStyle: "preserve-3d",
+              }}
               onClick={(e) => e.stopPropagation()}
               className="drop-shadow-lg shadow-sm shadow-black 
               m-auto flex flex-col gap-5 bg-white w-2/4 opacity-100 
               z-50 h-fit rounded-xl mt-56 relative"
             >
-            <div onClick={()=>{dispatch(AccountSlice.actions.updateInforL(false));}} 
-            className=" absolute left-[95%] -top-[5%] font-sans shadow-md shadow-black hover:text-white
-            h-12 w-12 rounded-full flex justify-center text-3xl items-center bg-red-500">X</div>
-            <div className="text-3xl uppercase p-2 font-serif">Chỉnh sửa thông tin tài khoản</div>
+              <div
+                onClick={() => {
+                  dispatch(AccountSlice.actions.updateInforL(false));
+                }}
+                className=" absolute left-[96%] -top-[3%] 
+                font-sans shadow-md shadow-black hover:text-white
+            h-12 w-12 rounded-full flex justify-center text-3xl 
+            outline outline-offset-2 outline-1 outline-white
+            items-center bg-red-500"
+              >
+                X
+              </div>
+              <div className="text-3xl uppercase p-10 pb-0 font-serif">
+                Chỉnh sửa thông tin tài khoản
+              </div>
               <Date
                 date={infor1.accountdayofbrith}
                 infor={infor1}
