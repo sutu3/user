@@ -23,14 +23,14 @@ const Index = ({name,price,size,id,url}) => {
       <span className="absolute 
       top-0 left-36 m-2 p-1 
       rounded-lg w-fit h-fit z-10 bg-red-500 text-xs text-white " >{product.state}</span>
-        <img className="w-full h-full rounded-t-lg absolute top-0 left-0" src={url[0]?url[0]['imageupload']:product.url1} alt="" />
+        <img className="w-full h-full rounded-t-lg absolute top-0 left-0" src={product.url1} alt="" />
         <ul style={{display:display1, flexWrap:'wrap'}}
         className="gap-1 flex-wrap transition duration-700 ease-in-out
         flex-row absolute  backdrop-blur-md 
         w-48 h-32 top-2/3 left-1/2 rounded-lg
         -translate-x-1/2 -translate-y-1/2 justify-center items-center">
         <span className="w-full">Chọn size</span>
-        {size.map((el,index)=>{return <li onClick={()=>{
+        {product.size.map((el,index)=>{return <li onClick={()=>{
           console.log(CartSlice.actions.addCart)
           dispatch(CheckCartid({
             productid:id,
@@ -64,8 +64,8 @@ const Index = ({name,price,size,id,url}) => {
         className="w-28 h-4 rounded-lg hover:outline outline-offset-1 outline-blue-200 hover:duration-200"
         ></li>})}
       </ul>
-        <p className="uppercase font-bold m-3 mb-0">{name}</p>
-        <span className="underline font-xs m-3 ">{price}</span>
+        <p className="uppercase font-bold m-3 mb-0">{product.name}</p>
+        <span className="underline font-xs m-3 ">{product.price}</span>
       </div>
     </div>
   )
