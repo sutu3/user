@@ -1,10 +1,12 @@
 //import React from 'react'
 import { Link } from "react-router-dom";
-import {StateLogin,CheckLogin} from '../../redux/selector'
-import {useSelector} from 'react-redux'
+import { StateLogin, CheckLogin,Cart } from "../../redux/selector";
+import { useSelector } from "react-redux";
 const Index = () => {
-  const check=useSelector(CheckLogin)
-  console.log(check)
+  const CartList=useSelector(Cart)
+  console.log(CartList)
+  const check = useSelector(CheckLogin);
+  console.log(check);
   return (
     <div
       className="w-full backdrop-blur-md sticky rounded-lg flex flex-row justify-between"
@@ -52,32 +54,42 @@ const Index = () => {
           >
             Sản Phẩm
           </li>
-          {(check.username==true&&check.pass==true)?
-          <li 
-            key={"3"}
-            className="h-full flex items-center justify-center p-1 
+          {check.username == true && check.pass == true ? (
+            <li
+              key={"3"}
+              className="h-full flex items-center justify-center p-1 
             font-bold rounded-sm hover:bg-slate-400 hover:animate-pulse "
-          >
-            <Link to="/DangNhap">Dang Nhap</Link>
-          </li>
-          :
-          <li
-            key={"3"}
-            className="h-full w-12 flex items-center justify-center p-1 
+            >
+              <Link to="/DangNhap">Dang Nhap</Link>
+            </li>
+          ) : (
+            <li
+              key={"3"}
+              className="h-full w-12 flex items-center justify-center p-1 
             
             font-bold rounded-sm hover:bg-slate-400 hover:animate-pulse "
-          >
-            <Link to="/account/infor" className="w-full h-full">
-            <div style={{ backgroundImage: "url(/src/assets/Image/Username.png)" }}
-            className="bg-cover bg-center m-auto w-7 h-7"
-            ></div></Link>
-          </li>
-          }
+            >
+              <Link to="/account/infor" className="w-full h-full">
+                <div
+                  style={{
+                    backgroundImage: "url(/src/assets/Image/Username.png)",
+                  }}
+                  className="bg-cover bg-center m-auto w-7 h-7"
+                ></div>
+              </Link>
+            </li>
+          )}
           <li
             key={"4"}
-            className="bg-center bg-no-repeat bg-cover h-full w-10"
+            className="bg-center bg-no-repeat bg-cover h-full w-10 relative"
             style={{ backgroundImage: 'url("src/assets/Image/iconCart.png")' }}
-          ></li>
+          >
+            <span className="w-5 h-5 rounded-full flex 
+            items-center justify-center absolute top-[60%] 
+            left-[60%] font-bold text-white bg-blue-400">
+              {CartList.length}
+            </span>
+          </li>
         </ul>
         <input
           type="text"

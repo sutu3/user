@@ -114,7 +114,7 @@ const Infor = () => {
               dispatch(AccountSlice.actions.updateInforL(false));
             }}
             className=" backdrop-hue-rotate-90 bg-black/70 z-40 absolute  
-            -top-[250px] w-screen h-[820px]  -left-[500px] "
+            -top-[250px] w-screen h-[820px]  -left-[500px] transition duration-700 ease-in-out"
           >
             <div
               style={{
@@ -123,7 +123,7 @@ const Infor = () => {
               onClick={(e) => e.stopPropagation()}
               className="drop-shadow-lg shadow-sm shadow-black 
               m-auto flex flex-col gap-5 bg-white w-2/4 opacity-100 
-              z-50 h-fit rounded-xl mt-56 relative"
+              z-50 h-fit rounded-xl mt-32 relative"
             >
               <div
                 onClick={() => {
@@ -166,6 +166,8 @@ const Infor = () => {
                 infor={infor1}
                 change={setinfor1}
               />
+            <button className="hover:bg-slate-600 bg-transparent hover:text-white transition duration-300 ease-in-out
+            w-3/4 m-auto border-1 border-solid border-black mb-5">Xác Nhận</button>
             </div>
           </div>
         )}

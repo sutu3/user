@@ -8,7 +8,7 @@ const Ranger = ({ height, infor, change }) => {
   };
 
   return (
-    <div className='flex h-12 w-full justify-center items-center'>
+    <div className='flex h-12 w-full ml-10 justify-center items-center'>
       <div className='w-full flex gap-2'>
         <button
           onClick={() => {
@@ -27,10 +27,10 @@ const Ranger = ({ height, infor, change }) => {
           max="185"
           value={heightValue}
           onChange={handleChange}
-          className='slider flex items-center justify-center h-2 translate-y-2 rounded-lg'
+          className='slider flex items-center mt-2 justify-center h-2 translate-y-2 rounded-lg'
           step={1}
           style={{
-            width: '40%',
+            width: '60%',
             background: 'linear-gradient(to right, #ff7e5f, #feb47b)',
             opacity: '0.7',
             cursor: 'pointer',
