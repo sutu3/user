@@ -1,8 +1,11 @@
 //import React from 'react'
 import { Link } from "react-router-dom";
-import { StateLogin, CheckLogin,Cart } from "../../redux/selector";
-import { useSelector } from "react-redux";
+import { StateLogin, CheckLogin,Cart,StateCard } from "../../redux/selector";
+import { useSelector,useDispatch } from "react-redux";
+import CartSlice from "../../redux/CartSlice";
 const Index = () => {
+  const dispatch=useDispatch();
+  const state=useSelector(StateCard);
   const CartList=useSelector(Cart)
   console.log(CartList)
   const check = useSelector(CheckLogin);
@@ -79,7 +82,9 @@ const Index = () => {
               </Link>
             </li>
           )}
-          <li
+          <li onClick={()=>{
+            dispatch(CartSlice.actions.changeState(!state))
+          }}
             key={"4"}
             className="bg-center bg-no-repeat bg-cover h-full w-10 relative"
             style={{ backgroundImage: 'url("src/assets/Image/iconCart.png")' }}

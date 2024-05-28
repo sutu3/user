@@ -6,11 +6,15 @@ const CartSlice = createSlice({
     Cart: localStorage.getItem("cart")
       ? JSON.parse(localStorage.getItem("cart"))
       : [],
+      state:false,
   },
   reducers: {
     addCart: (state, action) => {
       state.Cart.push(action.payload);
       localStorage.setItem("cart", JSON.stringify(state.Cart));
+    },
+    changeState: (state, action) => {
+      state.state=action.payload;
     },
     updateCart: (state, action) => {
       const index = state.Cart.findIndex(
