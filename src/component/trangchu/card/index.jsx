@@ -6,9 +6,10 @@ const product={name:'Áo thun nam Cotton Compact'
 ,price:'299.000đ',size:['S','M','L','XL','2XL']
 ,url1:'https://img.lazcdn.com/g/p/483dc4558e79095cd7e3d9ea3d67cb24.jpg_720x720q80.jpg'
 ,state:'đáng mua',color:['#CDFADB','#F6FDC3','#FFCF96','#FF8080']}
-const Index = ({name,price,size,id,url}) => {
-  console.log(url)
-  const [color,setcolor]=useState(product.color[0])
+const Index = ({product1,price,size,id,url}) => {
+  console.log(product1)
+  
+  const [color,setcolor]=useState(product1.sizes[0].colors[0].color)
   const [display1,setdisplay]=useState('none')
   const dispatch = useDispatch()
   return (
@@ -21,8 +22,8 @@ const Index = ({name,price,size,id,url}) => {
       }}
       >
       <span className="absolute 
-      top-0 left-36 m-2 p-1 
-      rounded-lg w-fit h-fit z-10 bg-red-500 text-xs text-white " >{product.state}</span>
+      top-0 left-36 m-2 p-1 pl-2 pr-2
+      rounded-lg w-fit h-fit z-10 bg-red-500 text-xs text-white " >{product1.state}</span>
         <img className="w-full h-full rounded-t-lg absolute top-0 left-0" src={product.url1} alt="" />
         <ul style={{display:display1, flexWrap:'wrap'}}
         className="gap-1 flex-wrap transition duration-700 ease-in-out
@@ -30,7 +31,7 @@ const Index = ({name,price,size,id,url}) => {
         w-48 h-32 top-2/3 left-1/2 rounded-lg
         -translate-x-1/2 -translate-y-1/2 justify-center items-center">
         <span className="w-full">Chọn size</span>
-        {product.size.map((el,index)=>{return <li onClick={()=>{
+        {product1.sizes.map((el,index)=>{return el.colors.map((el1,index)=>{if(el1.color==color){return <li onClick={()=>{
           console.log(CartSlice.actions.addCart)
           dispatch(CheckCartid({
             productid:id,
@@ -50,22 +51,25 @@ const Index = ({name,price,size,id,url}) => {
          bg-white text-gray-800 rounded-lg transition-colors 
          hover:bg-slate-700 hover:text-white hover:ease-in 
           h-10 items-center justify-center 
-         flex " key={index}>{el}</li>})}
+         flex " key={index}>{el.size}</li>}})})}
       </ul>
       </div>
       <div className="grid-rows-3 text-gray-900 p-0 text-left" >
-      <ul className="w-40 flex flex-row gap-2 m-4 mb-0">
-        {product.color.map((el,index)=>{return <li
+      <ul className="w-36 flex flex-row gap-2 m-4 mb-0">
+        {product1.sizes.map((el,index)=>{return el.colors.map((el1,index1)=>{return <li
         onClick={()=>{
-          setcolor(el)
+          setcolor(el1.color)
         }}
-         key={index}
-        style={{backgroundColor:el}}
-        className="w-28 h-4 rounded-lg hover:outline outline-offset-1 outline-blue-200 hover:duration-200"
-        ></li>})}
+         key={index1}
+        style={{
+              backgroundColor: el1.color,
+              outline: color === el1.color ? "2px solid #3357FF" : "none",
+            }}
+        className="w-20 h-4 rounded-lg hover:outline outline-offset-1 outline-blue-200 hover:duration-200"
+        ></li>})})}
       </ul>
-        <p className="uppercase font-bold m-3 mb-0">{product.name}</p>
-        <span className="underline font-xs m-3 ">{product.price}</span>
+        <p className="uppercase font-bold m-3 mb-0">{product1.name}</p>
+        <span className="underline font-xs m-3 ">{product1.productVersion[0].price}</span>
       </div>
     </div>
   )

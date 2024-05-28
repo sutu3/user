@@ -22,9 +22,9 @@ const Slice3 = () => {
     <div className={`w-[70%] flex flex-wrap  m-auto gap-5 transition-transform duration-700 ease-in-out  transform ${state?"translate-x-52":""}`}>
       {
         /* {Product.map((el)=>(<Card key={el.id} name={'card1'} size={[]} price={'110.000'}/>))} */
-        arr.map((el) => (<Card
-        //  id={el.productid}
-            key={el}
+        Product.map((el,index) => (<Card
+          product1={el}
+            key={index}
             // name={el.productname}
             size={["S", "M", "L", "XL", "2XL"]}
             // price={el.productprice}
