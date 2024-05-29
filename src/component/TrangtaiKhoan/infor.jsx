@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import AccountSlice from "../redux/AccountSlice.js";
 import { UpdateInfor } from "../redux/selector";

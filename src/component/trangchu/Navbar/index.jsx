@@ -1,13 +1,13 @@
 //import React from 'react'
 import { Link } from "react-router-dom";
-import { StateLogin, CheckLogin,Cart,StateCard } from "../../redux/selector";
-import { useSelector,useDispatch } from "react-redux";
+import {  CheckLogin, Cart, StateCard } from "../../redux/selector";
+import { useSelector, useDispatch } from "react-redux";
 import CartSlice from "../../redux/CartSlice";
 const Index = () => {
-  const dispatch=useDispatch();
-  const state=useSelector(StateCard);
-  const CartList=useSelector(Cart)
-  console.log(CartList)
+  const dispatch = useDispatch();
+  const state = useSelector(StateCard);
+  const CartList = useSelector(Cart);
+  console.log(CartList);
   const check = useSelector(CheckLogin);
   console.log(check);
   return (
@@ -57,7 +57,7 @@ const Index = () => {
           >
             Sản Phẩm
           </li>
-          {check.username == true && check.pass == true ? (
+          {check.username == false && check.password == false ? (
             <li
               key={"3"}
               className="h-full flex items-center justify-center p-1 
@@ -82,16 +82,19 @@ const Index = () => {
               </Link>
             </li>
           )}
-          <li onClick={()=>{
-            dispatch(CartSlice.actions.changeState(!state))
-          }}
+          <li
+            onClick={() => {
+              dispatch(CartSlice.actions.changeState(!state));
+            }}
             key={"4"}
             className="bg-center bg-no-repeat bg-cover h-full w-10 relative"
             style={{ backgroundImage: 'url("src/assets/Image/iconCart.png")' }}
           >
-            <span className="w-5 h-5 rounded-full flex 
+            <span
+              className="w-5 h-5 rounded-full flex 
             items-center justify-center absolute top-[60%] 
-            left-[60%] font-bold text-white bg-blue-400">
+            left-[60%] font-bold text-white bg-blue-400"
+            >
               {CartList.length}
             </span>
           </li>

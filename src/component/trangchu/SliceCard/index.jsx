@@ -2,17 +2,21 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { StateCard } from "../../redux/selector";
 //import React from 'react'
-const product = {
-  name: "Áo thun nam Cotton Compact",
-  price: "299.000đ",
-  size: ["S", "M", "L", "XL", "2XL"],
-  url1: "https://img.lazcdn.com/g/p/483dc4558e79095cd7e3d9ea3d67cb24.jpg_720x720q80.jpg",
-  state: "đáng mua",
-  color: ["#CDFADB", "#F6FDC3", "#FFCF96", "#FF8080"],
-};
-
+import { Cart,Productinfor } from "../../redux/selector";
+// const product = {
+//   name: "Áo thun nam Cotton Compact",
+//   price: "299.000đ",
+//   size: ["S", "M", "L", "XL", "2XL"],
+//   url1: "https://img.lazcdn.com/g/p/483dc4558e79095cd7e3d9ea3d67cb24.jpg_720x720q80.jpg",
+//   state: "đáng mua",
+//   color: ["#CDFADB", "#F6FDC3", "#FFCF96", "#FF8080"],
+// };
 const Index = () => {
   const state=useSelector(StateCard)
+  const card=useSelector(Cart)
+  const product = useSelector(Productinfor)
+  console.log(product)
+  console.log(card)
   const [count, setCount] = useState(1);
 
   return (

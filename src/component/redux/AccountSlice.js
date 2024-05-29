@@ -3,93 +3,120 @@ const url = "http://26.232.136.42:8080/api/account";
 const AcountSLice = createSlice({
   name: "acount",
   initialState: {
-    user: [],
-    infor: {},
+    infor: localStorage.getItem("account")?JSON.parse(localStorage.getItem("account")):{},
     state: false,
+    emailcheck:false,
     check:{
       username: false,
       password: false,
     },
-    updateinfor:false,
   },
   reducers: {
-    changestate: (state, action) => {
-      state.check.password = action.payload;
-    },
-    adduser:(state,action)=>{
-      state.infor=action.payload;
-    },
-    updateInforL:(state,action)=>{
-      state.updateinfor=action.payload;
-    }
   },
   extraReducers: (builder) => {
     builder
-      .addCase(checkAcountName.fulfilled, (state, action) => {
-        (Array.isArray(action.payload) && action.payload.length === 0)?
-        state.check.username=false:(
-        state.user = action.payload,
-        state.check.username=true)
-          state.user=action.payload
-          state.state=true;
+      .addCase(CheckSignupEmail.fulfilled, (state, action) => {
+        state.emailcheck=action.payload
       })
-      .addCase(logincheck.fulfilled, (state, action) => {
-        state.state=action.payload
-      });
+      .addCase(CheckEmailAccount.fulfilled, (state, action) => {
+        state.check.username=action.payload
+        state.state=true;
+      })
+      .addCase(CheckPassAccount.fulfilled, (state, action) => {
+        if(action.payload!=-1)
+          {
+            state.check.password=true;
+            state.state=true;
+          }
+          else{
+            state.check.password=false;
+          }
+      })
+      .addCase(SendAccountInfor.fulfilled, (state, action) => {
+        state.infor=action.payload
+        localStorage.setItem("account", JSON.stringify(state.infor));
+      })
+      .addCase(CreateAcount.fulfilled, (state, action) => {
+        state.infor=action.payload
+        localStorage.setItem("account", JSON.stringify(state.infor));
+        state.check.password=true;
+        state.check.username=true;
+      })
   },
 });
-//check tên tài khoản
-export const checkAcountName = createAsyncThunk(
-  "acount/checkAcount",
-  async (acount) => {
-    const res = await fetch(`${url}/getlogin?username=${acount.username}`, {
+//check email
+export const sendSignUp=(Account)=>{
+  return async function check(dispatch,getState){
+    const checkemail=await dispatch(CheckSignupEmail(Account.email));
+    if(getState().account.emailcheck){
+      dispatch(CreateAcount(Account))
+    }
+  }
+}
+export const SendAccount = (Account) => {
+  return async function Check(dispatch, getState) {
+    const emailResponse = await dispatch(CheckEmailAccount(Account.email));
+    if (getState().acount.check.username) {
+      const passResponse = await dispatch(CheckPassAccount(Account.pass));
+      if(getState().acount.check.password)
+      {
+        dispatch(SendAccountInfor(passResponse));
+      }
+    }
+    
+  };
+};
+export const SendAccountInfor=createAsyncThunk("acount/SendAccount",async(passResponse)=>{
+  const res = await fetch(`${url}?id=${passResponse}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
       },
     });
     const data = await res.json();
-    console.log(data)
-    return data;
-  }
-);
-//check mật khẩu
-export const checkAcountPass = (password) => {
-  return function Check(dispatch, getState) {
-    const { user } = getState().acount;
-    
-    if (!Array.isArray(user) || user.length === 0) {
-      dispatch(AcountSLice.actions.changestate(false));
-    } else {
-      const isPasswordCorrect = user.some(el => el.accountpassword === password);
-      if (isPasswordCorrect) {
-        dispatch(AcountSLice.actions.changestate(true));
-        dispatch(AcountSLice.actions.adduser(user.filter(el => el.accountpassword === password)))
-      } else {
-        dispatch(AcountSLice.actions.changestate(false));
-      }
-    }
-    console.log(user)
-  };
-};
-export const logincheck = createAsyncThunk(
-  "acount/logincheck",
-  async (acount) => {
-    console.log(acount);
-    const res = await fetch(`${url}/create`, {
+    return data
+})
+export const CheckPassAccount=createAsyncThunk("acount/CheckPassAccount",async(pass)=>{
+  const res = await fetch(`${url}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(acount),
+      body: JSON.stringify(pass),
     });
     const data = await res.json();
-    if (res.ok) {
-      console.log(data);
-      return data;
-    } else {
-      console.error("Failed to Find a count");
-    }
-  }
-);
+    return data
+})
+export const CheckEmailAccount=createAsyncThunk("acount/CheckEmailAccount",async(email)=>{
+  const res = await fetch(`${url}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(email),
+    });
+    const data = await res.json();
+    return data
+})
+export const CreateAcount=createAsyncThunk("acount/CreateAcount",async(account)=>{
+  const res = await fetch(`${url}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(account),
+    });
+    const data = await res.json();
+    return data
+})
+export const CheckSignupEmail=createAsyncThunk("acount/CheckSignupEmail",async(email)=>{
+  const res=await fetch(`${url}?email=${email}`,{
+    method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+  })
+  const data=await res.json();
+  return data;
+})
 export default AcountSLice;

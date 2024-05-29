@@ -6,8 +6,7 @@ const product={name:'Áo thun nam Cotton Compact'
 ,price:'299.000đ',size:['S','M','L','XL','2XL']
 ,url1:'https://img.lazcdn.com/g/p/483dc4558e79095cd7e3d9ea3d67cb24.jpg_720x720q80.jpg'
 ,state:'đáng mua',color:['#CDFADB','#F6FDC3','#FFCF96','#FF8080']}
-const Index = ({product1,price,size,id,url}) => {
-  console.log(product1)
+const Index = ({product1}) => {
   
   const [color,setcolor]=useState(product1.sizes[0].colors[0].color)
   const [display1,setdisplay]=useState('none')
@@ -31,20 +30,15 @@ const Index = ({product1,price,size,id,url}) => {
         w-48 h-32 top-2/3 left-1/2 rounded-lg
         -translate-x-1/2 -translate-y-1/2 justify-center items-center">
         <span className="w-full">Chọn size</span>
-        {product1.sizes.map((el,index)=>{return el.colors.map((el1,index)=>{if(el1.color==color){return <li onClick={()=>{
+        {product1.sizes.map((el,index1)=>{return el.colors.map((el1,index)=>{if(el1.color==color){return <li onClick={()=>{
           console.log(CartSlice.actions.addCart)
           dispatch(CheckCartid({
-            productid:id,
-            accountid:3,
-            timeorder:Date.now(),
-            clientname:'dai',
-            clientphonenumber:'123456789',
-            clientemail:'minhdai@gmail.com',
-            clientcity:'',
-            clientward:'',
-            clientdistrict:'',
-            clientstreet:'',
-            productbuy:1
+            account_id:3,
+            version_product_id:product1.productVersion[product1.productVersion.length-1].productVersion_id,
+            variants_id:el1.variants[0].variants_id,
+            product_name:product1.name,
+            product_price:product1.productVersion[0].price,
+            quantity:1,
         }))}
         }
          className="w-10 m-1 p-2
@@ -56,7 +50,7 @@ const Index = ({product1,price,size,id,url}) => {
       </div>
       <div className="grid-rows-3 text-gray-900 p-0 text-left" >
       <ul className="w-36 flex flex-row gap-2 m-4 mb-0">
-        {product1.sizes.map((el,index)=>{return el.colors.map((el1,index1)=>{return <li
+        {product1.sizes.map((el)=>{return el.colors.map((el1,index1)=>{return <li
         onClick={()=>{
           setcolor(el1.color)
         }}

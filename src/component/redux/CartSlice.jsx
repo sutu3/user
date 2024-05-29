@@ -1,12 +1,12 @@
-import { createSlice } from "@reduxjs/toolkit";
-
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+const url=""
 const CartSlice = createSlice({
   name: "cart",
   initialState: {
     Cart: localStorage.getItem("cart")
       ? JSON.parse(localStorage.getItem("cart"))
       : [],
-      state:false,
+    state: false,
   },
   reducers: {
     addCart: (state, action) => {
@@ -14,11 +14,11 @@ const CartSlice = createSlice({
       localStorage.setItem("cart", JSON.stringify(state.Cart));
     },
     changeState: (state, action) => {
-      state.state=action.payload;
+      state.state = action.payload;
     },
     updateCart: (state, action) => {
       const index = state.Cart.findIndex(
-        (el) => el.accountid === action.payload.accountid
+        (el) => el.account_id === action.payload.account_id
       );
       if (index !== -1) {
         // Update the products in the user's cart
@@ -26,7 +26,7 @@ const CartSlice = createSlice({
       } else {
         // If user cart does not exist, add it
         state.Cart.push({
-          accountid: action.payload.accountid,
+          account_id: action.payload.account_id,
           product: action.payload.product,
         });
       }
@@ -34,27 +34,41 @@ const CartSlice = createSlice({
     },
   },
 });
-
+//              account_id:3,
+//             variants_id:el1.variants[0].variants_id,
+//             product_name:product1.name,
+//             product_price:product1.productVersion[0].price,
+//             quantity:1,
 export const { addCart, updateCart } = CartSlice.actions;
-
+export const AddCart=createAsyncThunk("cart/AddCart",async(order_item)=>{
+  const res=await fetch(`${url}`,{
+    method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(order_item),
+  });
+  const data = await res.json();
+  return data;
+})
 export const CheckCartid = (payload) => {
   return (dispatch, getState) => {
     const state = getState();
     const userCart = state.cart.Cart.find(
-      (el) => el.accountid === payload.accountid
+      (el) => el.account_id === payload.account_id
     );
     if (!userCart) {
-      dispatch(addCart({ accountid: payload.accountid, product: [payload] }));
+      dispatch(addCart({ account_id: payload.account_id, product: [payload] }));
     } else {
       const productIndex = userCart.product.findIndex(
-        (el) => el.productid === payload.productid
+        (el) => el.variants_id === payload.variants_id
       );
       let updatedProducts;
 
       if (productIndex !== -1) {
         updatedProducts = userCart.product.map((el) =>
-          el.productid === payload.productid
-            ? { ...el, productbuy: el.productbuy + payload.productbuy }
+          el.variants_id === payload.variants_id
+            ? { ...el, quantity: el.quantity + payload.quantity }
             : el
         );
       } else {
@@ -62,7 +76,7 @@ export const CheckCartid = (payload) => {
       }
 
       dispatch(
-        updateCart({ accountid: payload.accountid, product: updatedProducts })
+        updateCart({ account_id: payload.account_id, product: updatedProducts })
       );
     }
   };
