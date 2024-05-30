@@ -1,7 +1,7 @@
 import  { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import AccountSlice from "../redux/AccountSlice.js";
-import { UpdateInfor } from "../redux/selector";
+import AccountSlice,{CheckEmailAccount} from "../redux/AccountSlice.js";
+import { UpdateInfor,User } from "../redux/selector";
 import Ranger from "./Infor/Ranger";
 import Ranger1 from "./Infor/Ranger1";
 import EmailTelephone from "./Infor/EmailTelephone";
@@ -23,7 +23,8 @@ const infor = {
 
 const Infor = () => {
   console.log(1);
-  const [infor1, setinfor1] = useState(infor);
+  const user=useSelector(User)
+  const [infor1, setinfor1] = useState(user);
   const [showPassword, setShowPassword] = useState(false);
   const InforUser = useSelector(UpdateInfor);
   const dispatch = useDispatch();
@@ -105,7 +106,7 @@ const Infor = () => {
         </button>
       </div>
       <div>
-        {InforUser && (
+        {user && (
           <div
             style={{
               perspective: "20px",
@@ -141,12 +142,12 @@ const Infor = () => {
                 Chỉnh sửa thông tin tài khoản
               </div>
               <Date
-                date={infor1.accountdayofbrith}
+                date={infor1.dayOfBirth}
                 infor={infor1}
                 change={setinfor1}
               />
               <Gender
-                gender1={infor1.accountgender}
+                gender1={infor1.gender}
                 infor={infor1}
                 change={setinfor1}
               />
@@ -167,7 +168,7 @@ const Infor = () => {
                 change={setinfor1}
               />
             <button className="hover:bg-slate-600 bg-transparent hover:text-white transition duration-300 ease-in-out
-            w-3/4 m-auto border-1 border-solid border-black mb-5">Xác Nhận</button>
+            w-3/4 m-auto border-1 border-solid border-black mb-5" onClick={()=>{}}>Xác Nhận</button>
             </div>
           </div>
         )}

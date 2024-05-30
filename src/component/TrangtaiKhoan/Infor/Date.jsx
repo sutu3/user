@@ -85,7 +85,7 @@ const Date = ({ date, infor, change }) => {
           onClick={() => {
             change({
               ...infor,
-              accountdayofbrith: `${monthRef.current.value}/${dayRef.current.value}/${yearRef.current.value}`,
+              dayOfBirth: `${monthRef.current.value}/${dayRef.current.value}/${yearRef.current.value}`,
             });
           }}
         >

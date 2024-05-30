@@ -4,11 +4,11 @@ const AcountSLice = createSlice({
   name: "acount",
   initialState: {
     infor: localStorage.getItem("account")?JSON.parse(localStorage.getItem("account")):{},
-    state: false,
+    state: localStorage.getItem("account")?true:false,
     emailcheck:false,
     check:{
-      username: false,
-      password: false,
+      username: localStorage.getItem("account")?true:false,
+      password: localStorage.getItem("account")?true:false,
     },
   },
   reducers: {
@@ -16,6 +16,7 @@ const AcountSLice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(CheckSignupEmail.fulfilled, (state, action) => {
+        state.emailcheck=false;
         state.emailcheck=action.payload
       })
       .addCase(CheckEmailAccount.fulfilled, (state, action) => {
