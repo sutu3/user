@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-const url=""
+const url = "http://26.232.136.42:8080/api/variant/";
 const CartSlice = createSlice({
   name: "cart",
   initialState: {
@@ -40,17 +40,45 @@ const CartSlice = createSlice({
 //             product_price:product1.productVersion[0].price,
 //             quantity:1,
 export const { addCart, updateCart } = CartSlice.actions;
-export const AddCart=createAsyncThunk("cart/AddCart",async(order_item)=>{
-  const res=await fetch(`${url}`,{
-    method: "POST",
+export const FindCart = createAsyncThunk(
+  "cart/AddCart",
+  async (data1, thunkAPI) => {
+    console.log(data1);
+    const res = await fetch(
+      `${url}ordersigleitem?idOrderItem=${data1.idOrderItem}&idVariant=${data1.idVariant}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    const data = await res.json();
+    console.log(data);
+    const updatecart = { ...data, account_id: data1.account_id };
+    thunkAPI.dispatch(CheckCartid(updatecart));
+    return updatecart;
+  }
+);
+export const AddCart = createAsyncThunk("cart/AddCart", async (data1) => {
+  const res = await fetch(
+    `${url}createorderitem?idAccount=${data1.account_id}&idVariant=${data1.variants_id}`,
+    {
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(order_item),
-  });
+      body: JSON.stringify({
+        product_name: data1.product_name,
+        product_price: data1.product_price,
+        quantity: data1.quantity,
+        productVersion: data1.version_product_id,
+      }),
+    }
+  );
   const data = await res.json();
   return data;
-})
+});
 export const CheckCartid = (payload) => {
   return (dispatch, getState) => {
     const state = getState();
@@ -61,7 +89,7 @@ export const CheckCartid = (payload) => {
       dispatch(addCart({ account_id: payload.account_id, product: [payload] }));
     } else {
       const productIndex = userCart.product.findIndex(
-        (el) => el.variants_id === payload.variants_id
+        (el) => el.idvariant === payload.idvariant
       );
       let updatedProducts;
 
@@ -81,5 +109,20 @@ export const CheckCartid = (payload) => {
     }
   };
 };
+export const FetchCart = createAsyncThunk(
+  'cart/fetchCart',
+  async (payload, { dispatch }) => {
+    const check = await dispatch(AddCart(payload)); // unwrap() để lấy dữ liệu từ kết quả của action AddCart
 
+    if (check !== -1) {
+      await dispatch(
+        FindCart({
+          idVariant: payload.variants_id,
+          idOrderItem: check.payload,
+          account_id: payload.account_id,
+        })
+      );
+    }
+  }
+);
 export default CartSlice;

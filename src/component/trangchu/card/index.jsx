@@ -1,7 +1,7 @@
 //import React from 'react'
 import { useState } from "react"
 import {useDispatch} from 'react-redux'
-import CartSlice,{CheckCartid} from "../../redux/CartSlice"
+import CartSlice,{CheckCartid,FetchCart} from "../../redux/CartSlice"
 const product={name:'Áo thun nam Cotton Compact'
 ,price:'299.000đ',size:['S','M','L','XL','2XL']
 ,url1:'https://img.lazcdn.com/g/p/483dc4558e79095cd7e3d9ea3d67cb24.jpg_720x720q80.jpg'
@@ -32,8 +32,8 @@ const Index = ({product1}) => {
         <span className="w-full">Chọn size</span>
         {product1.sizes.map((el,index1)=>{return el.colors.map((el1,index)=>{if(el1.color==color){return <li onClick={()=>{
           console.log(CartSlice.actions.addCart)
-          dispatch(CheckCartid({
-            account_id:3,
+          dispatch(FetchCart({
+            account_id:1,
             version_product_id:product1.productVersion[product1.productVersion.length-1].productVersion_id,
             variants_id:el1.variants[0].variants_id,
             product_name:product1.name,

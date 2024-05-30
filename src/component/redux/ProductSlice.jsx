@@ -7,7 +7,7 @@ const ProductSlice = createSlice({
   initialState: {
     status: "idle",
     productInfor: [],
-    images:[],
+    images: [],
   },
   reducers: {},
   extraReducers: (builder) => {
@@ -20,111 +20,73 @@ const ProductSlice = createSlice({
         state.images = action.payload;
       })
       .addCase(FetchProduct.fulfilled, (state, action) => {
-        state.productInfor = action.payload.map(product => {
-    const sizes = [];
-    product.productVersion.forEach(version => {
-      version.variants.forEach(variant => {
-        const existingSize = sizes.find(s => s.size === variant.size);
-        
-        // existingSize?
-        // (
-        //   const existingColor = existingSize.colors.find(c => c.color === variant.color);
-        // existingColor?
-        // (existingColor.variants.push({
-        //       variants_id: variant.variants_id,
-        //       quantity_in_stock: variant.quantity_in_stock,
-        //       productversion: variant.productversion
-        //     });)
-        //     :(
-        //       existingSize.colors.push({
-        //       color: variant.color,
-        //       variants: [
-        //         {
-        //           variants_id: variant.variants_id,
-        //           quantity_in_stock: variant.quantity_in_stock,
-        //           productversion: variant.productversion
-        //         }
-        //       ]
-        //     });)
-        //   ):(sizes.push({
-        //     size: variant.size,
-        //     colors: [
-        //       {
-        //         color: variant.color,
-        //         variants: [
-        //           {
-        //             variants_id: variant.variants_id,
-        //             quantity_in_stock: variant.quantity_in_stock,
-        //             productversion: variant.productversion
-        //           }
-        //         ]
-        //       }
-        //     ]
-        //   });)
+        state.productInfor = action.payload.map((product) => {
+          const sizes = [];
+          product.productVersion.forEach((version) => {
+            version.variants.forEach((variant) => {
+              const existingSize = sizes.find((s) => s.size === variant.size);
+              if (existingSize) {
+                const existingColor = existingSize.colors.find(
+                  (c) => c.color === variant.color
+                );
 
-        if (existingSize) {
-          const existingColor = existingSize.colors.find(c => c.color === variant.color);
-
-          if (existingColor) {
-            existingColor.variants.push({
-              variants_id: variant.variants_id,
-              quantity_in_stock: variant.quantity_in_stock,
-              productversion: variant.productversion
-            });
-          } else {
-            existingSize.colors.push({
-              color: variant.color,
-              variants: [
-                {
-                  variants_id: variant.variants_id,
-                  quantity_in_stock: variant.quantity_in_stock,
-                  productversion: variant.productversion
-                }
-              ]
-            });
-          }
-        } else {
-          sizes.push({
-            size: variant.size,
-            colors: [
-              {
-                color: variant.color,
-                variants: [
-                  {
+                if (existingColor) {
+                  existingColor.variants.push({
                     variants_id: variant.variants_id,
                     quantity_in_stock: variant.quantity_in_stock,
-                    productversion: variant.productversion
-                  }
-                ]
+                    productversion: variant.productversion,
+                  });
+                } else {
+                  existingSize.colors.push({
+                    color: variant.color,
+                    variants: [
+                      {
+                        variants_id: variant.variants_id,
+                        quantity_in_stock: variant.quantity_in_stock,
+                        productversion: variant.productversion,
+                      },
+                    ],
+                  });
+                }
+              } else {
+                sizes.push({
+                  size: variant.size,
+                  colors: [
+                    {
+                      color: variant.color,
+                      variants: [
+                        {
+                          variants_id: variant.variants_id,
+                          quantity_in_stock: variant.quantity_in_stock,
+                          productversion: variant.productversion,
+                        },
+                      ],
+                    },
+                  ],
+                });
               }
-            ]
+            });
           });
-        }
-      });
-    });
 
-    return {
-      ...product,
-      sizes
-    };
-  });
-        
-        console.log(state.productInfor)
-      })
+          return {
+            ...product,
+            sizes,
+          };
+        });
+
+        console.log(state.productInfor);
+      });
   },
 });
-export const FetchImage = createAsyncThunk(
-  "product/FetchImage",
-  async () => {
-    const res = await fetch(`${url}`, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const data = await res.json();
-    return data;
-  }
-);
+export const FetchImage = createAsyncThunk("product/FetchImage", async () => {
+  const res = await fetch(`${url}`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  const data = await res.json();
+  return data;
+});
 export const FetchProduct = createAsyncThunk(
   "product/FetchProduct",
   async () => {
