@@ -129,11 +129,13 @@ const Index = () => {
           </div>
         </div>
       ))}
-      <div className="w-full flex justify-center mt-10">
+{card.length!=0?<div className="w-full flex justify-center mt-10">
         <button className="bg-slate-100 w-3/4 p-2 transition duration-300 ease-in-out hover:text-slate-200 hover:bg-slate-500">
           Thanh toán
         </button>
-      </div>
+      </div>:
+      <div className=" bg-gradient-to-r from-violet-500 to-fuchsia-500 bg-center bg-no-repeat bg-cover h-40 w-40 ml-20 text-center pt-28 text-sm text-slate-500 font-sans" style={{backgroundImage:"url(https://janbox.com/_nuxt/img/notfound.ab34387.svg)"}}>Chưa có sản phẩm trong giỏ hàng</div>
+      }
     </div>
   );
 };

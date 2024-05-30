@@ -54,7 +54,6 @@ export const FindCart = createAsyncThunk(
       }
     );
     const data = await res.json();
-    console.log(data);
     const updatecart = { ...data, account_id: data1.account_id };
     thunkAPI.dispatch(CheckCartid(updatecart));
     return updatecart;
