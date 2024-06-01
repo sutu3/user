@@ -9,12 +9,23 @@ const CartSlice = createSlice({
       ? JSON.parse(localStorage.getItem("cart"))
       : [],
     state: false,
+    change:JSON.parse(localStorage.getItem("cart")).map(item => ({Size: '', Color: ''}))
   },
   reducers: {
     addCart: (state, action) => {
       state.Cart.push(action.payload);
       localStorage.setItem("cart", JSON.stringify(state.Cart));
     },
+    changeElement: (state, action) => {
+  state.change = state.change.map((el, index) => 
+    index === action.payload.index ? 
+    {
+      ...el,
+      [action.payload.var === 'Color' ? 'Color' : 'Size']: action.payload.value
+    } 
+    : el
+  );
+},
     changeState: (state, action) => {
       state.state = action.payload;
     },
@@ -50,6 +61,10 @@ const CartSlice = createSlice({
     builder
       .addCase(UpdateElement.fulfilled, (state, action) => {
         console.log(state.Cart)
+        state.change = state.change.map((el, index) => 
+    index === action.payload.index ?(el.Color='',el.Size='')
+    : el
+  );
         state.Cart = state.Cart.map((el) =>
           el.account_id === action.payload.account_id
             ? {
@@ -187,10 +202,14 @@ export const CheckCartid = (payload) => {
 export const UpdateElement = createAsyncThunk(
   "cart/UpdateElement",
   async (data1, thunkAPI) => {
+    console.log(data1);
+    console.log(thunkAPI.getState().product.productInfor[data1.index].sizes.flatMap((el1) =>
+        el1.size== data1.size
+          ? el1.colors:[]))
     const varient = thunkAPI
       .getState()
       .product.productInfor[data1.index].sizes.flatMap((el1) =>
-        el1.size === data1.size
+        el1.size == data1.size
           ? el1.colors
               .filter((el2) => el2.color === data1.color)
               .map((el2) => el2.variants[0].variants_id)

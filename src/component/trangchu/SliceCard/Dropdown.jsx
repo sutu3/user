@@ -1,7 +1,10 @@
 import { useState, useEffect, useRef } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector} from "react-redux";
 import { UpdateElement } from "../../redux/CartSlice";
+import { Element } from "../../redux/selector";
+import CartSlice from "../../redux/CartSlice";
 const Dropdown = ({account_id,OrderItem,color,size,index, options, selectedOption, onOptionSelect, placeholder, defaultValue, selectedSizes, cardIndex }) => {
+  const change=useSelector(Element)
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
   const dispatch=useDispatch()
@@ -12,16 +15,25 @@ const Dropdown = ({account_id,OrderItem,color,size,index, options, selectedOptio
   const handleToggle = () => setIsOpen(!isOpen);
 
   const handleOptionSelect = (option) => {
-    dispatch(UpdateElement({
-      account_id:account_id,
-      order_items_id:OrderItem,
-      size:size,
-      color:color,
-      index:index
-    }))
-    // onOptionSelect(option);
-    // setCurrentOption(option);
-    // setIsOpen(false);
+    console.log(change)
+    console.log(placeholder)
+    if(change[index].Size!=''&&change[index].Color!='')
+      {
+        // dispatch(UpdateElement({
+    //   account_id:account_id,
+    //   order_items_id:OrderItem,
+    //   size:placeholder=='Size'?option:size,
+    //   color:placeholder=='Color'?option:color,
+    //   index:index
+    // }))
+      }
+      else{
+        dispatch(CartSlice.actions.changeElement({index:index, var:placeholder,value:option}))
+      }
+    
+    onOptionSelect(option);
+    setCurrentOption(option);
+    setIsOpen(false);
   };
 
   const handleClickOutside = (event) => {
