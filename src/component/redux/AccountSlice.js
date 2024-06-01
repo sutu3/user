@@ -64,7 +64,6 @@ export const SendAccount = (Account) => {
         dispatch(SendAccountInfor(passResponse));
       }
     }
-    
   };
 };
 export const SendAccountInfor=createAsyncThunk("acount/SendAccount",async(passResponse)=>{

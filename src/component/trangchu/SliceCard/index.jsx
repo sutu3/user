@@ -1,23 +1,23 @@
-import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useState, useEffect, useMemo } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { StateCard, Cart, Productinfor } from "../../redux/selector";
+import { UpdateQuantity } from "../../redux/CartSlice";
 import Dropdown from "./Dropdown";
 
 const Index = () => {
+  const dispatch = useDispatch();
   const state = useSelector(StateCard);
   const product = useSelector(Productinfor);
   const card = useSelector(Cart);
-  const [count, setCount] = useState(1);
   const [selectedColors, setSelectedColors] = useState({});
   const [selectedSizes, setSelectedSizes] = useState({});
 
-  // Sử dụng useEffect để đặt giá trị mặc định khi component được mount
   useEffect(() => {
     const initialColors = {};
     const initialSizes = {};
     card.forEach((el, index) => {
-      initialColors[index] = el.variants.color;
-      initialSizes[index] = el.variants.size;
+      initialColors[index] = el.variants?.color || '';
+      initialSizes[index] = el.variants?.size || '';
     });
     setSelectedColors(initialColors);
     setSelectedSizes(initialSizes);
@@ -29,6 +29,16 @@ const Index = () => {
 
   const handleSizeSelect = (index, size) => {
     setSelectedSizes((prev) => ({ ...prev, [index]: size }));
+  };
+
+  const getAvailableSizes = (el, el1) => {
+    return el1.sizes
+      .filter((sizeObj) =>
+        sizeObj.colors.some(
+          (colorObj) => colorObj.color === el.variants.color
+        )
+      )
+      .map((sizeObj) => sizeObj.size);
   };
 
   return (
@@ -49,45 +59,55 @@ const Index = () => {
           />
           <div>
             <div className="text-sm m-2 font-bold">{el.product_name}</div>
-
             {product.map((el1, productIndex) =>
               el1.sizes.map((el2, sizeIndex) =>
                 el2.colors.map((el3, colorIndex) => {
+                  const color=Array.isArray(el1.sizes)
+      ? el1.sizes
+          .flatMap((sizeObj) => 
+            (selectedSizes[cardIndex] === "" || sizeObj.size === selectedSizes[cardIndex])
+              ? sizeObj.colors.map((colorObj) => colorObj.color)
+              : []
+          )
+      : []
                   if (el3.variants[0].variants_id === el.idvariant) {
-                    const availableSizes = el1.sizes
-                      .filter((sizeObj) =>
-                        sizeObj.colors.some(
-                          (colorObj) => colorObj.color === el.variants.color
-                        )
-                      )
-                      .map((sizeObj) => sizeObj.size);
-                    console.log(availableSizes);
+                    const availableSizes = getAvailableSizes(el, el1);
                     return (
-                      <div className="flex flex-row gap-4">
-                        <div
-                          key={`${productIndex}-${sizeIndex}-${colorIndex}`}
-                          className="flex flex-col gap-2"
-                        >
+                      <div key={`${productIndex}-${sizeIndex}-${colorIndex}`} className="flex flex-row gap-4">
+                        <div className="flex flex-col gap-2">
                           <div className="w-20 text-[13px]">
                             <Dropdown
-                              options={el2.colors.map(
-                                (colorOption) => colorOption.color
-                              )}
+                             OrderItem={el.order_items_id}
+                             options={
+                                color
+                              }
+                              index={productIndex}
+                              size={selectedSizes[cardIndex]}
+                              color={selectedColors[cardIndex]}
                               selectedOption={selectedColors[cardIndex]}
                               onOptionSelect={(color) =>
                                 handleColorSelect(cardIndex, color)
                               }
+                              account_id={el.account_id}
                               placeholder="Color"
-                              defaultValue={el.variants.color}
-                            />
+                              defaultValue={
+                                color.some((col) => el.variants.color === col)
+                                  ? el.variants.color
+                                  : ''
+                              }                            />
                           </div>
                           <div className="w-20 text-[13px]">
                             <Dropdown
-                              options={availableSizes}
+                            OrderItem={el.order_items_id}
+                              options={el1.sizes.flatMap(sizeObj => sizeObj.size)}
                               selectedOption={selectedSizes[cardIndex]}
                               onOptionSelect={(size) =>
                                 handleSizeSelect(cardIndex, size)
                               }
+                              account_id={el.account_id}
+                              index={productIndex}
+                              size={selectedSizes[cardIndex]}
+                              color={selectedColors[cardIndex]}
                               placeholder="Size"
                               defaultValue={el.variants.size}
                             />
@@ -97,7 +117,14 @@ const Index = () => {
                           <div className="flex flex-row bg-slate-50 rounded-full">
                             <button
                               onClick={() => {
-                                setCount(count - 1);
+                                console.log(el.account_id)
+                                if (el.quantity > 1) {
+                                  dispatch(UpdateQuantity({
+                                    account_id:el.account_id,
+                                    order_items_id: el.order_items_id,
+                                    quantity: el.quantity - 1,
+                                  }));
+                                }
                               }}
                               className="bg-transparent rounded-s-2xl h-10 flex items-center justify-center px-4"
                             >
@@ -108,7 +135,11 @@ const Index = () => {
                             </span>
                             <button
                               onClick={() => {
-                                setCount(count + 1);
+                                dispatch(UpdateQuantity({
+                                  account_id:el.account_id,
+                                  order_items_id: el.order_items_id,
+                                  quantity: el.quantity + 1,
+                                }));
                               }}
                               className="bg-transparent rounded-e-2xl h-10 flex items-center justify-center px-4"
                             >
@@ -129,13 +160,17 @@ const Index = () => {
           </div>
         </div>
       ))}
-{card.length!=0?<div className="w-full flex justify-center mt-10">
-        <button className="bg-slate-100 w-3/4 p-2 transition duration-300 ease-in-out hover:text-slate-200 hover:bg-slate-500">
-          Thanh toán
-        </button>
-      </div>:
-      <div className=" bg-gradient-to-r from-violet-500 to-fuchsia-500 bg-center bg-no-repeat bg-cover h-40 w-40 ml-20 text-center pt-28 text-sm text-slate-500 font-sans" style={{backgroundImage:"url(https://janbox.com/_nuxt/img/notfound.ab34387.svg)"}}>Chưa có sản phẩm trong giỏ hàng</div>
-      }
+      {card.length !== 0 ? (
+        <div className="w-full flex justify-center mt-10">
+          <button className="bg-slate-100 w-3/4 p-2 transition duration-300 ease-in-out hover:text-slate-200 hover:bg-slate-500">
+            Thanh toán
+          </button>
+        </div>
+      ) : (
+        <div className="bg-gradient-to-r from-violet-500 to-fuchsia-500 bg-center bg-no-repeat bg-cover h-40 w-40 ml-20 text-center pt-28 text-sm text-slate-500 font-sans" style={{ backgroundImage: "url(https://janbox.com/_nuxt/img/notfound.ab34387.svg)" }}>
+          Chưa có sản phẩm trong giỏ hàng
+        </div>
+      )}
     </div>
   );
 };
