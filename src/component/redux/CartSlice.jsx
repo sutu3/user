@@ -69,33 +69,6 @@ const CartSlice = createSlice({
           el.account_id === action.payload.account_id
             ? {
                 ...el,
-//                 {
-//     "order_items_id": 92,
-//     "product_name": "Áo polo nữ",
-//     "product_price": 180000.00,
-//     "quantity": 1,
-//     "productVersion": 3,
-//     "createdAt": "2024-06-01T12:06:05",
-//     "updatedAt": null,
-//     "orders": 1,
-//     "idvariant": 3,
-//     "variants": {
-//         "variants_id": 3,
-//         "quantity_in_stock": 25,
-//         "color": "#3357FF",
-//         "size": "L",
-//         "productversion": 3,
-//         "images": [
-//             {
-//                 "images_id": 3,
-//                 "image_url": "https://data.terabox.com/thumbnail/19c2db2bb956752dc616a4b4a91d14a7?fid=4398175765645-250528-1097576411969389&rt=pr&sign=FDTAER-DCb740ccc5511e5e8fedcff06b081203-kOQbff5D3WOMfuT%2bcr%2bXqLbn6yI%3d&expires=8h&chkbd=0&chkv=0&dp-logid=9217397751169544122&dp-callid=0&time=1716897600&size=c1536_u864&quality=90&vuk=4398175765645&ft=image&autopolicy=1",
-//                 "created_at": "2024-05-24",
-//                 "updated_at": "2024-05-28",
-//                 "variant_id": 3
-//             }
-//         ]
-//     }
-// }
                 product: el.product.map((el1) =>
                   el1.order_items_id === action.payload.order_items_id
                     ? {
