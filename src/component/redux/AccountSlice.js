@@ -1,5 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 const url = "http://26.232.136.42:8080/api/account";
+const url1="http://26.232.136.42:8080/api/account/Verification/"
+const url2="http://26.232.136.42:8080/api/account/getaccount/"
 const AcountSLice = createSlice({
   name: "acount",
   initialState: {
@@ -39,6 +41,7 @@ const AcountSLice = createSlice({
       })
       .addCase(CreateAcount.fulfilled, (state, action) => {
         state.infor=action.payload
+        console.log(action.payload)
         localStorage.setItem("account", JSON.stringify(state.infor));
         state.check.password=true;
         state.check.username=true;
@@ -58,16 +61,16 @@ export const SendAccount = (Account) => {
   return async function Check(dispatch, getState) {
     const emailResponse = await dispatch(CheckEmailAccount(Account.email));
     if (getState().acount.check.username) {
-      const passResponse = await dispatch(CheckPassAccount(Account.pass));
+      const passResponse = await dispatch(CheckPassAccount(Account));
       if(getState().acount.check.password)
       {
-        dispatch(SendAccountInfor(passResponse));
+                dispatch(SendAccountInfor(passResponse.payload));
       }
     }
   };
 };
 export const SendAccountInfor=createAsyncThunk("acount/SendAccount",async(passResponse)=>{
-  const res = await fetch(`${url}?id=${passResponse}`, {
+  const res = await fetch(`${url2}${passResponse}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -76,24 +79,22 @@ export const SendAccountInfor=createAsyncThunk("acount/SendAccount",async(passRe
     const data = await res.json();
     return data
 })
-export const CheckPassAccount=createAsyncThunk("acount/CheckPassAccount",async(pass)=>{
-  const res = await fetch(`${url}`, {
-      method: "POST",
+export const CheckPassAccount=createAsyncThunk("acount/CheckPassAccount",async(data1)=>{
+  const res = await fetch(`${url1}pass?email=${data1.email}&pass=${data1.pass}`, {
+      method: "GET",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(pass),
     });
     const data = await res.json();
     return data
 })
 export const CheckEmailAccount=createAsyncThunk("acount/CheckEmailAccount",async(email)=>{
-  const res = await fetch(`${url}`, {
-      method: "POST",
+  const res = await fetch(`${url1}user?email=${email}`, {
+      method: "GET",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(email),
     });
     const data = await res.json();
     return data

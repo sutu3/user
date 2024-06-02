@@ -9,7 +9,6 @@ function App() {
   const dispatch=useDispatch();
   useEffect(()=>{
     dispatch(FetchProduct())
-
   },[])
   return (
     <div className='w-dvw m-0 trang1 relative'>

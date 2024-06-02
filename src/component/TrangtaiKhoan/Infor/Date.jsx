@@ -1,11 +1,11 @@
 import { useRef } from "react";
 
 const Date = ({ date, infor, change }) => {
+  console.log(date)
   const arr1 = date.split("/");
   const dayRef = useRef(null);
   const monthRef = useRef(null);
   const yearRef = useRef(null);
-
   const arr = [
     {
       value: "Ngày",
