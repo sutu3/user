@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { StateCard, Cart, Productinfor } from "../../redux/selector";
-import { UpdateQuantity } from "../../redux/CartSlice";
+import { UpdateQuantity,DeleteCartElement } from "../../redux/CartSlice";
 import Dropdown from "./Dropdown";
 
 const Index = () => {
@@ -125,6 +125,12 @@ const Index = () => {
                                     quantity: el.quantity - 1,
                                   }));
                                 }
+                                else{
+                                  dispatch(DeleteCartElement({
+                                    account_id:el.account_id,
+                                    order_items_id: el.order_items_id,
+                                  }))
+                                }
                               }}
                               className="bg-transparent rounded-s-2xl h-10 flex items-center justify-center px-4"
                             >
@@ -161,10 +167,11 @@ const Index = () => {
         </div>
       ))}
       {card.length !== 0 ? (
-        <div className="w-full flex justify-center mt-10">
+        <div className="w-full flex gap-3 justify-center mt-10">
           <button className="bg-slate-100 w-3/4 p-2 transition duration-300 ease-in-out hover:text-slate-200 hover:bg-slate-500">
             Thanh toán
           </button>
+          <button className="bg-white text-red-500 text-sm hover:border-red-500">Clean</button>
         </div>
       ) : (
         <div className="bg-gradient-to-r from-violet-500 to-fuchsia-500 bg-center bg-no-repeat bg-cover h-40 w-40 ml-20 text-center pt-28 text-sm text-slate-500 font-sans" style={{ backgroundImage: "url(https://janbox.com/_nuxt/img/notfound.ab34387.svg)" }}>

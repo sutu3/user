@@ -1,15 +1,18 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { Cart } from "./selector";
 const url = "http://26.232.136.42:8080/api/variant/";
 const url1 = "http://26.232.136.42:8080/api/ordersitem/updatequantity";
 const url2 = "http://26.232.136.42:8080/api/ordersitem/updateorderitem";
+const url3="http://26.232.136.42:8080/api/ordersitem/deleteorderitem?id=";
+const cartFromLocalStorage = localStorage.getItem("cart");
+const cart = cartFromLocalStorage ? JSON.parse(cartFromLocalStorage) : [];
+console.log(cart.map((el)=>el.account_id===1?el.product:[]));
 const CartSlice = createSlice({
   name: "cart",
   initialState: {
-    Cart: localStorage.getItem("cart")
-      ? JSON.parse(localStorage.getItem("cart"))
-      : [],
+    Cart: cart,
     state: false,
-    change:JSON.parse(localStorage.getItem("cart")).map(item => ({Size: '', Color: ''}))
+      change: cart.flatMap(el => el.account_id === 1 ? el.product.map(() => ({ Size: '', Color: '' })) : [])
   },
   reducers: {
     addCart: (state, action) => {
@@ -17,14 +20,7 @@ const CartSlice = createSlice({
       localStorage.setItem("cart", JSON.stringify(state.Cart));
     },
     changeElement: (state, action) => {
-  state.change = state.change.map((el, index) => 
-    index === action.payload.index ? 
-    {
-      ...el,
-      [action.payload.var === 'Color' ? 'Color' : 'Size']: action.payload.value
-    } 
-    : el
-  );
+      state.change=action.payload
 },
     changeState: (state, action) => {
       state.state = action.payload;
@@ -84,8 +80,20 @@ const CartSlice = createSlice({
         console.log(state.Cart)
         localStorage.setItem("cart", JSON.stringify(state.Cart));
       })
+      .addCase(DeleteCartElement.fulfilled,(state, action) => {
+        state.Cart = state.Cart.map((el) =>
+          el.account_id === action.payload.account_id
+            ? {
+                ...el,
+                product: el.product.filter((el1) =>
+                  el1.order_items_id !== action.payload.order_items_id
+                ),
+              }
+            : el
+        );
+                localStorage.setItem("cart", JSON.stringify(state.Cart));
+      })
       .addCase(UpdateQuantity.fulfilled, (state, action) => {
-        console.log(action.payload);
         state.Cart = state.Cart.map((el) =>
           el.account_id === action.payload.account_id
             ? {
@@ -172,13 +180,34 @@ export const CheckCartid = (payload) => {
     }
   };
 };
+export const CheckElement = (data) => {
+  return async function Check(dispatch, getState) {
+    console.log(data)
+   const update = getState().cart.change.map((el, index) => 
+    index === data.index ? 
+    {
+      ...el,
+      [data.var === 'Color' ? 'Color' : 'Size']: data.value
+    } 
+    : el
+  );
+  await dispatch(CartSlice.actions.changeElement(update));
+  if(getState().cart.change[data.index].Size!=""&&getState().cart.change[data.index].Color!="")
+    {
+  dispatch(UpdateElement({
+            account_id:data.account_id,
+            order_items_id:data.order_items_id,
+            size:data.size,
+            color:data.color,
+            index:data.index
+  }))
+    }
+     
+  };
+};
 export const UpdateElement = createAsyncThunk(
   "cart/UpdateElement",
   async (data1, thunkAPI) => {
-    console.log(data1);
-    console.log(thunkAPI.getState().product.productInfor[data1.index].sizes.flatMap((el1) =>
-        el1.size== data1.size
-          ? el1.colors:[]))
     const varient = thunkAPI
       .getState()
       .product.productInfor[data1.index].sizes.flatMap((el1) =>
@@ -248,4 +277,23 @@ export const FetchCart = createAsyncThunk(
     }
   }
 );
+export const DeleteCartElement=createAsyncThunk("cart/DeleteCartElement",
+  async(payload) => {
+    const res = await fetch(
+      `${url3}${payload.order_items_id}`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    const data=res.json();
+    if(data)
+      {
+        return payload;
+      }
+  }
+)
+
 export default CartSlice;
