@@ -2,7 +2,7 @@ import { useRef } from "react";
 
 const Date = ({ date, infor, change }) => {
   console.log(date)
-  const arr1 = date.split("/");
+  const arr1 = date.split("-");
   const dayRef = useRef(null);
   const monthRef = useRef(null);
   const yearRef = useRef(null);
@@ -85,7 +85,7 @@ const Date = ({ date, infor, change }) => {
           onClick={() => {
             change({
               ...infor,
-              dayOfBirth: `${monthRef.current.value}/${dayRef.current.value}/${yearRef.current.value}`,
+              dayOfBirth: `${monthRef.current.value}-${dayRef.current.value}-${yearRef.current.value}`,
             });
           }}
         >

@@ -1,7 +1,7 @@
 import  { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import AccountSlice,{CheckEmailAccount} from "../redux/AccountSlice.js";
-import { UpdateInfor,User } from "../redux/selector";
+import AccountSlice,{UpdateInforAccount} from "../redux/AccountSlice.js";
+import { User ,Statedisplay} from "../redux/selector";
 import Ranger from "./Infor/Ranger";
 import Ranger1 from "./Infor/Ranger1";
 import EmailTelephone from "./Infor/EmailTelephone";
@@ -24,9 +24,10 @@ const infor = {
 const Infor = () => {
   console.log(1);
   const user=useSelector(User)
+  const statedisplay=useSelector(Statedisplay)
   const [infor1, setinfor1] = useState(user);
   const [showPassword, setShowPassword] = useState(false);
-  const InforUser = useSelector(UpdateInfor);
+  //const InforUser = useSelector(UpdateInfor);
   const dispatch = useDispatch();
   console.log(infor1);
   return (
@@ -38,7 +39,7 @@ const Infor = () => {
             <span className="font-bold text-gray-300 font-mono">
               Tên Tài Khoản:{" "}
             </span>
-            <div>{infor.accountusername}</div>
+            <div>{infor1.username}</div>
           </div>
           <div className="flex text-2xl gap-6">
             <span className="font-bold text-gray-300 font-mono">
@@ -47,8 +48,8 @@ const Infor = () => {
             <div className="flex gap-5">
               <div className="flex items-center">
                 {showPassword
-                  ? infor.accountpassword
-                  : "*".repeat(infor.accountpassword.length)}
+                  ? infor1.password
+                  : "*".repeat(infor1.password.length)}
               </div>
               <button
                 className="bg-white h-10 w-20 text-sm border-black border-solid bodder-2"
@@ -67,38 +68,38 @@ const Infor = () => {
             <span className="font-bold text-gray-300 font-mono">
               Chiều Cao:{" "}
             </span>
-            <div>{infor.accountheight} cm</div>
+            <div>{infor1.height} cm</div>
           </div>
           <div className="flex text-xl gap-6">
             <span className="font-bold text-gray-300 font-mono">
               Cân Nặng:{" "}
             </span>
-            <div>{infor.accountweight} Kg</div>
+            <div>{infor1.weight} Kg</div>
           </div>
           <div className="flex text-xl gap-6">
             <span className="font-bold text-gray-300 font-mono">Email: </span>
-            <div>{infor.accountemail}</div>
+            <div>{infor1.email}</div>
           </div>
           <div className="flex text-xl gap-6">
             <span className="font-bold text-gray-300 font-mono">SĐT: </span>
-            <div>{infor.accountphonenumber}</div>
+            <div>{infor1.phoneNumber}</div>
           </div>
           <div className="flex text-xl gap-6">
             <span className="font-bold text-gray-300 font-mono">
               Giới Tính:{" "}
             </span>
-            <div>{infor.accountgender}</div>
+            <div>{infor1.gender}</div>
           </div>
           <div className="flex text-xl gap-6">
             <span className="font-bold text-gray-300 font-mono">
               Ngày Sinh:{" "}
             </span>
-            <div>{infor.accountdayofbrith}</div>
+            <div>{infor1.dayOfBirth}</div>
           </div>
         </div>
         <button
           onClick={() => {
-            dispatch(AccountSlice.actions.updateInforL(!InforUser));
+            dispatch(AccountSlice.actions.changeState(!statedisplay));
           }}
           className="bg-white h-10 flex justify-center items-center"
         >
@@ -106,29 +107,53 @@ const Infor = () => {
         </button>
       </div>
       <div>
-        {user && (
+        {statedisplay && (
           <div
             style={{
               perspective: "20px",
             }}
             onClick={() => {
-              dispatch(AccountSlice.actions.updateInforL(false));
+              dispatch(AccountSlice.actions.changeState(false));
             }}
-            className=" backdrop-hue-rotate-90 bg-black/70 z-40 absolute  
+            className=" backdrop-hue-rotate-90 bg-black/70 z-30 absolute  
             -top-[250px] w-screen h-[820px]  -left-[500px] transition duration-700 ease-in-out"
           >
             <div
               style={{
                 transformStyle: "preserve-3d",
               }}
-              onClick={(e) => e.stopPropagation()}
+              onClick={(e) => {
+                console.log('hehehe1')
+              if (!e.target.classList.contains('phantucon')) {
+                console.log('heheheheh')
+                e.stopPropagation()
+                }
+                else{
+                   console.log('hehehe2')
+                   console.log(infor1.account_id)
+                 dispatch(UpdateInforAccount({
+                account_id:infor1.account_id,
+                username:infor1.username,
+                password:infor1.password,
+                email:infor1.email,
+                height:infor1.height,
+                weight:infor1.weight,
+                phoneNumber:infor1.phoneNumber,
+                dayOfBirth:infor1.dayOfBirth,
+                gender:infor1.gender,
+                addresses:[],
+                orders:[],
+            }))
+                }
+                
+              }}
               className="drop-shadow-lg shadow-sm shadow-black 
               m-auto flex flex-col gap-5 bg-white w-2/4 opacity-100 
-              z-50 h-fit rounded-xl mt-32 relative"
+              z-40 h-fit rounded-xl mt-32 relative"
             >
               <div
                 onClick={() => {
-                  dispatch(AccountSlice.actions.updateInforL(false));
+                  dispatch(AccountSlice.actions.changeState(false));
                 }}
                 className=" absolute left-[96%] -top-[3%] 
                 font-sans shadow-md shadow-black hover:text-white
@@ -152,23 +177,25 @@ const Infor = () => {
                 change={setinfor1}
               />
               <EmailTelephone
-                sdt={infor1.accountphonenumber}
+                sdt={infor1.phoneNumber}
                 infor={infor1}
                 change={setinfor1}
-                email={infor1.accountemail}
+                email={infor1.email}
               />
               <Ranger
-                height={infor.accountheight}
+                height={infor1.height}
                 infor={infor1}
                 change={setinfor1}
               />
               <Ranger1
-                weight={infor.accountweight}
+                weight={infor1.weight}
                 infor={infor1}
                 change={setinfor1}
               />
             <button className="hover:bg-slate-600 bg-transparent hover:text-white transition duration-300 ease-in-out
-            w-3/4 m-auto border-1 border-solid border-black mb-5" onClick={()=>{}}>Xác Nhận</button>
+            w-3/4 m-auto border-1 border-solid border-black mb-5 z-50 phantucon" 
+            onClick={(e)=>{
+             }}>Xác Nhận</button>
             </div>
           </div>
         )}

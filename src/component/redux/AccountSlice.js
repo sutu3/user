@@ -12,14 +12,26 @@ const AcountSLice = createSlice({
       username: localStorage.getItem("account")?true:false,
       password: localStorage.getItem("account")?true:false,
     },
+    statedisplay:false
   },
   reducers: {
+    changeState:(state,action)=>{
+      state.statedisplay=action.payload;
+    },
+    changecheckEmail:(state,action)=>{
+        state.emailcheck=false;
+        state.emailcheck=action.payload
+    },
+    changecheckPassword:(state,action)=>{
+      state.check.username=action.payload;
+      state.check.password=action.payload;
+    }
   },
   extraReducers: (builder) => {
     builder
-      .addCase(CheckSignupEmail.fulfilled, (state, action) => {
-        state.emailcheck=false;
-        state.emailcheck=action.payload
+      .addCase(CheckSignupEmail.fulfilled, (state, action,dispatch) => {
+        dispatch(AcountSLice.actions.changecheckEmail(action.payload))
+        
       })
       .addCase(CheckEmailAccount.fulfilled, (state, action) => {
         state.check.username=action.payload
@@ -39,22 +51,34 @@ const AcountSLice = createSlice({
         state.infor=action.payload
         localStorage.setItem("account", JSON.stringify(state.infor));
       })
-      .addCase(CreateAcount.fulfilled, (state, action) => {
+      .addCase(CreateAcount.fulfilled, (state, action,dispatch) => {
         state.infor=action.payload
         console.log(action.payload)
         localStorage.setItem("account", JSON.stringify(state.infor));
-        state.check.password=true;
-        state.check.username=true;
+        dispatch(AcountSLice.actions.changecheckPassword(true));
       })
+      .addCase(UpdateInforAccount.fulfilled,(state,action)=>{
+         state.infor=action.payload
+        localStorage.setItem("account", JSON.stringify(state.infor));
+        state.statedisplay=false;
+      })
+      
   },
 });
 //check email
+
 export const sendSignUp=(Account)=>{
   return async function check(dispatch,getState){
     const checkemail=await dispatch(CheckSignupEmail(Account.email));
     if(getState().account.emailcheck){
       dispatch(CreateAcount(Account))
     }
+  }
+}
+export const LogoutAccount=(Acount)=>{
+  return async function logout(thunkAPI,dispatch){
+    await dispatch(AcountSLice.actions.changecheckEmail(false))
+    await dispatch(AcountSLice.actions.changecheckPassword(false));
   }
 }
 export const SendAccount = (Account) => {
@@ -69,6 +93,17 @@ export const SendAccount = (Account) => {
     }
   };
 };
+export const UpdateInforAccount =createAsyncThunk("acount/UpdateInforAccount",async(infor)=>{
+  const res=await fetch(`http://26.232.136.42:8080/api/account/updateaccount`,{
+    method: "PUT",
+    headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(infor)
+  });
+    const data = await res.json();
+    return data
+})
 export const SendAccountInfor=createAsyncThunk("acount/SendAccount",async(passResponse)=>{
   const res = await fetch(`${url2}${passResponse}`, {
       method: "GET",

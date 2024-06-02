@@ -14,7 +14,7 @@ const Ranger = ({ weight, infor, change }) => {
           onClick={() => {
             change({
               ...infor,
-              accountweight: weightValue,
+              weight: weightValue,
             });
           }}
           className="w-28 h-10 bg-white border-solid border-black border-2 text-sm"

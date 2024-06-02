@@ -4,7 +4,7 @@ export const CheckLogin=(State)=>State.acount.check;
 export const StateLogin=(State)=>State.acount.state;
 export const checkemail=(State)=>State.acount.emailcheck;
 export const User=(State)=>State.acount.infor;
-export const UpdateInfor=(State)=>State.acount.updateinfor;
+export const Statedisplay=(State)=>State.acount.statedisplay;
 export const StateCard=(State)=>State.cart.state;
 export const Element=(State)=>State.cart.change;
 export const Cart = (state) => {

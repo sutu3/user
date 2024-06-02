@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 const Ranger = ({ height, infor, change }) => {
   const [heightValue, setHeightValue] = useState(height);
-
+console.log(heightValue)
   const handleChange = (e) => {
     setHeightValue(e.target.value);
   };
@@ -14,7 +14,7 @@ const Ranger = ({ height, infor, change }) => {
           onClick={() => {
             change({
               ...infor,
-              accountheight: heightValue,
+              height: heightValue,
             });
           }}
           className="w-28 h-10 bg-white border-solid border-black border-2 text-sm"

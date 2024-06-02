@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const genderOptions = ["Nam", "Nu", "Khác"];
+const genderOptions = ["Nam", "Nữ", "Khác"];
 
 const Gender = ({ gender1, infor, change }) => {
   const [selectedGender, setSelectedGender] = useState(gender1 || "");
@@ -12,7 +12,7 @@ const Gender = ({ gender1, infor, change }) => {
     setSelectedGender(genderOptions[index]);
     change({
       ...infor,
-      accountgender: genderOptions[index],
+      gender: genderOptions[index],
     });
   };
   return (
