@@ -8,12 +8,12 @@ import {FetchProduct} from './component/redux/ProductSlice'
 function App() {
   const dispatch=useDispatch();
   useEffect(()=>{
-//     const defaultCart = [
-//   { account_id: -1, product: [] },
-// ];
-// if (!localStorage.getItem("cart")) {
-//   localStorage.setItem("cart", JSON.stringify(defaultCart));
-// }
+    const defaultCart = [
+  {product: [] },
+];
+if (!localStorage.getItem("product")) {
+  localStorage.setItem("product", JSON.stringify(defaultCart));
+}
     dispatch(FetchProduct())
   },[])
   return (

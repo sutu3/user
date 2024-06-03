@@ -262,6 +262,27 @@ export const UpdateQuantity = createAsyncThunk(
     return null;
   }
 );
+export const CheckCart = (data) => {
+  return async function Check(dispatch, getState) {
+    console.log(getState().acount.infor.account_id)
+    if(getState().acount.infor!={})
+      {
+        
+        dispatch(FetchCart({
+              account_id: getState().acount.infor.account_id,
+              version_product_id:data.version_product_id,
+              variants_id:data.variants_id,
+              product_name:data.product_name,
+              product_price:data.product_price,
+              quantity:1,
+        }))
+      }
+      else{
+        
+      }
+
+  }}
+  
 export const FetchCart = createAsyncThunk(
   "cart/fetchCart",
   async (payload, { dispatch }) => {
