@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { Await } from "react-router-dom";
 const url = "http://26.232.136.42:8080/api/account";
 const url1="http://26.232.136.42:8080/api/account/Verification/"
 const url2="http://26.232.136.42:8080/api/account/getaccount/"
@@ -29,8 +30,9 @@ const AcountSLice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(CheckSignupEmail.fulfilled, (state, action,dispatch) => {
-        dispatch(AcountSLice.actions.changecheckEmail(action.payload))
+      .addCase(CheckSignupEmail.fulfilled, (state, action) => {
+        state.emailcheck=false;
+        state.emailcheck=action.payload
         
       })
       .addCase(CheckEmailAccount.fulfilled, (state, action) => {
@@ -55,7 +57,8 @@ const AcountSLice = createSlice({
         state.infor=action.payload
         console.log(action.payload)
         localStorage.setItem("account", JSON.stringify(state.infor));
-        dispatch(AcountSLice.actions.changecheckPassword(true));
+        state.check.username=action.payload;
+        state.check.password=action.payload;
       })
       .addCase(UpdateInforAccount.fulfilled,(state,action)=>{
          state.infor=action.payload
@@ -70,13 +73,14 @@ const AcountSLice = createSlice({
 export const sendSignUp=(Account)=>{
   return async function check(dispatch,getState){
     const checkemail=await dispatch(CheckSignupEmail(Account.email));
-    if(getState().account.emailcheck){
+    console.log(getState().acount)
+    if(getState().acount.emailcheck){
       dispatch(CreateAcount(Account))
     }
   }
 }
 export const LogoutAccount=(Acount)=>{
-  return async function logout(thunkAPI,dispatch){
+  return async function logout({thunkAPI,dispatch}){
     await dispatch(AcountSLice.actions.changecheckEmail(false))
     await dispatch(AcountSLice.actions.changecheckPassword(false));
   }
@@ -88,7 +92,7 @@ export const SendAccount = (Account) => {
       const passResponse = await dispatch(CheckPassAccount(Account));
       if(getState().acount.check.password)
       {
-                dispatch(SendAccountInfor(passResponse.payload));
+              await  dispatch(SendAccountInfor(passResponse.payload));
       }
     }
   };
@@ -135,7 +139,7 @@ export const CheckEmailAccount=createAsyncThunk("acount/CheckEmailAccount",async
     return data
 })
 export const CreateAcount=createAsyncThunk("acount/CreateAcount",async(account)=>{
-  const res = await fetch(`${url}`, {
+  const res = await fetch(`${url}/create`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

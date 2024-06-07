@@ -1,23 +1,23 @@
 import { useState, useEffect, useMemo } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { StateCard, Cart, Productinfor } from "../../redux/selector";
-import { UpdateQuantity,DeleteCartElement } from "../../redux/CartSlice";
-import Dropdown from "./Dropdown";
+import { StateCard, Product, Productinfor } from "../../redux/selector";
+import CartSlice, { CheckProduct,UpdateQuantity,DeleteCartElement } from "../../redux/CartSlice";
+import Dropdown from "./Dropdown2";
 
 const Index = () => {
   const dispatch = useDispatch();
   const state = useSelector(StateCard);
   const product = useSelector(Productinfor);
-  const card = useSelector(Cart);
-  console.log(card)
+  const card = useSelector(Product);
   const [selectedColors, setSelectedColors] = useState({});
   const [selectedSizes, setSelectedSizes] = useState({});
+
   useEffect(() => {
     const initialColors = {};
     const initialSizes = {};
     card.forEach((el, index) => {
-      initialColors[index] = el.variants?.color || '';
-      initialSizes[index] = el.variants?.size || '';
+      initialColors[index] = el.color || '';
+      initialSizes[index] = el.size || '';
     });
     setSelectedColors(initialColors);
     setSelectedSizes(initialSizes);
@@ -35,12 +35,12 @@ const Index = () => {
     return el1.sizes
       .filter((sizeObj) =>
         sizeObj.colors.some(
-          (colorObj) => colorObj.color === el.variants.color
+          (colorObj) => colorObj.color === el.color
         )
       )
       .map((sizeObj) => sizeObj.size);
   };
-
+console.log(card)
   return (
     <div
       className={`border-b-indigo-100 w-[25%] h-96 top-24 transition-transform duration-700 ease-in-out sticky rounded-lg gap-5 flex-col transform ${
@@ -58,7 +58,7 @@ const Index = () => {
             alt=""
           />
           <div>
-            <div className="text-sm m-2 font-bold">{el.product_name}</div>
+            <div className="text-sm m-2 font-bold">{el.productversionName}</div>
             {product.map((el1, productIndex) =>
               el1.sizes.map((el2, sizeIndex) =>
                 el2.colors.map((el3, colorIndex) => {
@@ -70,14 +70,14 @@ const Index = () => {
               : []
           )
       : []
-                  if (el3.variants[0].variants_id === el.idvariant) {
+                  if (el3.variants[0].variants_id === el.variants_id) {
                     const availableSizes = getAvailableSizes(el, el1);
                     return (
                       <div key={`${productIndex}-${sizeIndex}-${colorIndex}`} className="flex flex-row gap-4">
                         <div className="flex flex-col gap-2">
                           <div className="w-20 text-[13px]">
                             <Dropdown
-                             OrderItem={el.order_items_id}
+                            quantity={el.quantity}
                              options={
                                 color
                               }
@@ -92,15 +92,15 @@ const Index = () => {
                               account_id={el.account_id}
                               placeholder="Color"
                               defaultValue={
-                                color.some((col) => el.variants.color === col)
-                                  ? el.variants.color
+                                color.some((col) => el.color === col)
+                                  ? el.color
                                   : ''
                               }                            />
                           </div>
                           <div className="w-20 text-[13px]">
                             <Dropdown
+                            quantity={el.quantity}
                             OrderItem={el.order_items_id}
-                            cardIndex={cardIndex}
                               options={el1.sizes.flatMap(sizeObj => sizeObj.size)}
                               selectedOption={selectedSizes[cardIndex]}
                               onOptionSelect={(size) =>
@@ -108,10 +108,11 @@ const Index = () => {
                               }
                               account_id={el.account_id}
                               index={productIndex}
+                              cardIndex={cardIndex}
                               size={selectedSizes[cardIndex]}
                               color={selectedColors[cardIndex]}
                               placeholder="Size"
-                              defaultValue={el.variants.size}
+                              defaultValue={el.size}
                             />
                           </div>
                         </div>
@@ -119,20 +120,13 @@ const Index = () => {
                           <div className="flex flex-row bg-slate-50 rounded-full">
                             <button
                               onClick={() => {
-                                console.log(el.account_id)
-                                if (el.quantity > 1) {
-                                  dispatch(UpdateQuantity({
-                                    account_id:el.account_id,
-                                    order_items_id: el.order_items_id,
+                                
+                                  dispatch(CheckProduct({
+                                    variants_id: el.variants_id,
                                     quantity: el.quantity - 1,
                                   }));
-                                }
-                                else{
-                                  dispatch(DeleteCartElement({
-                                    account_id:el.account_id,
-                                    order_items_id: el.order_items_id,
-                                  }))
-                                }
+                                
+                                
                               }}
                               className="bg-transparent rounded-s-2xl h-10 flex items-center justify-center px-4"
                             >
@@ -143,10 +137,10 @@ const Index = () => {
                             </span>
                             <button
                               onClick={() => {
-                                dispatch(UpdateQuantity({
-                                  account_id:el.account_id,
-                                  order_items_id: el.order_items_id,
-                                  quantity: el.quantity + 1,
+                                 console.log(el.quantity)
+                                dispatch(CheckProduct({
+                                    variants_id: el.variants_id,
+                                    quantity: el.quantity + 1,
                                 }));
                               }}
                               className="bg-transparent rounded-e-2xl h-10 flex items-center justify-center px-4"
@@ -155,7 +149,7 @@ const Index = () => {
                             </button>
                           </div>
                           <div className="font-mono text-xl ml-10 mt-5">
-                            {el.product_price*el.quantity}
+                            {el.price*el.quantity}
                           </div>
                         </div>
                       </div>

@@ -32,14 +32,6 @@ const Index = ({product1}) => {
         -translate-x-1/2 -translate-y-1/2 justify-center items-center">
         <span className="w-full">Chọn size</span>
         {product1.sizes.map((el,index1)=>{return el.colors.map((el1,index)=>{if(el1.color==color){return <li onClick={()=>{
-        //   dispatch(FetchCart({
-        //     account_id:user.account_id,
-        //     version_product_id:product1.productVersion[product1.productVersion.length-1].productVersion_id,
-        //     variants_id:el1.variants[0].variants_id,
-        //     product_name:product1.name,
-        //     product_price:product1.productVersion[0].price,
-        //     quantity:1,
-        // }))
         dispatch(CheckCart({
               version_product_id:product1.productVersion[product1.productVersion.length-1].productVersion_id,
               variants_id:el1.variants[0].variants_id,

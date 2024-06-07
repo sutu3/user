@@ -90,10 +90,10 @@ const Register = () => {
           <button
             onClick={() => {
                 dispatch(sendSignUp({
-                    accountemail:email,
-                    accountphonenumber:phone,
-                    accountusername:name,
-                    accountpassword:pass
+                    email:email,
+                    username:name,
+                    phoneNumber:phone,
+                    password:pass
                 }))
                 setemail('')
                 setname('')

@@ -1,28 +1,28 @@
 import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector} from "react-redux";
 import { CheckElement } from "../../redux/CartSlice";
-import { Element } from "../../redux/selector";
-const Dropdown = ({account_id,OrderItem,color,size,index, options, selectedOption, onOptionSelect, placeholder, defaultValue, selectedSizes, cardIndex }) => {
-  const change=useSelector(Element)
+import { Element2 } from "../../redux/selector";
+const Dropdown = ({quantity,color,size,index, options, selectedOption, onOptionSelect, placeholder, defaultValue, selectedSizes, cardIndex }) => {
+  const change=useSelector(Element2)
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
   const dispatch=useDispatch()
   const [currentOption, setCurrentOption] = useState(
-    selectedOption || (defaultValue && defaultValue !== '' ? defaultValue : "")
+    selectedOption || (defaultValue !== '' ? defaultValue : "")
   );
 
   const handleToggle = () => setIsOpen(!isOpen);
 
   const handleOptionSelect = (option) => {
+    console.log(option)
     dispatch(CheckElement({
-        id:2,
+        id:1,
         data:{
-          cardIndex:cardIndex,
-            index:index, 
             var:placeholder,
-            value:option, 
-            account_id:account_id,
-            order_items_id:OrderItem,
+            value:option,
+            quantity:quantity,
+            index:index,
+            cardIndex:cardIndex,
             size:placeholder=='Size'?option:size,
             color:placeholder=='Color'?option:color,}
     }))
@@ -45,12 +45,15 @@ const Dropdown = ({account_id,OrderItem,color,size,index, options, selectedOptio
   }, []);
 
   useEffect(() => {
+    
     if (!selectedOption && defaultValue && defaultValue !== '') {
       setCurrentOption(defaultValue);
     }
   }, [defaultValue, selectedOption]);
 
   useEffect(() => {
+    console.log(defaultValue)
+    console.log(currentOption)
     if(defaultValue!="")
         {
             if (!options.includes(defaultValue)) {
@@ -62,6 +65,7 @@ const Dropdown = ({account_id,OrderItem,color,size,index, options, selectedOptio
       setCurrentOption("");
     }
         }
+    
   }, [options, selectedSizes, cardIndex]);
 
   return (

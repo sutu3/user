@@ -44,18 +44,19 @@ const home = () => {
               </Link>
             </li>
           ))}
-          <li
+          <Link
               className=" hover:after:block hover:after:absolute relative hover:after:content-[''] hover:after:rounded-md after:backdrop-invert-0 hover:after:z-0
                 hover:after:w-full hover:after:h-full hover:after:backdrop-invert hover:after:top-0 hover:after:left-0 hover:after:transition ease-in
                ml- z-20 w-full hover:text-yellow-400 justify-between  bg-black list-none h-14 flex items-center p-2 rounded-lg text-white hover:after:duration-400"
             onClick={()=>{
-              
+              localStorage.removeItem("account")
+            to="/"
             }}>
               <span
                 className="bg-no-repeat bg-center bg-cover w-9 h-[90%] rounded-lg"
                 style={{ backgroundImage: `url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRs2JSkFXfV6EF80mmUX7Y7WR-7DOBMFz4cRg&s)` }}
               ></span>
-            Đăng Xuất ></li>
+            Đăng Xuất ></Link>
         </nav>
         <div className="w-full h-fit bg-white rounded-md">
           <Outlet />
