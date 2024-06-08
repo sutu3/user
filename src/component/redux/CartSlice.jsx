@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 //import { useEffect } from "react";
-import { Cart, User } from "./selector";
 const url = "http://26.232.136.42:8080/api/variant/";
 const url1 = "http://26.232.136.42:8080/api/ordersitem/updatequantity";
 const url2 = "http://26.232.136.42:8080/api/ordersitem/updateorderitem";
