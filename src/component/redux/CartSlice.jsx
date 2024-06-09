@@ -8,7 +8,6 @@ const cartFromLocalStorage = localStorage.getItem("cart");
 const cart = cartFromLocalStorage ? JSON.parse(cartFromLocalStorage) : [];
 const ProductCart = localStorage.getItem("product");
 const Product = ProductCart ? JSON.parse(ProductCart) : [];
-console.log();
 const CartSlice = createSlice({
   name: "cart",
   initialState: {
