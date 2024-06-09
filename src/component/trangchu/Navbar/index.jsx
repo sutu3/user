@@ -12,19 +12,19 @@ const Index = () => {
   console.log(check);
   return (
     <div
-      className="w-full backdrop-blur-md sticky rounded-lg flex flex-row justify-between"
+      className="w-full bg-white sticky rounded-lg flex flex-row justify-between"
       style={{
         position: "fixed",
-        top: "5%",
+        top: "0",
         left: "50%",
-        transform: "translate(-50%,-50%)",
+        transform: "translate(-50%,-0%)",
         zIndex: 10,
         margin: "auto",
-        marginTop: "20px",
+        marginTop: "00px",
       }}
     >
       <div
-        className="translate-x-40 bg-cover bg-no-repeat bg-center w-10 h-10 sm:w-16 sm:h-16 rounded-lg "
+        className="translate-x-40 flex justify-center items-center  bg-cover bg-no-repeat bg-center w-10 h-10 sm:w-16 sm:h-16 rounded-lg"
         style={{
           backgroundImage:
             "url(https://cdn.pixabay.com/photo/2024/02/23/20/43/ai-generated-8592771_1280.png)",
@@ -39,10 +39,10 @@ const Index = () => {
       ></div>
       <div
         className="
-      -translate-x-36 w-30h -20 
-      hidden justify-center items-center sm:flex "
+      -translate-x-36 w-[70%] h-20 
+      hidden justify-center items-center sm:flex relative"
       >
-        <ul className="flex flex-row items-center justify-center gap-2 h-3/5">
+        <ul className="flex flex-row items-center justify-center gap-2 h-3/5 absolute left-[0%]  ">
           <li
             key={"1"}
             className="h-full flex items-center justify-center p-1 
@@ -57,37 +57,14 @@ const Index = () => {
           >
             Sản Phẩm
           </li>
-          {check.username == false && check.password == false ? (
-            <li
-              key={"3"}
-              className="h-full flex items-center justify-center p-1 
-            font-bold rounded-sm hover:bg-slate-400 hover:animate-pulse "
-            >
-              <Link to="/DangNhap">Dang Nhap</Link>
-            </li>
-          ) : (
-            <li
-              key={"3"}
-              className="h-full w-12 flex items-center justify-center p-1 
-            
-            font-bold rounded-sm hover:bg-slate-400 hover:animate-pulse "
-            >
-              <Link to="/account/infor" className="w-full h-full">
-                <div
-                  style={{
-                    backgroundImage: "url(/src/assets/Image/Username.png)",
-                  }}
-                  className="bg-cover bg-center m-auto w-7 h-7"
-                ></div>
-              </Link>
-            </li>
-          )}
-          <li
+        </ul>
+        <ul className="w-fit h-full absolute left-[60%] flex flex-row gap-5">
+        <li
             onClick={() => {
               dispatch(CartSlice.actions.changeState(!state));
             }}
             key={"4"}
-            className="bg-center bg-no-repeat bg-cover h-full w-10 relative"
+            className="bg-center bg-no-repeat bg-cover h-10 w-10 relative translate-y-5"
             style={{ backgroundImage: 'url("src/assets/Image/iconCart.png")' }}
           >
             <span
@@ -98,12 +75,36 @@ const Index = () => {
               {CartList.length}
             </span>
           </li>
-        </ul>
+        <li
+              key={"3"}
+              className="h-full flex items-center justify-center
+            font-bold translate-y-5"
+            >
+            {check.username == false && check.password == false?
+            <Link to="/DangNhap" className="w-full h-full">
+                <div
+                  style={{
+                    backgroundImage: "url(https://i.pinimg.com/736x/a2/82/72/a282728431fcf05e2b1102f8da9370c1.jpg)",
+                  }}
+                  className="bg-cover bg-center m-auto w-6 h-6"
+                ></div>
+              </Link>
+            :<Link to="/account/infor" className="w-full h-full">
+                <div
+                  style={{
+                    backgroundImage: "url(https://i.pinimg.com/736x/a2/82/72/a282728431fcf05e2b1102f8da9370c1.jpg)",
+                  }}
+                  className=" bg-cover bg-center m-auto w-10 h-10"
+                ></div>
+              </Link>}
+            </li>
+            </ul>
         <input
           type="text"
           className="border-slate-800 border-solid border-2
-       rounded-xl h-7 text-gray-800
-      p-3"
+       rounded-md h-10 text-gray-800 w-96 absolute left-[70%]
+      p-5"
+      placeholder="Enter Name Product"
           name=""
           id=""
         />

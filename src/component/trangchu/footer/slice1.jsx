@@ -7,7 +7,7 @@ const arr=[
   },
   {
   name:'Áo sơ mi',
-  link:'https://i.pinimg.com/736x/fe/fd/d4/fefdd401005aa5e6b1a1944fe3439f05.jpg'
+  link:'https://i.pinimg.com/564x/91/8b/9d/918b9d892162ed4fb3e2fd1b06d3acc6.jpg'
   },
   {
   name:'Áo Polo',
@@ -21,16 +21,19 @@ const arr=[
 const slice1 = () => {
  
   return (
-    <div className="w-full ">
+    <div className="w-[100%] -translate-y-60">
     <div className=" ml-56 pb-4 text-3xl m-auto uppercase text-gray-400">Áo Nam</div>
-    <div className=" flex flex-wrap w-[70%] font-serif
+    <div className=" flex flex-wrap w-[90%] font-serif
     m-auto gap-5 border-gray-400 border-b-2">
       {
-        arr.map((el,index)=>(<div key={index} className="w-60 h-96">
-          <img className="transition-all ease-in-out hover:duration-100 
-          h-80 w-full border-black hover:border-2
-          object-cover rounded-lg border-solid border-1" src={el.link} alt="" />
-          <div className="font-bold p-2">{el.name}</div>
+        arr.map((el,index)=>(<div key={index} className="w-[23%] h-96">
+        <div style={{backgroundImage:`url(${el.link})`}} 
+        className="transition-all ease-in-out hover:duration-100 
+        bg-center bg-no-repeat bg-[100%,100%]
+          h-80 w-full border-black hover:border-2 hover:bg-[105%,105%]
+          object-cover rounded-lg border-solid border-1 relative">
+          <div className="font-bold p-2 absolute top-[60%] text-[hsl(33,95%,68%)] text-lg ml-5">{el.name}</div></div>
+          
         </div>))
       }
       </div>
