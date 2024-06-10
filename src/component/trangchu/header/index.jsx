@@ -1,9 +1,10 @@
 //import React from 'react'
 //https://cdn.pixabay.com/photo/2021/02/20/06/17/woman-6032412_960_720.jpg
+
 import "./style.css";
 const Header = () => {
   return (
-    <div className="w-full h-[45rem] head">
+    <div className="w-full h-[45rem] head relative">
       <div
         className="flex mb-11 ml-[20%]
       items-start justify-center font-serif flex-col"

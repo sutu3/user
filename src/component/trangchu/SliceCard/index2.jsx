@@ -43,10 +43,12 @@ const Index = () => {
 console.log(card)
   return (
     <div
-      className={`border-b-indigo-100 w-[25%] h-96 top-24 transition-transform duration-700 ease-in-out sticky rounded-lg gap-5 flex-col transform ${
-        state ? "translate-x-full" : ""
+      className={`bg-white border-b-indigo-100 w-[100%] h-96 top-24 transition-transform duration-500 ease-out sticky rounded-lg gap-5 flex-col transform ${
+        state ? "-translate-y-full -z-30" : "z-10" 
       }`}
     >
+        <div className="text-end p-3 hover:text-blue-400 
+    transition duration-300 ease-in-out">View All>></div>
       {card.map((el, cardIndex) => (
         <div key={cardIndex} className="flex flex-row h-28 m-2 gap-3">
           <input type="checkbox" name="" id="" />

@@ -9,7 +9,6 @@ const Index = () => {
   const state = useSelector(StateCard);
   const product = useSelector(Productinfor);
   const card = useSelector(Cart);
-  console.log(card)
   const [selectedColors, setSelectedColors] = useState({});
   const [selectedSizes, setSelectedSizes] = useState({});
   useEffect(() => {
@@ -43,11 +42,14 @@ const Index = () => {
 
   return (
     <div
-      className={`border-b-indigo-100 w-[25%] h-96 top-24 transition-transform duration-700 ease-in-out sticky rounded-lg gap-5 flex-col transform ${
-        state ? "translate-x-full" : ""
+      className={`bg-white border-b-indigo-100  w-[100%] h-96 top-24 transition-transform duration-500 ease-out sticky rounded-lg gap-5 flex-col transform ${
+        state ? "-translate-y-full -z-30" : "z-10" 
       }`}
     >
-      {card.map((el, cardIndex) => (
+    <div className="text-end p-3  hover:text-blue-400 
+    transition duration-300 ease-in-out">View All>></div>
+    <div className="h-60 overflow-y-scroll">
+    {card.map((el, cardIndex) => (
         <div key={cardIndex} className="flex flex-row h-28 m-2 gap-3">
           <input type="checkbox" name="" id="" />
           <img
@@ -167,7 +169,8 @@ const Index = () => {
             )}
           </div>
         </div>
-      ))}
+      ))}</div>
+      
       {card.length !== 0 ? (
         <div className="w-full flex gap-3 justify-center mt-10">
           <button className="bg-slate-100 w-3/4 p-2 transition duration-300 ease-in-out hover:text-slate-200 hover:bg-slate-500">

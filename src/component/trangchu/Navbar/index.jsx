@@ -1,6 +1,8 @@
 //import React from 'react'
 import { Link } from "react-router-dom";
-import {  CheckLogin, Cart, StateCard } from "../../redux/selector";
+import SliceCard from '../SliceCard/index'
+import SliceCard2 from '../SliceCard/index2'
+import { CheckLogin, Cart, StateCard } from "../../redux/selector";
 import { useSelector, useDispatch } from "react-redux";
 import CartSlice from "../../redux/CartSlice";
 const Index = () => {
@@ -59,7 +61,7 @@ const Index = () => {
           </li>
         </ul>
         <ul className="w-fit h-full absolute left-[60%] flex flex-row gap-5">
-        <li
+          <li
             onClick={() => {
               dispatch(CartSlice.actions.changeState(!state));
             }}
@@ -74,37 +76,49 @@ const Index = () => {
             >
               {CartList.length}
             </span>
+            
           </li>
-        <li
-              key={"3"}
-              className="h-full flex items-center justify-center
+          <div className="absolute top-[100%] left-[100%] w-96">
+              {check.username && check.password ? (
+                <SliceCard />
+              ) : (
+                <SliceCard2 />
+              )}
+            </div>
+          <li
+            key={"3"}
+            className="h-full flex items-center justify-center
             font-bold translate-y-5"
-            >
-            {check.username == false && check.password == false?
-            <Link to="/DangNhap" className="w-full h-full">
+          >
+            {check.username == false && check.password == false ? (
+              <Link to="/DangNhap" className="w-full h-full">
                 <div
                   style={{
-                    backgroundImage: "url(https://i.pinimg.com/736x/a2/82/72/a282728431fcf05e2b1102f8da9370c1.jpg)",
+                    backgroundImage:
+                      "url(https://i.pinimg.com/736x/a2/82/72/a282728431fcf05e2b1102f8da9370c1.jpg)",
                   }}
                   className="bg-cover bg-center m-auto w-6 h-6"
                 ></div>
               </Link>
-            :<Link to="/account/infor" className="w-full h-full">
+            ) : (
+              <Link to="/account/infor" className="w-full h-full">
                 <div
                   style={{
-                    backgroundImage: "url(https://i.pinimg.com/736x/a2/82/72/a282728431fcf05e2b1102f8da9370c1.jpg)",
+                    backgroundImage:
+                      "url(https://i.pinimg.com/736x/a2/82/72/a282728431fcf05e2b1102f8da9370c1.jpg)",
                   }}
                   className=" bg-cover bg-center m-auto w-10 h-10"
                 ></div>
-              </Link>}
-            </li>
-            </ul>
+              </Link>
+            )}
+          </li>
+        </ul>
         <input
           type="text"
           className="border-slate-800 border-solid border-2
        rounded-md h-10 text-gray-800 w-96 absolute left-[70%]
       p-5"
-      placeholder="Enter Name Product"
+          placeholder="Enter Name Product"
           name=""
           id=""
         />
