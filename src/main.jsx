@@ -9,8 +9,10 @@ import Home from "./component/trangchu/home/home";
 import Login from "./component/trangchu/Login/Login.jsx";
 import AccountHome from "./component/TrangtaiKhoan/home.jsx";
 import Infor from "./component/TrangtaiKhoan/infor.jsx";
+import Fixpage from "./component/TrangtaiKhoan/fixpage.jsx"
 import Order from "./component/TrangtaiKhoan/OrderHistory.jsx";
 import State from "./component/TrangtaiKhoan/State.jsx";
+import Cartpage from "./component/TrangtaiKhoan/Cartpage.jsx";
 import HomeLogin from "./component/trangchu/Login/index.jsx";
 import Register from "./component/trangchu/Login/register.jsx";
 ReactDOM.createRoot(document.getElementById("root")).render(
@@ -28,6 +30,8 @@ ReactDOM.createRoot(document.getElementById("root")).render(
           <Route path="/account" element={<Navigate to="infor" />} />
           <Route path="/account" element={<AccountHome />}>
             <Route path="infor" element={<Infor />} />
+            <Route path="fix" element={<Fixpage />} />
+            <Route path="cart" element={<Cartpage />} />
             <Route path="order" element={<Order />} />
             <Route path="state" element={<State />} />
           </Route>

@@ -43,7 +43,7 @@ const Index = () => {
   return (
     <div
       className={`bg-white border-b-indigo-100  w-[100%] h-96 top-24 transition-transform duration-500 ease-out sticky rounded-lg gap-5 flex-col transform ${
-        state ? "-translate-y-full -z-30" : "z-10" 
+        !state ? "-translate-y-full -z-30" : "z-10" 
       }`}
     >
     <div className="text-end p-3  hover:text-blue-400 

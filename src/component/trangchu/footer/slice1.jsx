@@ -29,7 +29,7 @@ const slice1 = () => {
         arr.map((el,index)=>(<div key={index} className="w-[23%] h-96">
         <div style={{backgroundImage:`url(${el.link})`}} 
         className="transition-all ease-in-out hover:duration-100 
-        bg-center bg-no-repeat bg-[100%,100%]
+        bg-center bg-no-repeat bg-[100%,100%] z-20
           h-80 w-full border-black hover:border-2 hover:bg-[105%,105%]
           object-cover rounded-lg border-solid border-1 relative">
           <div className="font-bold p-2 absolute top-[60%] text-[hsl(33,95%,68%)] text-lg ml-5">{el.name}</div></div>

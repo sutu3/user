@@ -78,7 +78,7 @@ const Index = () => {
             </span>
             
           </li>
-          <div className="absolute top-[100%] left-[100%] w-96">
+          <div className={`absolute top-[100%] left-[100%] w-96 ${!state ? "-translate-y-full -z-30" : "z-10" }`}>
               {check.username && check.password ? (
                 <SliceCard />
               ) : (
