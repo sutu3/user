@@ -37,7 +37,7 @@ const home = () => {
             <li
               className=" hover:after:block hover:after:absolute relative hover:after:content-[''] hover:after:rounded-md hover:after:z-0
                 hover:after:w-full hover:after:h-full hover:after:top-0 hover:after:left-0 hover:after:transition ease-in
-                justify-between  list-none h-14 flex items-center p-2 rounded-lg text-white hover:after:duration-400"
+                justify-between w-[80%] m-auto  list-none h-14 flex items-center p-2 rounded-lg text-white hover:after:duration-400"
               key={index}
             >
               <span
@@ -45,7 +45,7 @@ const home = () => {
                 style={{ backgroundImage: `url(${el.url})` }}
               ></span>
               <Link
-                className="ml-2 text-white z-20 w-full flex justify-between font-serif items-center"
+                className="m-auto ml-2 text-white z-20 w-full  flex justify-between font-serif items-center"
                 to={el.value}
                 onClick={console.log(el.value)}
               >
@@ -55,7 +55,7 @@ const home = () => {
             </li>
           ))}
           <Link
-              className="ml- z-20 w-full hover:text-[#6c73f1] justify-between  bg-[#283339] list-none h-14 flex items-center p-2 rounded-lg text-white "
+              className="ml- z-20 w-[80%] m-auto hover:text-[#6c73f1] justify-between  bg-[#283339] list-none h-14 flex items-center p-2 rounded-lg text-white "
             onClick={()=>{
               localStorage.removeItem("account")
             to="/"
