@@ -1,5 +1,7 @@
-//import React from 'react'
-import { Link, Outlet } from "react-router-dom";
+import {useEffect} from 'react'
+import { Link, Outlet,useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { CheckLogin } from "../redux/selector";
 const arr1 = ["Thông Tin", "Lịch Sử đơn hàng", "Trạng thái đơn hàng"];
 const arr = [
   {
@@ -28,7 +30,15 @@ const arr = [
     value: "cart",
   },
 ];
+
 const home = () => {
+  const navigate=useNavigate()
+    const check = useSelector(CheckLogin);
+  useEffect(() => {
+    if (!check.username && !check.password) {
+      navigate('/');
+    }
+  }, [check, navigate]);
   return (
     <div className="w-full h-fit bg-white">
       <div className="w-[90%] top-5 m-auto p-10 pt-20 flex flex-row gap-5 ">

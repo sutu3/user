@@ -24,6 +24,10 @@ const CartSlice = createSlice({
     }),
   },
   reducers: {
+    cart:(state,action)=>{
+      state.Cart=action.payload;
+      localStorage.setItem("cart", JSON.stringify(state.Cart));
+    },
     PushChange: (state, action) => {
       action.payload.id == 2
         ? state.change.push({ Size: "", Color: "" })
@@ -147,13 +151,14 @@ const CartSlice = createSlice({
         localStorage.setItem("product", JSON.stringify(state.Product));
       })
       .addCase(UpdateQuantity.fulfilled, (state, action) => {
+        console.log(action.payload)
         state.Cart = state.Cart.map((el) =>
           el.account_id === action.payload.account_id
             ? {
                 ...el,
                 product: el.product.map((el1) =>
                   el1.order_items_id === action.payload.order_items_id
-                    ? { ...el1, quantity: action.payload.quantity }
+                    ? { ...el1, quantity: action.payload.quantity+1 }
                     : el1
                 ),
               }
@@ -254,8 +259,6 @@ export const CheckElement = (data) => {
     await dispatch(
       CartSlice.actions.changeElement({ id: data.id, data: update })
     );
-    console.log(data.data.cardIndex);
-    console.log(getState().cart.change);
     if (data.id === 2) {
       if (
         getState().cart.change[data.data.cardIndex].Size != "" &&
@@ -355,7 +358,7 @@ export const UpdateQuantity = createAsyncThunk(
   "cart/UpdateQuantity",
   async (data1) => {
     const res = await fetch(
-      `${url1}/${data1.order_items_id}?quantity=${data1.quantity}`,
+      `${url1}/${data1.order_items_id}?quantity=${data1.quantity+1}`,
       {
         method: "PUT",
         headers: {
@@ -423,6 +426,10 @@ export const CheckAndAddtoCart = () => {
 };
 export const CheckCart = (data) => {
   return async function Check(dispatch, getState) {
+    console.log(getState().cart)
+    const index = getState().cart.Cart[0].product.findIndex((el) => {
+      return el.idvariant === data.variants_id;
+});
     if (
       getState().acount.check.username == true &&
       getState().acount.check.password == true
@@ -435,6 +442,8 @@ export const CheckCart = (data) => {
           product_name: data.product_name,
           product_price: data.product_price,
           quantity: data.quantity,
+          index:index,
+          item:getState().cart.Cart[0].product,
         })
       );
     } else {
@@ -449,7 +458,8 @@ export const CheckCart = (data) => {
 };
 export const CheckProduct = (data) => {
   return (dispatch, getState) => {
-    const { cart } = getState(); // Lấy cart từ store sử dụng getState
+    const { cart } = getState();
+    console.log() // Lấy cart từ store sử dụng getState
     const index = cart.Product.findIndex(
       (el) => el.variants_id === data.variants_id
     );
@@ -480,18 +490,29 @@ export const CheckProduct = (data) => {
 };
 export const FetchCart = createAsyncThunk(
   "cart/fetchCart",
-  async (payload, { dispatch }) => {
-    const check = await dispatch(AddCart(payload)); // unwrap() để lấy dữ liệu từ kết quả của action AddCart
-
-    if (check !== -1) {
-      await dispatch(
-        FindCart({
-          idVariant: payload.variants_id,
-          idOrderItem: check.payload,
+  async (payload,{ dispatch }) => {
+     if(payload.index!==-1)
+      {
+        await dispatch(UpdateQuantity({
+          order_items_id:payload.item[payload.index].order_items_id,
+          quantity:payload.item[payload.index].quantity,
           account_id: payload.account_id,
-        })
-      );
-    }
+        }))
+      }
+      else{
+
+        const check = await dispatch(AddCart(payload)); // unwrap() để lấy dữ liệu từ kết quả của action AddCart
+    
+        if (check !== -1) {
+          await dispatch(
+            FindCart({
+              idVariant: payload.variants_id,
+              idOrderItem: check.payload,
+              account_id: payload.account_id,
+            })
+          );
+        }
+      }
   }
 );
 export const DeleteCartElement = createAsyncThunk(

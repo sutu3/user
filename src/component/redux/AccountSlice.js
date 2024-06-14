@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { Await } from "react-router-dom";
+import CartSlice,{CheckAndAddtoCart} from "./CartSlice"
 const url = "http://26.232.136.42:8080/api/account";
 const url1="http://26.232.136.42:8080/api/account/Verification/"
 const url2="http://26.232.136.42:8080/api/account/getaccount/"
@@ -93,6 +93,8 @@ export const SendAccount = (Account) => {
       if(getState().acount.check.password)
       {
               await  dispatch(SendAccountInfor(passResponse.payload));
+              await dispatch(CartSlice.actions.cart(getState().acount.infor.orders[getState().acount.infor.orders.length-1].orderItems))
+              //await dispatch(CheckAndAddtoCart())
       }
     }
   };
