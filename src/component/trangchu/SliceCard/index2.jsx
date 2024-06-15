@@ -169,7 +169,9 @@ console.log(card)
           <button className="bg-slate-100 w-3/4 p-2 transition duration-300 ease-in-out hover:text-slate-200 hover:bg-slate-500">
             Thanh toán
           </button>
-          <button className="bg-white text-red-500 text-sm hover:border-red-500">Clean</button>
+          <button onClick={()=>{
+            dispatch(CartSlice.actions.deleteall());
+          }} className="bg-white text-red-500 text-sm hover:border-red-500">Clean</button>
         </div>
       ) : (
         <div className="bg-gradient-to-r from-violet-500 to-fuchsia-500 bg-center bg-no-repeat bg-cover h-40 w-40 ml-20 text-center pt-28 text-sm text-slate-500 font-sans" style={{ backgroundImage: "url(https://janbox.com/_nuxt/img/notfound.ab34387.svg)" }}>

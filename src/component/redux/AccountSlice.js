@@ -93,7 +93,6 @@ export const SendAccount = (Account) => {
         console.log(getState().acount.infor)
         const orders = getState().acount.infor.orders;
     const lastOrder = orders[orders.length - 1];
-    // Using for...of loop to handle async operations correctly
     for (const el of lastOrder.orderItems) {
       console.log(el)
       console.log(getState().acount.infor.account_id)
@@ -105,8 +104,8 @@ export const SendAccount = (Account) => {
         })
       );
     }
-        console.log(localStorage.getItem("cart"))
         await dispatch(CheckAndAddtoCart());
+        localStorage.removeItem("product")
       }
     }
   };

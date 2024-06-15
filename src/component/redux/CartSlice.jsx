@@ -3,7 +3,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 const url = "http://26.232.136.42:8080/api/variant/";
 const url1 = "http://26.232.136.42:8080/api/ordersitem/updatequantity";
 const url2 = "http://26.232.136.42:8080/api/ordersitem/updateorderitem";
-const url3 = "http://26.232.136.42:8080/api/ordersitem/deleteorderitem?id=";
+const url3 = "http://26.232.136.42:8080/api/ordersitem";
 const cartFromLocalStorage = localStorage.getItem("cart");
 const cart = cartFromLocalStorage ? JSON.parse(cartFromLocalStorage) : [];
 const ProductCart = localStorage.getItem("product");
@@ -24,8 +24,13 @@ const CartSlice = createSlice({
     }),
   },
   reducers: {
-    cart:(state,action)=>{
-      state.Cart=action.payload;
+    deleteall: (state, action) => {
+      state.Product = [];
+      state.change2 = [];
+      localStorage.removeItem("product");
+    },
+    cart: (state, action) => {
+      state.Cart = action.payload;
       localStorage.setItem("cart", JSON.stringify(state.Cart));
     },
     PushChange: (state, action) => {
@@ -81,6 +86,11 @@ const CartSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      .addCase(DeleteAll.fulfilled, (state, action) => {
+        state.Cart = [];
+        state.change = [];
+        localStorage.removeItem("cart");
+      })
       .addCase(UpdateElement.fulfilled, (state, action) => {
         state.change = state.change.map((el, index) =>
           index === action.payload.index ? { ...el, Color: "", Size: "" } : el
@@ -127,7 +137,7 @@ const CartSlice = createSlice({
               {
                 ...action.payload.data,
                 createTime:
-                  new Date(action.payload.data.createTime).getTime() / 1000,
+                  action.payload.data.createTime,
               },
             ];
             state.change2.push({ Size: "", Color: "" });
@@ -151,14 +161,14 @@ const CartSlice = createSlice({
         localStorage.setItem("product", JSON.stringify(state.Product));
       })
       .addCase(UpdateQuantity.fulfilled, (state, action) => {
-        console.log(action.payload)
+        console.log(action.payload);
         state.Cart = state.Cart.map((el) =>
           el.account_id === action.payload.account_id
             ? {
                 ...el,
                 product: el.product.map((el1) =>
                   el1.order_items_id === action.payload.order_items_id
-                    ? { ...el1, quantity:action.payload.quantity}
+                    ? { ...el1, quantity: action.payload.quantity }
                     : el1
                 ),
               }
@@ -173,7 +183,7 @@ export const { addCart, updateCart } = CartSlice.actions;
 export const FindCart = createAsyncThunk(
   "cart/AddCart",
   async (data1, thunkAPI) => {
-    console.log(1)
+    console.log(1);
     const res = await fetch(
       `${url}ordersigleitem?idOrderItem=${data1.idOrderItem}&idVariant=${data1.idVariant}`,
       {
@@ -184,7 +194,7 @@ export const FindCart = createAsyncThunk(
       }
     );
     const data = await res.json();
-    console.log(data1.account_id)
+    console.log(data1.account_id);
     const updatecart = { ...data, account_id: data1.account_id };
     thunkAPI.dispatch(CheckCartid(updatecart));
     return updatecart;
@@ -234,7 +244,7 @@ export const CheckCartid = (payload) => {
           ...userCart.product,
           {
             ...payload,
-            createdAt: new Date(payload.createdAt).getSeconds / 1000,
+            createdAt: payload.createdAt,
           },
         ];
         dispatch(CartSlice.actions.PushChange({ id: 2 }));
@@ -360,7 +370,7 @@ export const UpdateQuantity = createAsyncThunk(
   "cart/UpdateQuantity",
   async (data1) => {
     const res = await fetch(
-      `${url1}/${data1.order_items_id}?quantity=${data1.quantity+1}`,
+      `${url1}/${data1.order_items_id}?quantity=${data1.quantity + 1}`,
       {
         method: "PUT",
         headers: {
@@ -369,65 +379,93 @@ export const UpdateQuantity = createAsyncThunk(
       }
     );
     const data = await res.json();
-    console.log(data1)
-      return data1;
+    console.log(data1);
+    return data1;
   }
 );
 export const CheckAndAddtoCart = () => {
   return async function Check(dispatch, getState) {
-    console.log(getState());
-
     if (getState().cart.Product.length !== 0) {
       const products = getState().cart.Product;
-
       const promises = products.map(async (el) => {
-        let idItem = "";
-        console.log(getState().cart.Cart[0].product);
-
-        const index = getState().cart.Cart[0].product.findIndex((el1) => {
-          if (el.variants_id === el1.idvariant) {
-            idItem = el1.order_items_id;
-            return true;
-          }
-          return false;
-        });
-
-        if (index === -1) {
-          await dispatch(
-            CheckCart({
-              version_product_id: el.productversion,
-              variants_id: el.variants_id,
-              product_name: el.productversionName,
-              product_price: el.price,
-              quantity: 1,
-            })
-          );
-        } else {
-          const date = new Date(getState().cart.Cart[0].product[index].updatedAt).getTime() / 1000;
-          if (date > el.createTime) {
-            const productIndex = getState().product.productInfor.findIndex((el2) =>
-              el2.productVersion.some(
-                (el3) => el3.productVersion_id === el.productversion
-              )
-            );
+        let idItem;
+        if (getState().cart.Cart.length !== 0) {
+          const index = getState().cart.Cart[0].product.findIndex((el1) => {
+            if (el.variants_id === el1.idvariant) {
+              idItem = el1.order_items_id;
+              return true;
+            }
+            return false;
+          });
+          console.log(index);
+          if (index === -1) {
             await dispatch(
-              UpdateElement({
-                account_id: getState().acount.infor.account_id,
-                order_items_id: idItem,
-                size: el.size,
-                color: el.color,
-                index: productIndex,
+              CheckCart({
+                version_product_id: el.productversion,
+                variants_id: el.variants_id,
+                product_name: el.productversionName,
+                product_price: el.price,
+                quantity: 1,
               })
             );
+          } else {
+            console.log(getState().cart.Cart[0].product[index].updatedAt)
+            console.log(index)
+            const date =
+              new Date(
+                getState().cart.Cart[0].product[index].updatedAt
+              ).getTime() / 1000;
+              const date1 =
+              new Date(
+                el.createTime
+              ).getTime() / 1000;
+            if (date > date1) {
+              const productIndex = getState().product.productInfor.findIndex(
+                (el2) =>
+                  el2.productVersion.some(
+                    (el3) => el3.productVersion_id === el.productversion
+                  )
+              );
+              await dispatch(
+                UpdateElement({
+                  account_id: getState().acount.infor.account_id,
+                  order_items_id: index,
+                  size: el.size,
+                  color: el.color,
+                  index: productIndex,
+                })
+              );
+            }
           }
+        } else {
+           const check =await dispatch(
+            AddCart({
+              variants_id:el.variants_id,
+              account_id:getState().acount.infor.account_id,
+              product_name: el.productversionName,
+              product_price: el.price,
+              quantity: el.quantity,
+              version_product_id: el.productversion,
+            })
+          );
+          console.log(check)
+          await dispatch(
+            FindCart({
+              account_id: getState().acount.infor.account_id,
+              idOrderItem:check.payload,
+              idVariant: el.variants_id,
+            })
+          );
         }
       });
 
       // Đợi tất cả các promises hoàn thành
       await Promise.all(promises);
-
       dispatch(
-        updateCart({ account_id: getState().acount.infor.account_id, product: getState().cart.Product })
+        updateCart({
+          account_id: getState().acount.infor.account_id,
+          product: getState().cart.Product,
+        })
       );
     }
   };
@@ -435,15 +473,18 @@ export const CheckAndAddtoCart = () => {
 
 export const CheckCart = (data) => {
   return async function Check(dispatch, getState) {
-    const index =getState().cart.Cart.length==0?-1:getState().cart.Cart[0].product.findIndex((product) => {
-      return product.idvariant === data.variants_id;
-      });
-    console.log(index)
+    const index =
+      getState().cart.Cart.length == 0
+        ? -1
+        : getState().cart.Cart[0].product.findIndex((product) => {
+            return product.idvariant === data.variants_id;
+          });
+    console.log(index);
     if (
       getState().acount.check.username == true &&
       getState().acount.check.password == true
     ) {
-       dispatch(
+      dispatch(
         FetchCart({
           account_id: getState().acount.infor.account_id,
           version_product_id: data.version_product_id,
@@ -451,8 +492,11 @@ export const CheckCart = (data) => {
           product_name: data.product_name,
           product_price: data.product_price,
           quantity: data.quantity,
-          index:index,
-          item:getState().cart.Cart.length==0?[]:getState().cart.Cart[0].product
+          index: index,
+          item:
+            getState().cart.Cart.length == 0
+              ? []
+              : getState().cart.Cart[0].product,
         })
       );
     } else {
@@ -468,7 +512,7 @@ export const CheckCart = (data) => {
 export const CheckProduct = (data) => {
   return (dispatch, getState) => {
     const { cart } = getState();
-    console.log() // Lấy cart từ store sử dụng getState
+    console.log(); // Lấy cart từ store sử dụng getState
     const index = cart.Product.findIndex(
       (el) => el.variants_id === data.variants_id
     );
@@ -499,45 +543,58 @@ export const CheckProduct = (data) => {
 };
 export const FetchCart = createAsyncThunk(
   "cart/fetchCart",
-  async (payload,{ dispatch }) => {
-    console.log(payload)
-     if(payload.index!==-1)
-      {
-       await dispatch(
-            FindCart({
-              idVariant: payload.variants_id,
-              idOrderItem: payload.item[payload.index].order_items_id,
-              account_id: payload.account_id,
-            })
-          )
+  async (payload, { dispatch }) => {
+    console.log(payload);
+    if (payload.index !== -1) {
+      await dispatch(
+        FindCart({
+          idVariant: payload.variants_id,
+          idOrderItem: payload.item[payload.index].order_items_id,
+          account_id: payload.account_id,
+        })
+      );
+    } else {
+      //dùng để add order-item vào serve
+      console.log(2);
+      const check = await dispatch(AddCart(payload)); // unwrap() để lấy dữ liệu từ kết quả của action AddCart
+
+      if (check !== -1) {
+        //này dùng để cập nhập số lượng
+        await dispatch(
+          FindCart({
+            idVariant: payload.variants_id,
+            idOrderItem: check.payload,
+            account_id: payload.account_id,
+          })
+        );
       }
-      else{
-        //dùng để add order-item vào serve
-        console.log(2)
-        const check = await dispatch(AddCart(payload)); // unwrap() để lấy dữ liệu từ kết quả của action AddCart
-    
-        if (check !== -1) {
-          //này dùng để cập nhập số lượng
-          await dispatch(
-            FindCart({
-              idVariant: payload.variants_id,
-              idOrderItem: check.payload,
-              account_id: payload.account_id,
-            })
-          );
-        }
-      }
+    }
   }
 );
+export const DeleteAll = createAsyncThunk("cart/DeleteAll", async (payload) => {
+  const res = await fetch(`${url3}/deleteallorderitem?idOrder=${payload}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  const data = res.json();
+  if (data) {
+    return payload;
+  }
+});
 export const DeleteCartElement = createAsyncThunk(
   "cart/DeleteCartElement",
   async (payload) => {
-    const res = await fetch(`${url3}${payload.order_items_id}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const res = await fetch(
+      `${url3}/deleteorderitem?id=${payload.order_items_id}`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
     const data = res.json();
     if (data) {
       return payload;
