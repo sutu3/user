@@ -16,7 +16,7 @@ const EmailTelephone = ({ sdt, email,change,infor }) => {
         disabled={true}
           value={email}
           placeholder="Enter Email"
-          className="absolute pl-16 w-3/4 border-solid border-black border-2 p-2 rounded-lg"
+          className="absolute pl-16 w-[250px] border-solid border-black border-2 p-2 rounded-lg"
           type="email"
           name=""
           id=""
@@ -33,7 +33,7 @@ const EmailTelephone = ({ sdt, email,change,infor }) => {
         }}
           value={sdt}
           placeholder="Enter Email"
-          className="absolute pl-16 w-3/4 border-solid border-black border-2 p-2 rounded-lg"
+          className="absolute pl-16 w-[250px] border-solid border-gray-200 border-2 p-2 rounded-lg"
           type="email"
           name=""
           id=""

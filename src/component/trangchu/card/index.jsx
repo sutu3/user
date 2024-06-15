@@ -24,7 +24,7 @@ const Index = ({product1}) => {
       <span className="absolute 
       top-0 left-36 m-2 p-1 pl-2 pr-2
       rounded-lg w-fit h-fit z-10 bg-red-500 text-xs text-white " >{product1.state}</span>
-        <img className="w-full h-full rounded-t-lg absolute top-0 left-0" src={product.url1} alt="" />
+        <img className="w-full h-full rounded-t-lg absolute top-0 left-0" src={product1.productVersion[0].variants[0].images[0].image_urlString} alt="" />
         <ul style={{display:display1, flexWrap:'wrap'}}
         className="gap-1 flex-wrap transition duration-700 ease-in-out
         flex-row absolute  backdrop-blur-md 

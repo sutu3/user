@@ -2,7 +2,7 @@ import { useRef } from "react";
 
 const Date = ({ date, infor, change }) => {
   console.log(date)
-  const arr1 = date.split("-");
+const arr1 = date ? date.split("-") : ["0000", "00", "00"];
   const dayRef = useRef(null);
   const monthRef = useRef(null);
   const yearRef = useRef(null);

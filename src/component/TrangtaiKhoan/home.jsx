@@ -68,6 +68,7 @@ const home = () => {
               className="ml- z-20 w-[80%] m-auto hover:text-[#6c73f1] justify-between  bg-[#283339] list-none h-14 flex items-center p-2 rounded-lg text-white "
             onClick={()=>{
               localStorage.removeItem("account")
+              localStorage.removeItem("cart")
             to="/"
             }}>
               <span

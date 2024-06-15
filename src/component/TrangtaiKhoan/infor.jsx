@@ -183,7 +183,7 @@ const Infor = () => {
             </div>
           </div>
       </div>
-      <div>
+      {/* <div>
         {statedisplay && (
           <div
             style={{
@@ -275,7 +275,7 @@ const Infor = () => {
             </div>
           </div>
         )}
-      </div>
+      </div> */}
     </div>
   );
 };

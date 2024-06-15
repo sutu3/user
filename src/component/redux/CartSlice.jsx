@@ -158,7 +158,7 @@ const CartSlice = createSlice({
                 ...el,
                 product: el.product.map((el1) =>
                   el1.order_items_id === action.payload.order_items_id
-                    ? { ...el1, quantity: action.payload.quantity+1 }
+                    ? { ...el1, quantity:action.payload.quantity}
                     : el1
                 ),
               }
@@ -173,6 +173,7 @@ export const { addCart, updateCart } = CartSlice.actions;
 export const FindCart = createAsyncThunk(
   "cart/AddCart",
   async (data1, thunkAPI) => {
+    console.log(1)
     const res = await fetch(
       `${url}ordersigleitem?idOrderItem=${data1.idOrderItem}&idVariant=${data1.idVariant}`,
       {
@@ -183,6 +184,7 @@ export const FindCart = createAsyncThunk(
       }
     );
     const data = await res.json();
+    console.log(data1.account_id)
     const updatecart = { ...data, account_id: data1.account_id };
     thunkAPI.dispatch(CheckCartid(updatecart));
     return updatecart;
@@ -367,74 +369,81 @@ export const UpdateQuantity = createAsyncThunk(
       }
     );
     const data = await res.json();
-    if (data) {
-      console.log(data1);
-
+    console.log(data1)
       return data1;
-    }
-    return null;
   }
 );
 export const CheckAndAddtoCart = () => {
   return async function Check(dispatch, getState) {
-    if(getState().cart.Product.length!=0)
-      {
-        const arr = getState().cart.Product.map((el) => {
-      let idItem = "";
-      const index = getState().acount.Cart[0].product.findIndex((el1) => {
-        el.variants_id == el1.idvariant
-          ? (idItem = el1.order_items_id)
-          : idItem;
-      });
-      if (index == -1) {
-        dispatch(
-          CheckCart({
-            version_product_id: el.productversion,
-            variants_id: el.variants_id,
-            product_name: el.productversionName,
-            product_price: el.price,
-            quantity: 1,
-          })
-        );
-      } else {
-        const date =
-          new Date(getState().acount.Cart[0].product[index].updatedAt)
-            .getSeconds / 1000;
-        if (date > el.createTime) {
-          const index = getState().product.productInfor.findIndex((el2) =>
-            el2.productVersion.some(
-              (el3) => el3.productVersion_id === el.productversion
-            )
-          );
-          dispatch(
-            UpdateElement({
-              account_id: getState().acount.infor.account_id,
-              order_items_id: idItem,
-              size: el.size,
-              color: el.color,
-              index: index,
+    console.log(getState());
+
+    if (getState().cart.Product.length !== 0) {
+      const products = getState().cart.Product;
+
+      const promises = products.map(async (el) => {
+        let idItem = "";
+        console.log(getState().cart.Cart[0].product);
+
+        const index = getState().cart.Cart[0].product.findIndex((el1) => {
+          if (el.variants_id === el1.idvariant) {
+            idItem = el1.order_items_id;
+            return true;
+          }
+          return false;
+        });
+
+        if (index === -1) {
+          await dispatch(
+            CheckCart({
+              version_product_id: el.productversion,
+              variants_id: el.variants_id,
+              product_name: el.productversionName,
+              product_price: el.price,
+              quantity: 1,
             })
           );
+        } else {
+          const date = new Date(getState().cart.Cart[0].product[index].updatedAt).getTime() / 1000;
+          if (date > el.createTime) {
+            const productIndex = getState().product.productInfor.findIndex((el2) =>
+              el2.productVersion.some(
+                (el3) => el3.productVersion_id === el.productversion
+              )
+            );
+            await dispatch(
+              UpdateElement({
+                account_id: getState().acount.infor.account_id,
+                order_items_id: idItem,
+                size: el.size,
+                color: el.color,
+                index: productIndex,
+              })
+            );
+          }
         }
-      }
-    });
-    dispatch(
-        updateCart({ account_id: getState().acount.infor.account_id, product: arr })
+      });
+
+      // Đợi tất cả các promises hoàn thành
+      await Promise.all(promises);
+
+      dispatch(
+        updateCart({ account_id: getState().acount.infor.account_id, product: getState().cart.Product })
       );
-      }
+    }
   };
 };
+
 export const CheckCart = (data) => {
   return async function Check(dispatch, getState) {
-    console.log(getState().cart)
-    const index = getState().cart.Cart[0].product.findIndex((el) => {
-      return el.idvariant === data.variants_id;
-});
+    const index =getState().cart.Cart.length==0?-1:getState().cart.Cart[0].product.findIndex((product) => {
+      return product.idvariant === data.variants_id;
+      });
+    console.log(index)
     if (
       getState().acount.check.username == true &&
       getState().acount.check.password == true
     ) {
-      dispatch(
+       dispatch(
         FetchCart({
           account_id: getState().acount.infor.account_id,
           version_product_id: data.version_product_id,
@@ -443,7 +452,7 @@ export const CheckCart = (data) => {
           product_price: data.product_price,
           quantity: data.quantity,
           index:index,
-          item:getState().cart.Cart[0].product,
+          item:getState().cart.Cart.length==0?[]:getState().cart.Cart[0].product
         })
       );
     } else {
@@ -491,19 +500,24 @@ export const CheckProduct = (data) => {
 export const FetchCart = createAsyncThunk(
   "cart/fetchCart",
   async (payload,{ dispatch }) => {
+    console.log(payload)
      if(payload.index!==-1)
       {
-        await dispatch(UpdateQuantity({
-          order_items_id:payload.item[payload.index].order_items_id,
-          quantity:payload.item[payload.index].quantity,
-          account_id: payload.account_id,
-        }))
+       await dispatch(
+            FindCart({
+              idVariant: payload.variants_id,
+              idOrderItem: payload.item[payload.index].order_items_id,
+              account_id: payload.account_id,
+            })
+          )
       }
       else{
-
+        //dùng để add order-item vào serve
+        console.log(2)
         const check = await dispatch(AddCart(payload)); // unwrap() để lấy dữ liệu từ kết quả của action AddCart
     
         if (check !== -1) {
+          //này dùng để cập nhập số lượng
           await dispatch(
             FindCart({
               idVariant: payload.variants_id,

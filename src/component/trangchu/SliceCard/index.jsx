@@ -9,6 +9,7 @@ const Index = () => {
   const state = useSelector(StateCard);
   const product = useSelector(Productinfor);
   const card = useSelector(Cart);
+  console.log(card)
   const [selectedColors, setSelectedColors] = useState({});
   const [selectedSizes, setSelectedSizes] = useState({});
   useEffect(() => {
@@ -55,7 +56,7 @@ const Index = () => {
           <img
             className="w-20 h-full rounded-md"
             src={
-              "https://dongphuchaianh.vn/wp-content/uploads/2022/05/quan-ao-cong-so-dep.jpg"
+              el.product[0].images[0].image_urlString
             }
             alt=""
           />

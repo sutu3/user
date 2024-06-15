@@ -1,4 +1,4 @@
-
+import { createSelector } from 'reselect';
 export const Productimage=(State)=>State.product.images;
 export const Productinfor=(State)=>State.product.productInfor;
 export const CheckLogin=(State)=>State.acount.check;
@@ -10,8 +10,11 @@ export const StateCard=(State)=>State.cart.state;
 export const Element=(State)=>State.cart.change;
 export const Element2=(State)=>State.cart.change2;
 export const Product=(State)=>State.cart.Product;
-
-export const Cart = (state) => {
-    const userCart = state.cart.Cart.find(el => el.account_id === state.acount.infor.account_id);
-    return userCart ? userCart.product : [];
-};
+export const Cart = (state) => state.cart.Cart;
+// export const Cart = createSelector(
+//     GetCartData, User,
+//     (cartData, account) => {
+//         const userCart = cartData.find(el => el.account_id === account.account_id);
+//         return userCart ? userCart.product : [];
+//     }
+// );
