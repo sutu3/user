@@ -16,7 +16,7 @@ const Gender = ({ gender1, infor, change }) => {
     });
   };
   return (
-    <div className="ml-10">
+    <div className="ml-0">
       <h3>Giới Tính</h3>
       <div className="w-72 p-2 flex gap-2">
         {genderOptions.map((el, index) => (

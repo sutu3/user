@@ -14,7 +14,6 @@ const Index = () => {
   const state = useSelector(StateCard);
   const product = useSelector(Productinfor);
   const card = useSelector(Cart);
-  console.log(card);
   const [selectedColors, setSelectedColors] = useState({});
   const [selectedSizes, setSelectedSizes] = useState({});
   useEffect(() => {
@@ -83,7 +82,6 @@ const Index = () => {
                       : [];
                     if (el3.variants[0].variants_id === el.idvariant) {
                       const availableSizes = getAvailableSizes(el, el1);
-                      console.log(el.idvariant)
                       return (
                         <div
                           key={`${productIndex}-${sizeIndex}-${colorIndex}`}
@@ -135,7 +133,6 @@ const Index = () => {
                             <div className="flex flex-row bg-slate-50 rounded-full">
                               <button
                                 onClick={() => {
-                                  console.log(el.account_id);
                                   if (el.quantity > 1) {
                                     dispatch(
                                       UpdateQuantity({

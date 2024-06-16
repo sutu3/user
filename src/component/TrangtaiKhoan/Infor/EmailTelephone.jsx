@@ -1,40 +1,23 @@
 //import React from 'react'
 
-const EmailTelephone = ({ sdt, email,change,infor }) => {
+const EmailTelephone = ({  value,change,infor,name }) => {
   return (
-    <div className="w-full flex gap-2 h-28 flex-col ml-10">
+    <div className="w-52 flex gap-2 h-14 flex-col">
       <div className="w-full flex border-solid relative">
-        <div className="w-20 h-full flex items-center absolute top-5 left-2 z-20">Email: </div>
+        <div className="w-20 h-full flex items-center absolute -top-2 bg-[#fffefe] font-serif font-bold z-20">{name}</div>
         <input
         onChange={(e)=>{
           change({
             ...infor,
-              email: e.target.value,
+             [name === "Email" ? email :name==="Name"?username:name==="Pass"?password: phoneNumber]: e.target.value,
           })
-          console.log(email);
+          console.log(value);
         }}
-        disabled={true}
-          value={email}
+        disabled={name==="Email"?true:false}
+          value={value}
           placeholder="Enter Email"
-          className="absolute pl-16 w-[250px] border-solid border-black border-2 p-2 rounded-lg"
-          type="email"
-          name=""
-          id=""
-        />
-      </div>
-      <div className="w-full flex border-solid relative translate-y-10">
-        <div className="w-20 h-full flex items-center absolute top-5 left-2 z-20">SĐT: </div>
-        <input
-        onChange={(e)=>{
-          change({
-            ...infor,
-               phoneNumber: e.target.value,
-          })
-        }}
-          value={sdt}
-          placeholder="Enter Email"
-          className="absolute pl-16 w-[250px] border-solid border-gray-200 border-2 p-2 rounded-lg"
-          type="email"
+          className="absolute pl-8 w-[300px] bg-slate-200 border-solid border-slate-500 border-2 p-2 rounded-md"
+          type={name==='Email'?"email":"text"}
           name=""
           id=""
         />

@@ -1,15 +1,11 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import AccountSlice, { UpdateInforAccount } from "../redux/AccountSlice.js";
-import { User, Statedisplay } from "../redux/selector";
-import Ranger from "./Infor/Ranger";
-import Ranger1 from "./Infor/Ranger1";
-import EmailTelephone from "./Infor/EmailTelephone";
-import Gender from "./Infor/Gender";
-import Date from "./Infor/Date";
+import { User, Statedisplay,Cart } from "../redux/selector";
+
 
 const Infor = () => {
   const user = useSelector(User);
+  const CartList=useSelector(Cart)
   const statedisplay = useSelector(Statedisplay);
   const [infor1, setinfor1] = useState(user);
   const [showPassword, setShowPassword] = useState(false);
@@ -17,80 +13,6 @@ const Infor = () => {
   const dispatch = useDispatch();
   return (
     <div className="w-full relative">
-      {/* <div className=" w-3/4">
-        <div className="flex flex-col gap-2">
-          <h3 className="p-3 uppercase text-3xl font-sans">Tài Khoản</h3>
-          <div className="flex text-2xl gap-6">
-            <span className="font-bold text-gray-300 font-mono">
-              Tên Tài Khoản:{" "}
-            </span>
-            <div>{infor1.username}</div>
-          </div>
-          <div className="flex text-2xl gap-6">
-            <span className="font-bold text-gray-300 font-mono">
-              Mật Khẩu:{" "}
-            </span>
-            <div className="flex gap-5">
-              <div className="flex items-center">
-                {showPassword
-                  ? infor1.password
-                  : "*".repeat(infor1.password.length)}
-              </div>
-              <button
-                className="bg-white h-10 w-20 text-sm border-black border-solid bodder-2"
-                onClick={() => {
-                  setShowPassword(!showPassword);
-                }}
-              >
-                {showPassword ? "Hide" : "Show"}
-              </button>
-            </div>
-          </div>
-        </div>
-        <div className="flex flex-col gap-2">
-          <h3 className="p-3 uppercase text-3xl font-sans">Người dùng</h3>
-          <div className="flex text-xl gap-6">
-            <span className="font-bold text-gray-300 font-mono">
-              Chiều Cao:{" "}
-            </span>
-            <div>{infor1.height} cm</div>
-          </div>
-          <div className="flex text-xl gap-6">
-            <span className="font-bold text-gray-300 font-mono">
-              Cân Nặng:{" "}
-            </span>
-            <div>{infor1.weight} Kg</div>
-          </div>
-          <div className="flex text-xl gap-6">
-            <span className="font-bold text-gray-300 font-mono">Email: </span>
-            <div>{infor1.email}</div>
-          </div>
-          <div className="flex text-xl gap-6">
-            <span className="font-bold text-gray-300 font-mono">SĐT: </span>
-            <div>{infor1.phoneNumber}</div>
-          </div>
-          <div className="flex text-xl gap-6">
-            <span className="font-bold text-gray-300 font-mono">
-              Giới Tính:{" "}
-            </span>
-            <div>{infor1.gender}</div>
-          </div>
-          <div className="flex text-xl gap-6">
-            <span className="font-bold text-gray-300 font-mono">
-              Ngày Sinh:{" "}
-            </span>
-            <div>{infor1.dayOfBirth}</div>
-          </div>
-        </div>
-        <button
-          onClick={() => {
-            dispatch(AccountSlice.actions.changeState(!statedisplay));
-          }}
-          className="bg-white h-10 flex justify-center items-center"
-        >
-          Cập Nhập
-        </button>
-      </div> */}
       <div className="flex flex-col gap-6">
         <div className="w-full gap-10 h-fit rounded-md flex flex-row">
           <div className="p-5 w-[350px] bg-[#f2f2f2] shadow-x rounded-lg">
@@ -155,7 +77,7 @@ const Infor = () => {
               <div
               className="flex justify-center items-center rounded-full w-10 h-10 bg-black text-white  "
               
-              >  1 </div>{" "}
+              >  {CartList?CartList[0].product.length:0} </div>{" "}
               Sản phẩm trong giỏ hàng
             </div>
             <div className="text-sm text-blue-400 font-mono pl-12">Hãy mở rộng giỏ hàng</div>

@@ -380,7 +380,7 @@ export const UpdateQuantity = createAsyncThunk(
     );
     const data = await res.json();
     console.log(data1);
-    return data1;
+    return {...data1, quantity: data1.quantity+1};
   }
 );
 export const CheckAndAddtoCart = () => {
@@ -388,56 +388,66 @@ export const CheckAndAddtoCart = () => {
     if (getState().cart.Product.length !== 0) {
       const products = getState().cart.Product;
       const promises = products.map(async (el) => {
-        let idItem;
-        if (getState().cart.Cart.length !== 0) {
-          const index = getState().cart.Cart[0].product.findIndex((el1) => {
-            if (el.variants_id === el1.idvariant) {
-              idItem = el1.order_items_id;
-              return true;
-            }
-            return false;
-          });
-          console.log(index);
-          if (index === -1) {
-            await dispatch(
-              CheckCart({
-                version_product_id: el.productversion,
-                variants_id: el.variants_id,
-                product_name: el.productversionName,
-                product_price: el.price,
-                quantity: 1,
-              })
-            );
-          } else {
-            console.log(getState().cart.Cart[0].product[index].updatedAt)
-            console.log(index)
-            const date =
-              new Date(
-                getState().cart.Cart[0].product[index].updatedAt
-              ).getTime() / 1000;
-              const date1 =
-              new Date(
-                el.createTime
-              ).getTime() / 1000;
-            if (date > date1) {
-              const productIndex = getState().product.productInfor.findIndex(
-                (el2) =>
-                  el2.productVersion.some(
-                    (el3) => el3.productVersion_id === el.productversion
-                  )
-              );
-              await dispatch(
-                UpdateElement({
-                  account_id: getState().acount.infor.account_id,
-                  order_items_id: index,
-                  size: el.size,
-                  color: el.color,
-                  index: productIndex,
-                })
-              );
-            }
-          }
-        } else {
+  let idItem;
+  const state = getState();
+  if (state.cart.Cart.length !== 0) {
+    const index = state.cart.Cart[0].product.findIndex((el1) => {
+      console.log(el)
+      console.log(el1)
+      if (el.variants_id === el1.idvariant) {
+        idItem = el1.order_items_id;
+        return true;
+      }
+      return false;
+    });
+
+    console.log(index);
+
+    if (index === -1) {
+      console.log({
+          version_product_id: el.productversion,
+          variants_id: el.variants_id,
+          product_name: el.productversionName,
+          product_price: el.price,
+          quantity: 1,
+        })
+      await dispatch(
+        CheckCart({
+          version_product_id: el.productversion,
+          variants_id: el.variants_id,
+          product_name: el.productversionName,
+          product_price: el.price,
+          quantity: 1,
+        })
+      );
+    } else {
+      console.log(index);
+
+      const date = new Date(state.cart.Cart[0].product[index].updatedAt).getTime() / 1000;
+      const date1 = new Date(el.createTime).getTime() / 1000;
+      console.log(date)
+      console.log(date1)
+      if (date < date1) {
+        const productIndex = state.product.productInfor.findIndex(
+          (el2) =>
+            el2.productVersion.some(
+              (el3) => el3.productVersion_id === el.productversion
+            )
+        );
+
+        await dispatch(
+          UpdateQuantity({
+            account_id: state.acount.infor.account_id,
+            order_items_id: idItem, // Cần dùng idItem thay vì index
+            quantity:el.quantity-1,
+            // size: el.size,
+            // color: el.color,
+            // index: productIndex,
+          })
+        );
+      }
+    }
+  } else {
            const check =await dispatch(
             AddCart({
               variants_id:el.variants_id,
@@ -461,12 +471,12 @@ export const CheckAndAddtoCart = () => {
 
       // Đợi tất cả các promises hoàn thành
       await Promise.all(promises);
-      dispatch(
-        updateCart({
-          account_id: getState().acount.infor.account_id,
-          product: getState().cart.Product,
-        })
-      );
+      // dispatch(
+      //   updateCart({
+      //     account_id: getState().acount.infor.account_id,
+      //     product: getState().cart.Product,
+      //   })
+      // );
     }
   };
 };

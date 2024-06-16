@@ -58,15 +58,15 @@ const arr1 = date ? date.split("-") : ["0000", "00", "00"];
 
   return (
     <div>
-      <div className="flex gap-4 m-5 w-full ml-12">
+      <div className="flex gap-4 m-2 w-full ml-2">
         {arr.map((el, index) => (
           <div key={index} className="relative">
-            <span className="absolute bg-white text-sm uppercase text-[10px] -top-2 -left-3">
+            <span className="absolute bg-[#f2f2f2] text-sm uppercase text-[10px] -top-4 -left-3 rounded-md">
               {el.value}
             </span>
             <input
               className="
-          p-2 border-2 border-solid border-gray-300 w-20 text-center rounded-md"
+          p-2 border-2 border-solid border-gray-300 w-20 text-center rounded-md bg-slate-200"
               key={index}
               defaultValue={arr1[index]}
               placeholder={el.value}

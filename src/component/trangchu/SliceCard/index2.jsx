@@ -40,7 +40,6 @@ const Index = () => {
       )
       .map((sizeObj) => sizeObj.size);
   };
-console.log(card)
   return (
     <div
       className={`bg-white border-b-indigo-100 w-[100%] h-96 top-24 transition-transform duration-500 ease-out sticky rounded-lg gap-5 flex-col transform ${
@@ -139,8 +138,7 @@ console.log(card)
                             </span>
                             <button
                               onClick={() => {
-                                 console.log(el.quantity)
-                                dispatch(CheckProduct({
+                                 dispatch(CheckProduct({
                                     variants_id: el.variants_id,
                                     quantity: el.quantity + 1,
                                 }));
