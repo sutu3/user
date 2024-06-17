@@ -183,7 +183,6 @@ export const { addCart, updateCart } = CartSlice.actions;
 export const FindCart = createAsyncThunk(
   "cart/AddCart",
   async (data1, thunkAPI) => {
-    console.log(1);
     const res = await fetch(
       `${url}ordersigleitem?idOrderItem=${data1.idOrderItem}&idVariant=${data1.idVariant}`,
       {
@@ -194,7 +193,6 @@ export const FindCart = createAsyncThunk(
       }
     );
     const data = await res.json();
-    console.log(data1.account_id);
     const updatecart = { ...data, account_id: data1.account_id };
     thunkAPI.dispatch(CheckCartid(updatecart));
     return updatecart;
@@ -287,7 +285,6 @@ export const CheckElement = (data) => {
         );
       }
     } else {
-      console.log(data);
       if (
         getState().cart.change2[data.data.cardIndex].Size != "" &&
         getState().cart.change2[data.data.cardIndex].Color != ""
@@ -379,7 +376,6 @@ export const UpdateQuantity = createAsyncThunk(
       }
     );
     const data = await res.json();
-    console.log(data1);
     return {...data1, quantity: data1.quantity+1};
   }
 );
@@ -392,8 +388,6 @@ export const CheckAndAddtoCart = () => {
   const state = getState();
   if (state.cart.Cart.length !== 0) {
     const index = state.cart.Cart[0].product.findIndex((el1) => {
-      console.log(el)
-      console.log(el1)
       if (el.variants_id === el1.idvariant) {
         idItem = el1.order_items_id;
         return true;
@@ -401,16 +395,8 @@ export const CheckAndAddtoCart = () => {
       return false;
     });
 
-    console.log(index);
 
     if (index === -1) {
-      console.log({
-          version_product_id: el.productversion,
-          variants_id: el.variants_id,
-          product_name: el.productversionName,
-          product_price: el.price,
-          quantity: 1,
-        })
       await dispatch(
         CheckCart({
           version_product_id: el.productversion,
@@ -421,12 +407,8 @@ export const CheckAndAddtoCart = () => {
         })
       );
     } else {
-      console.log(index);
-
       const date = new Date(state.cart.Cart[0].product[index].updatedAt).getTime() / 1000;
       const date1 = new Date(el.createTime).getTime() / 1000;
-      console.log(date)
-      console.log(date1)
       if (date < date1) {
         const productIndex = state.product.productInfor.findIndex(
           (el2) =>
@@ -458,7 +440,6 @@ export const CheckAndAddtoCart = () => {
               version_product_id: el.productversion,
             })
           );
-          console.log(check)
           await dispatch(
             FindCart({
               account_id: getState().acount.infor.account_id,

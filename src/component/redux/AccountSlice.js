@@ -32,6 +32,13 @@ const AcountSLice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+    .addCase(CreateAddress.fulfilled,(state,action) => {
+      state.infor = {
+    ...state.infor,
+    addresses: [...state.infor.addresses, action.payload]
+  };
+      localStorage.setItem("account", JSON.stringify(state.infor));
+    })
       .addCase(CheckSignupEmail.fulfilled, (state, action) => {
         state.emailcheck = false;
         state.emailcheck = action.payload;
@@ -90,12 +97,9 @@ export const SendAccount = (Account) => {
       const passResponse = await dispatch(CheckPassAccount(Account));
       if (getState().acount.check.password) {
         await dispatch(SendAccountInfor(passResponse.payload));
-        console.log(getState().acount.infor)
         const orders = getState().acount.infor.orders;
     const lastOrder = orders[orders.length - 1];
     for (const el of lastOrder.orderItems) {
-      console.log(el)
-      console.log(getState().acount.infor.account_id)
       await dispatch(
         FindCart({
           account_id: getState().acount.infor.account_id,
@@ -169,6 +173,19 @@ export const CheckEmailAccount = createAsyncThunk(
     return data;
   }
 );
+export const CreateAddress=createAsyncThunk("acount/CreateAddress",
+  async(payload)=>{
+    const res=await fetch(`${url}/createAddress`,{
+      method:"POST",
+      headers:{
+        "Content-Type":"application/json"
+      },
+      body:JSON.stringify(payload)
+    })
+    const data=await res.json();
+    return data;
+  }
+)
 export const CreateAcount = createAsyncThunk(
   "acount/CreateAcount",
   async (account) => {

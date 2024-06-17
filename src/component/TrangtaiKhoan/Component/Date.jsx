@@ -85,7 +85,7 @@ const arr1 = date ? date.split("-") : ["0000", "00", "00"];
           onClick={() => {
             change({
               ...infor,
-              dayOfBirth: `${monthRef.current.value}-${dayRef.current.value}-${yearRef.current.value}`,
+              dayOfBirth: `${yearRef.current.value}-${monthRef.current.value}-${dayRef.current.value}`,
             });
           }}
         >

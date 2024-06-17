@@ -74,7 +74,7 @@ const Index = () => {
             items-center justify-center absolute top-[60%] 
             left-[60%] font-bold text-white bg-blue-400"
             >
-              {CartList?CartList[0].product.length:0}
+              {CartList[0]?CartList[0].product.length:0}
             </span>
             
           </li>

@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { StateCard, Cart, Productinfor, User } from "../../redux/selector";
+import { Link } from "react-router-dom";
 import {
   UpdateQuantity,
   DeleteCartElement,
@@ -49,12 +50,15 @@ const Index = () => {
         !state ? "-translate-y-full -z-30" : "z-10"
       }`}
     >
+    <Link to="/GioHang">
       <div
         className="text-end p-3  hover:text-blue-400 
     transition duration-300 ease-in-out"
       >
         View All>>
       </div>
+    </Link>
+      
       <div className="h-60 overflow-y-scroll">
         {card[0]&&card[0].product.map((el, cardIndex) => (
           <div key={cardIndex} className="flex flex-row h-28 m-2 gap-3">

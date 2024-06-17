@@ -15,6 +15,7 @@ import State from "./component/TrangtaiKhoan/State.jsx";
 import Cartpage from "./component/TrangtaiKhoan/Cartpage.jsx";
 import HomeLogin from "./component/trangchu/Login/index.jsx";
 import Register from "./component/trangchu/Login/register.jsx";
+import TrangGioHang from "./component/Tranggiohang/index"
 ReactDOM.createRoot(document.getElementById("root")).render(
   <Provider store={store}>
     <React.StrictMode>
@@ -22,6 +23,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <App />
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/GioHang" element={<TrangGioHang />} />
           <Route path="/DangNhap" element={<Navigate to="signin" />} />
           <Route path="/DangNhap" element={<HomeLogin />}>
             <Route path="signin" element={<Login />} />
