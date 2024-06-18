@@ -12,7 +12,7 @@ const Home = () => {
     <div className='w-full absolute top-36'>
       <Header />
       <Slice1 />
-      <Slice2 />
+      {/* <Slice2 /> */}
       <Slice3 />
       
         

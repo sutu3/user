@@ -8,7 +8,7 @@ const Slice3 = () => {
   const Product=useSelector(Productinfor)
   console.log(Product)
   return (
-    <div className={`w-[70%] flex flex-wrap  m-auto gap-5 transition-transform duration-700 ease-in-out  transform ${!state?"translate-x-0":"-translate-x-56"}`}>
+    <div className={`w-[70%] flex flex-wrap  m-auto gap-5 transition-transform duration-700 ease-in-out  transform -translate-y-28 ${!state?"translate-x-0":"-translate-x-56"}`}>
       {
         Product.map((el,index) => (<Card
           product1={el}

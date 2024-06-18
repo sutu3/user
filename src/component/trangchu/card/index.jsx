@@ -58,7 +58,7 @@ const Index = ({product1}) => {
               backgroundColor: el1.color,
               outline: color === el1.color ? "2px solid #3357FF" : "none",
             }}
-        className="w-20 h-4 rounded-lg hover:outline outline-offset-1 outline-blue-200 hover:duration-200"
+        className="w-10 h-4 rounded-lg hover:outline outline-offset-1 outline-blue-200 hover:duration-200"
         ></li>})})}
       </ul>
         <p className="uppercase font-bold m-3 mb-0">{product1.name}</p>

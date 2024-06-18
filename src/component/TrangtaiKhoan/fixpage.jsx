@@ -33,7 +33,7 @@ const Fixpage = () => {
       }}
       className="
                grid grid-rows-2 grid-flow-col gap-5 bg-white w-[700px] opacity-100 
-              z-40 h-fit rounded-xl relative"
+              z-50 h-fit rounded-xl relative"
     >
       <div className="w-[650px] bg-[#f2f2f2] rounded-md  h-[260px]">
         <div className="w-full flex flex-row justify-between p-2">

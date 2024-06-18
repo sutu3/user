@@ -28,7 +28,7 @@ const Index = () => {
   const card1 = useSelector(Product);
   const check = useSelector(CheckLogin);
   const [display, setdisplay] = useState(false);
-  const [display1, setdisplay1] = useState(false);
+  const [display1, setdisplay1] = useState(true);
   const [infor, setinfor] = useState(check.username?{
     name: user.username,
     email: user.email,
@@ -48,7 +48,7 @@ const Index = () => {
   });
   const card = useSelector(Cart);
   return (
-    <div className="gap-5 translate-y-20 flex justify-center items-center h-[600px] w-full p-5">
+    <div className="z-50 gap-5 translate-y-20 flex justify-center items-center h-[600px] w-full p-5">
       <div className="bg-[#f3fdff] shadow-lg w-[60%] h-full rounded-lg p-5">
         <div className="font-bold font-mono text-3xl">Shopping card</div>
         <div className="flex flex-row w-full border-b-2 border-gray-300 justify-around mt-10">
@@ -76,7 +76,7 @@ const Index = () => {
           </div>
         </div>
       </div>
-      <div className="bg-[#0d1c45] w-[30%] shadow-indigo-100 shadow-lg h-full p-10 rounded-lg text-white ">
+      <div className="bg-[#0d1c45] z-50 w-[30%] shadow-indigo-100 shadow-lg h-full p-10 rounded-lg text-white ">
         {check.username ? (
           <div className={`${!display ? "flex" : "hidden"} relative w-full`}>
             <div className="h-[365px] overflow-y-scroll absolute">
