@@ -24,11 +24,6 @@ const arr = [
     url: "https://png.pngtree.com/png-clipart/20190924/original/pngtree-fast-delivery-icon-for-your-project-png-image_4857125.jpg",
     value: "state",
   },
-  {
-    name: "Giỏ hàng",
-    url: "https://png.pngtree.com/png-vector/20190703/ourmid/pngtree-edit-icon-in-trendy-style-isolated-background-png-image_1536522.jpg",
-    value: "cart",
-  },
 ];
 
 const home = () => {
@@ -64,18 +59,28 @@ const home = () => {
               </Link>
             </li>
           ))}
-          <Link
+          <div
               className="ml- z-20 w-[80%] m-auto hover:text-[#6c73f1] justify-between  bg-[#283339] list-none h-14 flex items-center p-2 rounded-lg text-white "
             onClick={()=>{
-              localStorage.removeItem("account")
-              localStorage.removeItem("cart")
-            to="/"
+              navigate('/GioHang')
             }}>
               <span
                 className="bg-no-repeat bg-center bg-cover w-9 h-[90%] rounded-lg"
                 style={{ backgroundImage: `url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRs2JSkFXfV6EF80mmUX7Y7WR-7DOBMFz4cRg&s)` }}
               ></span>
-            Đăng Xuất ></Link>
+            Giỏ Hàng ></div>
+          <div
+              className="ml- z-20 w-[80%] m-auto hover:text-[#6c73f1] justify-between  bg-[#283339] list-none h-14 flex items-center p-2 rounded-lg text-white "
+            onClick={()=>{
+              localStorage.removeItem("account")
+              localStorage.removeItem("cart")
+            navigate('/')
+            }}>
+              <span
+                className="bg-no-repeat bg-center bg-cover w-9 h-[90%] rounded-lg"
+                style={{ backgroundImage: `url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRs2JSkFXfV6EF80mmUX7Y7WR-7DOBMFz4cRg&s)` }}
+              ></span>
+            Đăng Xuất ></div>
         </nav>
         <div className="w-full h-fit m-2 rounded-md">
           <Outlet />

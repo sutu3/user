@@ -67,7 +67,7 @@ const Index = () => {
             }}
             key={"4"}
             className="bg-center bg-no-repeat bg-cover h-10 w-10 relative translate-y-5"
-            style={{ backgroundImage: 'url("src/assets/Image/iconCart.png")' }}
+            style={{ backgroundImage: 'url("/src/assets/Image/iconCart.png")' }}
           >
             <span
               className="w-5 h-5 rounded-full flex 

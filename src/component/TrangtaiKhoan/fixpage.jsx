@@ -3,7 +3,7 @@ import { User } from "../redux/selector";
 import AccountSlice, {
   UpdateInforAccount,
   CreateAddress,
-} from "../redux/AccountSlice.js";
+} from "../redux/AccountSlice.jsx";
 import { useSelector, useDispatch } from "react-redux";
 import Ranger from "./Component/Ranger.jsx";
 import Ranger1 from "./Component/Ranger1.jsx";

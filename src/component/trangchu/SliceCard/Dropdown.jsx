@@ -65,7 +65,7 @@ const Dropdown = ({account_id,OrderItem,color,size,index, options, selectedOptio
   }, [options, selectedSizes, cardIndex]);
 
   return (
-    <div ref={dropdownRef} className="relative w-full">
+    <div ref={dropdownRef} className="relative w-28">
       <button
         className="w-full bg-white border border-gray-300 rounded-2xl p-2"
         onClick={handleToggle}

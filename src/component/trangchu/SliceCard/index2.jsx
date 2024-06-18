@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { StateCard, Product, Productinfor } from "../../redux/selector";
+import { Link } from "react-router-dom";
 import CartSlice, { CheckProduct,UpdateQuantity,DeleteCartElement } from "../../redux/CartSlice";
 import Dropdown from "./Dropdown2";
 
@@ -46,8 +47,14 @@ const Index = () => {
         !state ? "-translate-y-full -z-30" : "z-10" 
       }`}
     >
-        <div className="text-end p-3 hover:text-blue-400 
-    transition duration-300 ease-in-out">View All>></div>
+        <Link to="/GioHang">
+      <div
+        className="text-end p-3  hover:text-blue-400 
+    transition duration-300 ease-in-out"
+      >
+        View All>>
+      </div>
+    </Link>
       {card.map((el, cardIndex) => (
         <div key={cardIndex} className="flex flex-row h-28 m-2 gap-3">
           <input type="checkbox" name="" id="" />

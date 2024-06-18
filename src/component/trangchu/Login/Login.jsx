@@ -2,7 +2,7 @@ import {  useEffect,useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   SendAccount
-} from "../../redux/AccountSlice.js";
+} from "../../redux/AccountSlice.jsx";
 import { CheckLogin, StateLogin } from "../../redux/selector";
 import { useNavigate  } from "react-router-dom";
 const Login = () => {

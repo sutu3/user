@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { User, Statedisplay,Cart } from "../redux/selector";
+import { User, Statedisplay,Cart,CheckLogin } from "../redux/selector";
 
 
 const Infor = () => {
   const user = useSelector(User);
   const CartList=useSelector(Cart)
+  const check=useSelector(CheckLogin)
   const statedisplay = useSelector(Statedisplay);
   const [infor1, setinfor1] = useState(user);
   const [showPassword, setShowPassword] = useState(false);
@@ -94,7 +95,7 @@ const Infor = () => {
               User Address
             </div>
             <div className="w-full gap-5 h-[230px] overflow-x-scroll flex flex-row flex-wrap">
-            {user.addresses.map((el)=>
+            {(check.username&&user.addresses!=null)&& user.addresses.map((el)=>
             <div className="bg-white w-[250px] p-5 rounded-lg">
               <span className="pb-2 text-[#99999f] text-sm">{el.title}</span>
               <div className="font-mono w-full">{el.state},{el.city},{el.country}</div>
