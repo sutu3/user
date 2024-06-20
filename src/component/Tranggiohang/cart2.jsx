@@ -3,7 +3,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { Product, Productinfor } from "../redux/selector";
 import { CheckProduct } from "../redux/CartSlice";
 import Dropdown from "../trangchu/SliceCard/Dropdown2";
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 const Index = () => {
   const dispatch = useDispatch();
   const product = useSelector(Productinfor);
@@ -45,7 +46,21 @@ const Index = () => {
           key={cardIndex}
           className="flex flex-row h-28 m-2 gap-3 border-b-2 border-gray-300 pb-4 pt-4"
         >
-          <input type="checkbox" name="" id="" />
+          <FontAwesomeIcon
+            onClick={() => {
+              dispatch(
+                dispatch(
+                  CheckProduct({
+                    variants_id: el.variants_id,
+                    quantity: el.quantity - 1,
+                  })
+                )
+              );
+            }}
+            icon={faTrash}
+            className=" m-auto"
+            style={{ color: "#ff5252" }}
+          />
           <div className="w-44 flex flex-row">
             <img
               className="w-20 h-full rounded-md"
@@ -118,12 +133,15 @@ const Index = () => {
                             <div className="flex flex-row border-2 border-gray-200 bg-slate-50 rounded-full h-10">
                               <button
                                 onClick={() => {
+                                  if(el.quantity>1)
+                                  {
                                   dispatch(
                                     CheckProduct({
                                       variants_id: el.variants_id,
                                       quantity: el.quantity - 1,
                                     })
                                   );
+                                  }
                                 }}
                                 className="bg-transparent rounded-s-2xl h-10 flex items-center justify-center px-4"
                               >

@@ -30,7 +30,7 @@ const Fixpage = () => {
       <div className="w-full bg-white  shadow-inner shadow-slate-300 h-[600px] rounded-lg p-3 ">
       <div className="flex flex-col gap-10 h-[600px]">
       <div className="flex flex-row h-[100px]">
-        <div className="w-[1000px] pl-4 text-xl font-bold font-mono">Basic Info</div>
+        <div className="w-[1000px] pl-4 text-xl font-bold font-mono">Thông tin cá nhân - Cập nhật ngay!</div>
         <div className=" h-full rounded-3xl w-full justify-around flex flex-row shadow-inner shadow-slate-300 ">
         <div className="h-full w-[300px] rounded-lg flex flex-row gap-5">
           <div className="mt-1 mb-1 h-16 w-16 m-auto ml-4 mr-0 rounded-full overflow-hidden flex justify-center items-center">
@@ -50,6 +50,7 @@ const Fixpage = () => {
         <div className="flex flex-row justify-between w-[900px] m-auto mb-0">
           <div>
             <Input
+            width={96}
               name="username"
               change={setinfor1}
               infor1={infor1}
@@ -60,6 +61,7 @@ const Fixpage = () => {
           </div>
           <div>
             <Input
+            width={96}
               name="password"
               change={setinfor1}
               infor1={infor1}
@@ -82,6 +84,7 @@ const Fixpage = () => {
         <div className="flex flex-row justify-between w-[900px] m-auto mb-0">
           <div>
             <Input
+            width={96}
               name="phone"
               change={setinfor1}
               infor1={infor1}
@@ -92,6 +95,7 @@ const Fixpage = () => {
           </div>
           <div>
             <Input
+            width={96}
               name="email"
               change={setinfor1}
               infor1={infor1}
@@ -105,6 +109,7 @@ const Fixpage = () => {
         <div className="flex flex-row justify-between w-[900px] m-auto">
           <div>
             <Input
+            width={96}
               name="weight"
               change={setinfor1}
               infor1={infor1}
@@ -115,6 +120,7 @@ const Fixpage = () => {
           </div>
           <div>
             <Input
+            width={96}
               name="height"
               change={setinfor1}
               infor1={infor1}

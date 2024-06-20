@@ -1,6 +1,7 @@
 
 import { useEffect } from 'react'
 import '../App.css'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Navbar from './component/trangchu/Navbar/index'
 import { useDispatch } from 'react-redux'
 import {FetchProduct} from './component/redux/ProductSlice'

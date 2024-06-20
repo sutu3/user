@@ -3,6 +3,7 @@ import { useState } from "react"
 import {useDispatch,useSelector} from 'react-redux'
 import {CheckCart} from "../../redux/CartSlice"
 import { User } from "../../redux/selector"
+import Size from "./Size"
 const product={name:'Áo thun nam Cotton Compact'
 ,price:'299.000đ',size:['S','M','L','XL','2XL']
 ,url1:'https://img.lazcdn.com/g/p/483dc4558e79095cd7e3d9ea3d67cb24.jpg_720x720q80.jpg'
@@ -48,21 +49,9 @@ const Index = ({product1}) => {
       </ul>
       </div>
       <div className="grid-rows-3 text-gray-900 p-0 text-left" >
-      <ul className="w-36 flex flex-row gap-2 m-4 mb-0">
-        {product1.sizes.map((el)=>{return el.colors.map((el1,index1)=>{return <li
-        onClick={()=>{
-          setcolor(el1.color)
-        }}
-         key={index1}
-        style={{
-              backgroundColor: el1.color,
-              outline: color === el1.color ? "2px solid #3357FF" : "none",
-            }}
-        className="w-10 h-4 rounded-lg hover:outline outline-offset-1 outline-blue-200 hover:duration-200"
-        ></li>})})}
-      </ul>
+      <Size product1={product1} setcolor={setcolor} color={color}/>
         <p className="uppercase font-bold m-3 mb-0">{product1.name}</p>
-        <span className="underline font-xs m-3 ">{product1.productVersion[0].price}</span>
+        <span className="font-xs m-3 ">{product1.productVersion[0].price}</span>
       </div>
     </div>
   )

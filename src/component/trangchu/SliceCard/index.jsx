@@ -2,8 +2,10 @@ import { useState, useEffect, useMemo } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { StateCard, Cart, Productinfor, User } from "../../redux/selector";
 import { Link } from "react-router-dom";
-import CartSlice,{
-  
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
+
+import CartSlice, {
   UpdateQuantity,
   DeleteCartElement,
   DeleteAll,
@@ -51,28 +53,40 @@ const Index = () => {
         !state ? "-translate-y-full -z-30" : "z-10"
       }`}
     >
-      <Link to="/GioHang" onClick={()=>{
-         dispatch(CartSlice.actions.changeState(false));
-        }}>
-      <div
-        className="text-end p-3  hover:text-blue-400 
-    transition duration-300 ease-in-out"
+      <Link
+        to="/GioHang"
+        onClick={() => {
+          dispatch(CartSlice.actions.changeState(false));
+        }}
       >
-        View All>>
-      </div>
-    </Link>
+        <div
+          className="text-end p-3  hover:text-blue-400 
+    transition duration-300 ease-in-out"
+        >
+          View All>>
+        </div>
+      </Link>
 
-      <div className="h-60 overflow-y-scroll">
+      <div className="h-60 overflow-y-scroll overflow-x-hidden">
         {card[0] &&
           card[0].product.map((el, cardIndex) => (
             <div key={cardIndex} className="flex flex-row h-28 m-2 gap-3">
-              <input type="checkbox" name="" id="" />
+              <FontAwesomeIcon
+                onClick={() => {
+                  dispatch(
+                    DeleteCartElement({
+                      account_id: el.account_id,
+                      order_items_id: el.order_items_id,
+                    })
+                  );
+                }}
+                icon={faTrash}
+                className=" m-auto"
+                style={{ color: "#ff5252" }}
+              />
               <img
                 className="w-20 h-full rounded-md"
-                src={
-                  //el.product[0].images[0].image_urlString
-                  "https://tiemchupanh.com/wp-content/uploads/2020/10/887c7c43527f3d7d76a6267baff22df9.jpg"
-                }
+                src={el.variants.images[0].image_urlString}
                 alt=""
               />
               <div>
@@ -152,12 +166,6 @@ const Index = () => {
                                         })
                                       );
                                     } else {
-                                      dispatch(
-                                        DeleteCartElement({
-                                          account_id: el.account_id,
-                                          order_items_id: el.order_items_id,
-                                        })
-                                      );
                                     }
                                   }}
                                   className="bg-transparent rounded-s-2xl h-10 flex items-center justify-center px-4"
@@ -173,7 +181,7 @@ const Index = () => {
                                       UpdateQuantity({
                                         account_id: el.account_id,
                                         order_items_id: el.order_items_id,
-                                        quantity: el.quantity ,
+                                        quantity: el.quantity,
                                       })
                                     );
                                   }}
@@ -200,11 +208,17 @@ const Index = () => {
 
       {card.length !== 0 ? (
         <div className="w-full flex gap-3 justify-center mt-10">
-          <Link className="w-3/4" onClick={()=>{
-            dispatch(CartSlice.actions.changeState(false));
-          }} to="/GioHang"><button className="bg-slate-100 w-full p-2 transition duration-300 ease-in-out hover:text-slate-200 hover:bg-slate-300">
-            Thanh Toán
-          </button></Link>
+          <Link
+            className="w-3/4"
+            onClick={() => {
+              dispatch(CartSlice.actions.changeState(false));
+            }}
+            to="/GioHang"
+          >
+            <button className="bg-slate-100 w-full p-2 transition duration-300 ease-in-out hover:text-slate-200 hover:bg-slate-300">
+              Thanh Toán
+            </button>
+          </Link>
           <button
             onClick={() => {
               dispatch(

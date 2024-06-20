@@ -44,20 +44,35 @@ const Index = () => {
       -translate-x-36 w-[70%] h-20 
       hidden justify-center items-center sm:flex relative"
       >
-        <ul className="flex flex-row items-center justify-center gap-2 h-3/5 absolute left-[0%]  ">
+        <ul className="flex flex-row items-center justify-center gap-2 h-[40px] absolute left-[0%]  ">
           <li
             key={"1"}
             className="h-full flex items-center justify-center p-1 
-            font-bold rounded-sm hover:bg-slate-400 hover:animate-pulse "
+            font-bold rounded-sm hover:bg-slate-200 hover:animate-pulse "
           >
-            <Link to="/">Trang Chủ</Link>
+            <Link to="/">Home</Link>
           </li>
           <li
             key={"2"}
             className="h-full flex items-center justify-center p-1 
-            font-bold rounded-sm hover:bg-slate-400 hover:animate-pulse "
+            font-bold rounded-sm hover:bg-slate-200 hover:animate-pulse "
           >
-            Sản Phẩm
+          <Link to="/">clothes</Link>
+            
+          </li>
+          <li
+            key={"1"}
+            className="h-full flex items-center justify-center  
+            font-bold rounded-sm hover:bg-slate-200 hover:animate-pulse "
+          >
+            <Link to="/">Men clothes</Link>
+          </li>
+          <li
+            key={"2"}
+            className="h-full flex items-center justify-center p-1 
+            font-bold rounded-sm hover:bg-slate-200 hover:animate-pulse "
+          >
+          <Link to="/">Women clothes</Link>
           </li>
         </ul>
         <ul className="w-fit h-full absolute left-[60%] flex flex-row gap-5">

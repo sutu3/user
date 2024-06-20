@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import "./index.css";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Provider } from "react-redux";
 import store from "./component/redux/store.jsx";
 import { BrowserRouter, Routes, Route,Navigate } from "react-router-dom";
@@ -10,7 +11,7 @@ import Login from "./component/trangchu/Login/Login.jsx";
 import AccountHome from "./component/TrangtaiKhoan/home.jsx";
 import Infor from "./component/TrangtaiKhoan/infor.jsx";
 import Fixpage from "./component/TrangtaiKhoan/fixpage.jsx"
-import Order from "./component/TrangtaiKhoan/OrderHistory.jsx";
+import Order from "./component/TrangtaiKhoan/Address.jsx";
 import State from "./component/TrangtaiKhoan/State.jsx";
 import Cartpage from "./component/TrangtaiKhoan/Cartpage.jsx";
 import HomeLogin from "./component/trangchu/Login/index.jsx";
@@ -48,7 +49,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
             <Route path="infor" element={<Infor />} />
             <Route path="fix" element={<Fixpage />} />
             <Route path="cart" element={<Cartpage />} />
-            <Route path="order" element={<Order />} />
+            <Route path="address" element={<Order />} />
             <Route path="state" element={<State />} />
           </Route>
 
