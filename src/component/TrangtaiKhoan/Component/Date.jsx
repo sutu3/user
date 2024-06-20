@@ -2,7 +2,7 @@ import { useRef } from "react";
 
 const Date = ({ date, infor, change }) => {
   console.log(date)
-const arr1 = date ? date.split("-") : ["0000", "00", "00"];
+const arr1 = date ? date.split("-").reverse() : ["", "", ""];
   const dayRef = useRef(null);
   const monthRef = useRef(null);
   const yearRef = useRef(null);
@@ -10,6 +10,7 @@ const arr1 = date ? date.split("-") : ["0000", "00", "00"];
     {
       value: "Ngày",
       name: "dayRef",
+      placeholder:"eg. 12",
       length: "2",
       ref: dayRef,
       next: monthRef,
@@ -17,6 +18,7 @@ const arr1 = date ? date.split("-") : ["0000", "00", "00"];
     {
       value: "Tháng",
       name: "monthRef",
+      placeholder:"eg. 1",
       length: "2",
       ref: monthRef,
       next: yearRef,
@@ -24,6 +26,7 @@ const arr1 = date ? date.split("-") : ["0000", "00", "00"];
     {
       value: "Năm",
       name: "yearRef",
+      placeholder:"eg. 2003",
       length: "4",
       ref: yearRef,
       next: null,
@@ -57,19 +60,19 @@ const arr1 = date ? date.split("-") : ["0000", "00", "00"];
   };
 
   return (
-    <div>
-      <div className="flex gap-4 m-2 w-full ml-2">
+    <div className="flex flex-col">
+    <div className="p-2 pl-0  font-bold text-[13px] font-sans">
+      Birth Day
+    </div>
+      <div className="flex gap-3 m-2 mt-0 w-full ml-2">
         {arr.map((el, index) => (
           <div key={index} className="relative">
-            <span className="absolute bg-[#f2f2f2] text-sm uppercase text-[10px] -top-4 -left-3 rounded-md">
-              {el.value}
-            </span>
             <input
               className="
-          p-2 border-2 border-solid border-gray-300 w-20 text-center rounded-md bg-slate-200"
+          p-2 pl-4 border-[1.5px] border-slate-200 w-52  rounded-md bg-white"
               key={index}
               defaultValue={arr1[index]}
-              placeholder={el.value}
+              placeholder={el.placeholder}
               type="text"
               ref={el.ref}
               maxLength={el.length}
@@ -77,20 +80,18 @@ const arr1 = date ? date.split("-") : ["0000", "00", "00"];
               onKeyUp={(e) =>
                 handleKeyUp(e, index > 0 ? arr[index - 1].ref : null)
               }
+              onChange={(e)=>{
+                if(
+                  yearRef.current.value.length>3&& monthRef.current.value.length>1 && dayRef.current.value.length>1
+                )
+                {
+                  change({...infor,dayOfBirth:`${yearRef.current.value}-${monthRef.current.value}-${dayRef.current.value}`})
+                }
+               
+              }}
             />
           </div>
         ))}
-        <button
-          className="bg-white border-solid border-gray-500 border-2px rounded-md"
-          onClick={() => {
-            change({
-              ...infor,
-              dayOfBirth: `${yearRef.current.value}-${monthRef.current.value}-${dayRef.current.value}`,
-            });
-          }}
-        >
-          cap nhap
-        </button>
       </div>
     </div>
   );

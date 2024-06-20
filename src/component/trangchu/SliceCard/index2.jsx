@@ -48,7 +48,7 @@ const Index = () => {
       }`}
     >
         <Link to="/GioHang" onClick={()=>{
-          dispatch(CartSlice.actions.changeState(!state));
+          dispatch(CartSlice.actions.changeState(false));
         }}>
       <div
         className="text-end p-3  hover:text-blue-400 

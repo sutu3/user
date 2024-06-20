@@ -2,6 +2,7 @@ import {useEffect} from 'react'
 import { Link, Outlet,useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { CheckLogin } from "../redux/selector";
+import CartSlice from "../redux/CartSlice"
 import { useDispatch } from 'react-redux';
 import AccountSlice from "../redux/AccountSlice"
 const arr1 = ["Thông Tin", "Lịch Sử đơn hàng", "Trạng thái đơn hàng"];
@@ -40,20 +41,20 @@ const home = () => {
   return (
     <div className="w-full h-fit bg-[hsl(204,45%,98%)]">
       <div className="w-[100%] top-5 m-auto p-10 pt-20 flex flex-row gap-10 ">
-        <nav className="flex gap-4 flex-col w-[25%] bg-[#283339] rounded-md h-[600px]">
+        <nav className="flex gap-0 flex-col w-[25%] bg-white rounded-md h-[500px]">
           {arr.map((el, index) => (
             <li
-              className=" hover:after:block hover:after:absolute relative hover:after:content-[''] hover:after:rounded-md hover:after:z-0
+              className=" hover:after:block transition duration-150 ease-in-out hover:after:absolute relative hover:after:content-[''] hover:after:rounded-md hover:after:z-0
                 hover:after:w-full hover:after:h-full hover:after:top-0 hover:after:left-0 hover:after:transition ease-in
-                justify-between w-[80%] m-auto  list-none h-14 flex items-center p-2 rounded-lg text-white hover:after:duration-400"
+                justify-between w-[90%] m-auto hover:bg-[#ddeefb] list-none h-14 flex items-center p-2 rounded-lg text-white hover:after:duration-400"
               key={index}
             >
-              <span
+              {/* <span
                 className="bg-no-repeat bg-center bg-cover w-9 h-[90%] rounded-lg"
                 style={{ backgroundImage: `url(${el.url})` }}
-              ></span>
+              ></span> */}
               <Link
-                className="m-auto ml-2 text-white z-20 w-full  flex justify-between font-serif items-center"
+                className="m-auto ml-2 text-slate-500 z-20 w-full  flex justify-between font-serif items-center"
                 to={el.value}
                 onClick={console.log(el.value)}
               >
@@ -63,17 +64,17 @@ const home = () => {
             </li>
           ))}
           <div
-              className=" z-20 w-[80%] m-auto hover:text-[#6c73f1] justify-between  bg-[#283339] list-none h-14 flex items-center p-2 rounded-lg text-white "
+              className="font-bold text-2xl font-serif z-20 transition duration-150 ease-in-out hover:text-[#6c73f1] justify-between  w-[90%] m-auto hover:bg-[#ddeefb] list-none h-14 flex items-center p-2 rounded-lg text-slate-500 "
             onClick={()=>{
-              navigate('/GioHang')
+              dispatch(CartSlice.actions.changeState(false));
+            navigate('/GioHang')
             }}>
               <span
-                className="bg-no-repeat bg-center bg-cover w-9 h-[90%] rounded-lg"
-                style={{ backgroundImage: `url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRs2JSkFXfV6EF80mmUX7Y7WR-7DOBMFz4cRg&s)` }}
-              ></span>
-            Giỏ Hàng ></div>
+                className="pl-2 bg-no-repeat font-thin text-sm bg-center bg-cover w-40 h-[90%] rounded-lg items-center flex"
+              >Giỏ Hàng</span>
+             ></div>
           <div
-              className="ml- z-20 w-[80%] m-auto hover:text-[#6c73f1] justify-between  bg-[#283339] list-none h-14 flex items-center p-2 rounded-lg text-white "
+              className="font-bold text-2xl font-serif z-20 transition duration-150 ease-in-out hover:text-[#6c73f1] justify-between  w-[90%] m-auto hover:bg-[#ddeefb] list-none h-14 flex items-center p-2 rounded-lg text-slate-500 "
             onClick={()=>{
               dispatch(AccountSlice.actions.changecheckPassword(false))
               localStorage.removeItem("account")
@@ -81,10 +82,9 @@ const home = () => {
             navigate('/')
             }}>
               <span
-                className="bg-no-repeat bg-center bg-cover w-9 h-[90%] rounded-lg"
-                style={{ backgroundImage: `url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRs2JSkFXfV6EF80mmUX7Y7WR-7DOBMFz4cRg&s)` }}
-              ></span>
-            Đăng Xuất ></div>
+                className="pl-2 bg-no-repeat font-thin text-sm bg-center bg-cover w-40 h-[90%] rounded-lg items-center flex"
+              >Đăng xuất</span>
+             ></div>
         </nav>
         <div className="w-full h-fit m-2 rounded-md">
           <Outlet />
