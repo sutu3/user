@@ -5,7 +5,7 @@ const OrderHistory = () => {
   const user=useSelector(User)
   console.log(user.orders)
   return (
-    <div className="w-[800px] h-[600px] flex flex-row flex-wrap gap-5">
+    <div className="w-[850px] h-fit  flex flex-row flex-wrap gap-5 ">
       {
         user.orders.map((el, index) => (
           <HistoruCart

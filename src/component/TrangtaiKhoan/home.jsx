@@ -2,6 +2,8 @@ import {useEffect} from 'react'
 import { Link, Outlet,useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { CheckLogin } from "../redux/selector";
+import { useDispatch } from 'react-redux';
+import AccountSlice from "../redux/AccountSlice"
 const arr1 = ["Thông Tin", "Lịch Sử đơn hàng", "Trạng thái đơn hàng"];
 const arr = [
   {
@@ -27,6 +29,7 @@ const arr = [
 ];
 
 const home = () => {
+  const dispatch = useDispatch();
   const navigate=useNavigate()
     const check = useSelector(CheckLogin);
   useEffect(() => {
@@ -35,9 +38,9 @@ const home = () => {
     }
   }, [check, navigate]);
   return (
-    <div className="w-full h-fit bg-white">
-      <div className="w-[90%] top-5 m-auto p-10 pt-20 flex flex-row gap-5 ">
-        <nav className="flex gap-4 flex-col w-[30%] bg-[#283339] rounded-md h-[600px]">
+    <div className="w-full h-fit bg-[hsl(204,45%,98%)]">
+      <div className="w-[100%] top-5 m-auto p-10 pt-20 flex flex-row gap-10 ">
+        <nav className="flex gap-4 flex-col w-[25%] bg-[#283339] rounded-md h-[600px]">
           {arr.map((el, index) => (
             <li
               className=" hover:after:block hover:after:absolute relative hover:after:content-[''] hover:after:rounded-md hover:after:z-0
@@ -60,7 +63,7 @@ const home = () => {
             </li>
           ))}
           <div
-              className="ml- z-20 w-[80%] m-auto hover:text-[#6c73f1] justify-between  bg-[#283339] list-none h-14 flex items-center p-2 rounded-lg text-white "
+              className=" z-20 w-[80%] m-auto hover:text-[#6c73f1] justify-between  bg-[#283339] list-none h-14 flex items-center p-2 rounded-lg text-white "
             onClick={()=>{
               navigate('/GioHang')
             }}>
@@ -72,6 +75,7 @@ const home = () => {
           <div
               className="ml- z-20 w-[80%] m-auto hover:text-[#6c73f1] justify-between  bg-[#283339] list-none h-14 flex items-center p-2 rounded-lg text-white "
             onClick={()=>{
+              dispatch(AccountSlice.actions.changecheckPassword(false))
               localStorage.removeItem("account")
               localStorage.removeItem("cart")
             navigate('/')

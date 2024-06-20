@@ -128,7 +128,7 @@ const Index = () => {
                                           UpdateQuantity({
                                             account_id: el.account_id,
                                             order_items_id: el.order_items_id,
-                                            quantity: el.quantity - 1,
+                                            quantity: el.quantity - 2,
                                           })
                                         );
                                       } else {
@@ -153,7 +153,7 @@ const Index = () => {
                                         UpdateQuantity({
                                           account_id: el.account_id,
                                           order_items_id: el.order_items_id,
-                                          quantity: el.quantity + 1,
+                                          quantity: el.quantity ,
                                         })
                                       );
                                     }}

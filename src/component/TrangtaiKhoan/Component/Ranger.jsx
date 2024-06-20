@@ -3,10 +3,10 @@ import React, { useState } from "react";
 const Ranger = ({ name,value, infor, change }) => {
 
   return (
-    <div className='flex h-12 w-full ml-10 justify-center items-center'>
-      <div className='w-full flex gap-2 relative'>
+    <div className='flex h-12 w-full mt-2'>
+      <div className='w-[520px] flex flex-row pl-24 justify-between items-center'>
         <div
-          className="w-fit left-3 text-center bg-[#f2f2f2] border-solid text-sm absolute -top-5"
+          className="w-[100px] text-center  bg-[#f2f2f2] font-bold text-[20px] border-solid text-sm"
         >
           {name==='height'?"Chiều Cao":"Cân Nặng"}
         </div>
@@ -19,7 +19,7 @@ const Ranger = ({ name,value, infor, change }) => {
               ...infor,
               weight: e.target.value,
             })
-        }} className="border-2 pl-5 bg-[#e2e8f0] border-slate-500 p-2 text-black rounded-md" name="" id="" />
+        }} className="border-0 outline-none pl-5 bg-transparent border-slate-500 p-2 text-black rounded-md" name="" id="" />
       </div>
     </div>
   );

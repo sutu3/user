@@ -126,10 +126,11 @@ const Index = () => {
                 </span>
                 <input
                   type="text"
+                  value={infor.title}
                   onChange={(e) => {
                     setinfor({ ...infor, title: e.target.value });
                   }}
-                  className="absolute w-full p-3 rounded-lg border-2 border-black"
+                  className="absolute w-full text-slate-600 p-3 rounded-lg border-2 border-black"
                   placeholder="Enter Title"
                 />
               </div>
@@ -141,10 +142,11 @@ const Index = () => {
                 </span>
                 <input
                   type="text"
+                  value={infor.state}
                   onChange={(e) => {
                     setinfor({ ...infor, state: e.target.value });
                   }}
-                  className="absolute w-full p-3 rounded-lg border-2 border-black"
+                  className="absolute w-full text-slate-600 p-3 rounded-lg border-2 border-black"
                   placeholder="Enter Number address"
                 />
               </div>
@@ -156,10 +158,11 @@ const Index = () => {
                 </span>
                 <input
                   type="text"
+                  value={infor.city}
                   onChange={(e) => {
                     setinfor({ ...infor, city: e.target.value });
                   }}
-                  className="absolute w-full p-3 rounded-lg border-2 border-black"
+                  className="absolute w-full p-3 rounded-lg border-2 text-slate-600 border-black"
                   placeholder="Enter district address"
                 />
               </div>
@@ -171,10 +174,11 @@ const Index = () => {
                 </span>
                 <input
                   type="text"
+                  value={infor.country}
                   onChange={(e) => {
                     setinfor({ ...infor, country: e.target.value });
                   }}
-                  className="absolute w-full p-3 rounded-lg border-2 border-black"
+                  className="absolute w-full text-slate-600 p-3 rounded-lg border-2 border-black"
                   placeholder="Enter City address"
                 />
               </div>
@@ -240,7 +244,7 @@ const Index = () => {
                   setinfor({ ...infor, title: e.target.value });
                 }}
                 placeholder="Enter Number address"
-                className=" absolute w-full bg-[#0d1c45] outline-0 border-b-2 border-[#bacbf9] p-2"
+                className=" absolute w-full bg-[#0d1c45] outline-0 border-b-2 text-slate-600 border-[#bacbf9] p-2"
               />
             </div>
             <div className="w-[100%] relative h-20 m-0">
@@ -394,6 +398,17 @@ const Index = () => {
                     if (infor.phone != "") {
                       if (check.username && check.password) {
                         await dispatch(ChangeCart(infor));
+                        localStorage.clear("cart");
+                        navigate("/");
+                        setinfor({
+                          name: "",
+                          email: "",
+                          phone: "",
+                          city: "",
+                          state: "",
+                          country: "",
+                          title: "",
+                        });
                       } else {
                         await dispatch(CheckEmail(infor));
                         localStorage.clear("product");

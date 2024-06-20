@@ -16,8 +16,8 @@ const Gender = ({ gender1, infor, change }) => {
     });
   };
   return (
-    <div className="ml-0">
-      <h3>Giới Tính</h3>
+    <div className="ml-0 flex flex-row h-16 pl-24 w-[600px] justify-between">
+      <h3 className="h-full flex justify-center items-center text-[20px] font-bold">Giới Tính</h3>
       <div className="w-72 p-2 flex gap-2">
         {genderOptions.map((el, index) => (
           <button

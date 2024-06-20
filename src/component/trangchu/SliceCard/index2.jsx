@@ -47,7 +47,9 @@ const Index = () => {
         !state ? "-translate-y-full -z-30" : "z-10" 
       }`}
     >
-        <Link to="/GioHang">
+        <Link to="/GioHang" onClick={()=>{
+          dispatch(CartSlice.actions.changeState(!state));
+        }}>
       <div
         className="text-end p-3  hover:text-blue-400 
     transition duration-300 ease-in-out"
@@ -147,7 +149,7 @@ const Index = () => {
                               onClick={() => {
                                  dispatch(CheckProduct({
                                     variants_id: el.variants_id,
-                                    quantity: el.quantity + 1,
+                                    quantity: el.quantity+1 ,
                                 }));
                               }}
                               className="bg-transparent rounded-e-2xl h-10 flex items-center justify-center px-4"
@@ -171,9 +173,11 @@ const Index = () => {
       ))}
       {card.length !== 0 ? (
         <div className="w-full flex gap-3 justify-center mt-10">
-          <button className="bg-slate-100 w-3/4 p-2 transition duration-300 ease-in-out hover:text-slate-200 hover:bg-slate-500">
-            Thanh toán
-          </button>
+          <Link className="w-3/4" onClick={()=>{
+            dispatch(CartSlice.actions.changeState(false));
+          }} to="/GioHang"><button className="bg-slate-100 w-full p-2 transition duration-300 ease-in-out hover:text-slate-200 hover:bg-slate-300">
+            Thanh Toán
+          </button></Link>
           <button onClick={()=>{
             dispatch(CartSlice.actions.deleteall());
           }} className="bg-white text-red-500 text-sm hover:border-red-500">Clean</button>

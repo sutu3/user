@@ -43,6 +43,7 @@ const AcountSLice = createSlice({
         }
       })
       .addCase(ChangeState.fulfilled,(state,action) => {
+        console.log(action.payload)
         state.infor={...state.infor,orders:state.infor.orders?[...state.infor.orders, action.payload]:[action.payload]}
       })
       .addCase(CheckSignupEmail.fulfilled, (state, action) => {
@@ -201,7 +202,7 @@ export const ChangeState = createAsyncThunk(
   "acount/ChangeState",
   async (payload) => {
     const res = await fetch(
-      `http:// 26.232.136:8080/api/orders/${payload}`,
+      `http://26.232.136.42:8080/api/orders/${payload}`,
       {
         method: "PUT",
         headers: {
