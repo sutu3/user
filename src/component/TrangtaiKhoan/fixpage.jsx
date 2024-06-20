@@ -5,7 +5,7 @@ import AccountSlice, {
   UpdateInforAccount,
   CreateAddress,
 } from "../redux/AccountSlice.jsx";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import Ranger from "./Component/Ranger.jsx";
 import Ranger1 from "./Component/Ranger1.jsx";
 import Button from "./Component/Button.jsx";
@@ -16,22 +16,8 @@ import ButtonFile from "./Component/ButtonFile.jsx"
 import Date from "./Component/Date.jsx";
 import Input from "./Component/Input.jsx";
 const Fixpage = () => {
-  const [display1, setdisplay1] = useState(false);
-  const [infor, setinfor] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    gender: "",
-    dayOfBirth: "",
-    height: 0,
-    weight: 0,
-    pass: "",
-  });
-  const dispatch = useDispatch();
   const user = useSelector(User);
   const [infor1, setinfor1] = useState(user);
-  console.log(user);
-  console.log(infor1);
   return (
     <div
       style={{
@@ -41,13 +27,13 @@ const Fixpage = () => {
                 h-full gap-5 bg-white w-[1100px] opacity-100 
               z-0  rounded-xl relative"
     >
-      <div className="w-full bg-white shadow-xl h-[600px] rounded-lg p-3 ">
-      <div className="flex flex-col gap-10 h-[700px]">
+      <div className="w-full bg-white  shadow-inner shadow-slate-300 h-[600px] rounded-lg p-3 ">
+      <div className="flex flex-col gap-10 h-[600px]">
       <div className="flex flex-row h-[100px]">
         <div className="w-[1000px] pl-4 text-xl font-bold font-mono">Basic Info</div>
         <div className=" h-full rounded-3xl w-full justify-around flex flex-row shadow-inner shadow-slate-300 ">
         <div className="h-full w-[300px] rounded-lg flex flex-row gap-5">
-          <div className="h-20 w-20 m-auto ml-4 mr-0 rounded-full overflow-hidden flex justify-center items-center">
+          <div className="mt-1 mb-1 h-16 w-16 m-auto ml-4 mr-0 rounded-full overflow-hidden flex justify-center items-center">
             <div className="h-full w-full bg-no-repeat bg-cover bg-center" style={{backgroundImage:"url(https://demos.creative-tim.com/argon-dashboard-chakra-pro/static/media/avatar4.54d5c1de.png)"}}></div>
           </div>
           <div className="h-full justify-center items-start flex flex-col">
@@ -60,8 +46,8 @@ const Fixpage = () => {
         </div>
         </div>
       </div>
-      <div className="flex flex-col gap-10 h-[400px]">
-        <div className="flex flex-row justify-between w-[900px] m-auto">
+      <div className="flex flex-col gap-2 h-[650px]">
+        <div className="flex flex-row justify-between w-[900px] m-auto mb-0">
           <div>
             <Input
               name="username"
@@ -84,22 +70,22 @@ const Fixpage = () => {
           </div>
           
         </div>
-        <div className="flex flex-row w-[900px] gap-5 justify-between m-auto">
+        <div className="flex flex-row w-[900px] gap-5 justify-between m-auto mb-0">
         <div className="flex justify-center items-center">
-          <Dropdown defaultValue={infor1.gender} infor={infor1} change={setinfor1} placeholder="Male" option={["Nam", "Nữ", "Khác"]}/>
+          <Dropdown defaultValue={infor1.gender} infor={infor1} change={setinfor1} placeholder="Gender" option={["Nam", "Nữ", "Khác"]}/>
         </div>
           <div className="">
           <Date date={infor1.dayOfBirth} infor={infor1} change={setinfor1} />
           </div>
           
         </div>
-        <div className="flex flex-row justify-between w-[900px] m-auto">
+        <div className="flex flex-row justify-between w-[900px] m-auto mb-0">
           <div>
             <Input
               name="phone"
               change={setinfor1}
               infor1={infor1}
-              value={infor1.phone}
+              value={infor1.phoneNumber}
               header="Phone Number"
               placehoder="1234567890"
             />
@@ -139,6 +125,23 @@ const Fixpage = () => {
           </div>
           
         </div>
+         </div>
+         <div className="p-3 m-3">
+          <Button
+            infor1={infor1}
+            UpdateInforAccount={UpdateInforAccount}
+            data={{
+              account_id: infor1.account_id,
+              username: infor1.username,
+              password: infor1.password,
+              email: infor1.email,
+              height: infor1.height,
+              weight: infor1.weight,
+              phoneNumber: infor1.phoneNumber,
+              dayOfBirth: infor1.dayOfBirth,
+              gender: infor1.gender,
+            }}
+          />
          </div>
       </div>
       </div>

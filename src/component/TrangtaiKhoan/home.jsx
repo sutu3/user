@@ -8,22 +8,22 @@ import AccountSlice from "../redux/AccountSlice"
 const arr1 = ["Thông Tin", "Lịch Sử đơn hàng", "Trạng thái đơn hàng"];
 const arr = [
   {
-    name: "Thông Tin",
+    name: "Information",
     url: "https://png.pngtree.com/png-clipart/20190921/original/pngtree-business-icon-png-image_4694626.jpg",
     value: "infor",
   },
   {
-    name: "Chỉnh Sửa Thông Tin",
+    name: "Edit Information",
     url: "https://png.pngtree.com/png-vector/20190703/ourmid/pngtree-edit-icon-in-trendy-style-isolated-background-png-image_1536522.jpg",
     value: "fix",
   },
   {
-    name: "Lịch Sử đơn hàng",
+    name: "Address",
     url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRSgFkq3yKg-B3qzr9GuSM6vrHgIa5BYYALU8MW20Gg6Q&s",
     value: "order",
   },
   {
-    name: "Trạng thái đơn hàng",
+    name: "Status ShopCart",
     url: "https://png.pngtree.com/png-clipart/20190924/original/pngtree-fast-delivery-icon-for-your-project-png-image_4857125.jpg",
     value: "state",
   },
@@ -41,7 +41,7 @@ const home = () => {
   return (
     <div className="w-full h-fit bg-[hsl(204,45%,98%)]">
       <div className="w-[100%] top-5 m-auto p-10 pt-20 flex flex-row gap-10 ">
-        <nav className="flex gap-0 flex-col w-[25%] bg-white rounded-md h-[500px]">
+        <nav className="flex gap-0 flex-col shadow-lg shadow-slate-300 w-[20%] m-auto bg-white rounded-md h-[500px]">
           {arr.map((el, index) => (
             <li
               className=" hover:after:block transition duration-150 ease-in-out hover:after:absolute relative hover:after:content-[''] hover:after:rounded-md hover:after:z-0
@@ -71,7 +71,7 @@ const home = () => {
             }}>
               <span
                 className="pl-2 bg-no-repeat font-thin text-sm bg-center bg-cover w-40 h-[90%] rounded-lg items-center flex"
-              >Giỏ Hàng</span>
+              >Cart</span>
              ></div>
           <div
               className="font-bold text-2xl font-serif z-20 transition duration-150 ease-in-out hover:text-[#6c73f1] justify-between  w-[90%] m-auto hover:bg-[#ddeefb] list-none h-14 flex items-center p-2 rounded-lg text-slate-500 "
@@ -83,7 +83,7 @@ const home = () => {
             }}>
               <span
                 className="pl-2 bg-no-repeat font-thin text-sm bg-center bg-cover w-40 h-[90%] rounded-lg items-center flex"
-              >Đăng xuất</span>
+              >Log Out</span>
              ></div>
         </nav>
         <div className="w-full h-fit m-2 rounded-md">
